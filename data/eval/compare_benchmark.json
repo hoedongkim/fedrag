@@ -1,0 +1,4110 @@
+{
+  "generated_at": "2026-10-13T10:06:27+00:00",
+  "analyses": "gpt-5.4-mini-2026-03-17/compare-v3.edfeb8da",
+  "prompt": "post hoc: written after the compare-v2 run had been scored against these references, to fix quotes that broke the JSON output and rate moves compared by level; its agreement is not an independent estimate",
+  "threshold": 0.2,
+  "notes": [
+    "A same gold label does not mean no shift: each statement was labelled on its own text, so two hawkish statements can differ in how hawkish they are (e.g. a hike followed by a hold: both hawkish, and the prompt counts it as a shift), and an analysis that reads such a pair as a shift is not necessarily wrong.",
+    "The zero-shot score delta comes from the same model family (llm_zero_shot judging each statement alone): agreement with it is a consistency cross-check, not independent validation. llm_zero_shot is also prompted with the rubric the reference annotators followed, so its delta agrees with the gold-implied shift largely by construction: its baseline rows are an upper-bound cross-check, not a baseline the comparison should beat.",
+    "The rate-decision rule (rate_decision_vs_gold, same_label_by_rate_decision) is post hoc: added after the analyses had been scored. It reads each statement's decision on the target range with app.stance.statements.rate_action and compares the two decisions as the prompt's rule 9 does; a statement without a rate decision (2019-10-04, 2020-03-23) gives unchanged in the baseline.",
+    "Pairs share statements (each statement is the target of one pair and the base of the next), and the bootstrap resamples pairs as if independent, so the intervals understate the uncertainty; the year-block intervals are a sensitivity check.",
+    "confidence is model-reported, never a calibrated probability."
+  ],
+  "coverage": {
+    "pairs": 96,
+    "analysed": 96,
+    "missing": [],
+    "invalid_stored": [],
+    "with_gold": 96,
+    "with_gold_both_human": 10,
+    "with_zero_shot": 96
+  },
+  "shift_counts": {
+    "llm": {
+      "more_dovish": 36,
+      "unchanged": 27,
+      "more_hawkish": 33
+    },
+    "gold_implied": {
+      "more_dovish": 11,
+      "unchanged": 74,
+      "more_hawkish": 11
+    },
+    "zero_shot_delta": {
+      "more_dovish": 19,
+      "unchanged": 58,
+      "more_hawkish": 19
+    }
+  },
+  "agreement": {
+    "llm_vs_gold": {
+      "all": {
+        "n": 96,
+        "accuracy": 0.46875,
+        "accuracy_ci": {
+          "low": 0.36458,
+          "high": 0.57292
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.32673,
+          "high": 0.60204
+        },
+        "macro_f1": 0.45838,
+        "macro_f1_ci": {
+          "low": 0.34891,
+          "high": 0.5593
+        },
+        "macro_f1_ci_year_blocks": {
+          "low": 0.30261,
+          "high": 0.60029
+        },
+        "kappa": 0.24199,
+        "per_class": {
+          "more_dovish": {
+            "precision": 0.27778,
+            "recall": 0.90909,
+            "f1": 0.42553,
+            "support": 11
+          },
+          "unchanged": {
+            "precision": 0.92593,
+            "recall": 0.33784,
+            "f1": 0.49505,
+            "support": 74
+          },
+          "more_hawkish": {
+            "precision": 0.30303,
+            "recall": 0.90909,
+            "f1": 0.45455,
+            "support": 11
+          }
+        },
+        "confusion_matrix": [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            26,
+            25,
+            23
+          ],
+          [
+            0,
+            1,
+            10
+          ]
+        ],
+        "predicted": {
+          "more_dovish": 36,
+          "unchanged": 27,
+          "more_hawkish": 33
+        }
+      },
+      "reference_changed": {
+        "n": 22,
+        "accuracy": 0.90909,
+        "accuracy_ci": {
+          "low": 0.77273,
+          "high": 1.0
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.85294,
+          "high": 1.0
+        },
+        "kappa": 0.83333,
+        "per_class": {
+          "more_dovish": {
+            "precision": 1.0,
+            "recall": 0.90909,
+            "f1": 0.95238,
+            "support": 11
+          },
+          "unchanged": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "more_hawkish": {
+            "precision": 1.0,
+            "recall": 0.90909,
+            "f1": 0.95238,
+            "support": 11
+          }
+        },
+        "confusion_matrix": [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            10
+          ]
+        ],
+        "predicted": {
+          "more_dovish": 10,
+          "unchanged": 2,
+          "more_hawkish": 10
+        }
+      },
+      "reference_unchanged": {
+        "n": 74,
+        "accuracy": 0.33784,
+        "accuracy_ci": {
+          "low": 0.22973,
+          "high": 0.44595
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.22078,
+          "high": 0.4697
+        },
+        "predicted": {
+          "more_dovish": 26,
+          "unchanged": 25,
+          "more_hawkish": 23
+        }
+      }
+    },
+    "llm_vs_gold_both_human": {
+      "n": 10,
+      "accuracy": 0.6,
+      "accuracy_ci": {
+        "low": 0.3,
+        "high": 0.9
+      },
+      "accuracy_ci_year_blocks": {
+        "low": 0.3,
+        "high": 0.88889
+      },
+      "predicted": {
+        "more_dovish": 3,
+        "unchanged": 1,
+        "more_hawkish": 6
+      }
+    },
+    "llm_vs_zero_shot_delta": {
+      "all": {
+        "n": 96,
+        "accuracy": 0.52083,
+        "accuracy_ci": {
+          "low": 0.41667,
+          "high": 0.61458
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.39583,
+          "high": 0.64518
+        },
+        "macro_f1": 0.53029,
+        "macro_f1_ci": {
+          "low": 0.42501,
+          "high": 0.62486
+        },
+        "macro_f1_ci_year_blocks": {
+          "low": 0.40278,
+          "high": 0.65358
+        },
+        "kappa": 0.30336,
+        "per_class": {
+          "more_dovish": {
+            "precision": 0.44444,
+            "recall": 0.84211,
+            "f1": 0.58182,
+            "support": 19
+          },
+          "unchanged": {
+            "precision": 0.74074,
+            "recall": 0.34483,
+            "f1": 0.47059,
+            "support": 58
+          },
+          "more_hawkish": {
+            "precision": 0.42424,
+            "recall": 0.73684,
+            "f1": 0.53846,
+            "support": 19
+          }
+        },
+        "confusion_matrix": [
+          [
+            16,
+            3,
+            0
+          ],
+          [
+            19,
+            20,
+            19
+          ],
+          [
+            1,
+            4,
+            14
+          ]
+        ],
+        "predicted": {
+          "more_dovish": 36,
+          "unchanged": 27,
+          "more_hawkish": 33
+        }
+      },
+      "reference_changed": {
+        "n": 38,
+        "accuracy": 0.78947,
+        "accuracy_ci": {
+          "low": 0.65789,
+          "high": 0.92105
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.66667,
+          "high": 0.92105
+        },
+        "kappa": 0.64444,
+        "per_class": {
+          "more_dovish": {
+            "precision": 0.94118,
+            "recall": 0.84211,
+            "f1": 0.88889,
+            "support": 19
+          },
+          "unchanged": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "more_hawkish": {
+            "precision": 1.0,
+            "recall": 0.73684,
+            "f1": 0.84848,
+            "support": 19
+          }
+        },
+        "confusion_matrix": [
+          [
+            16,
+            3,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4,
+            14
+          ]
+        ],
+        "predicted": {
+          "more_dovish": 17,
+          "unchanged": 7,
+          "more_hawkish": 14
+        }
+      },
+      "reference_unchanged": {
+        "n": 58,
+        "accuracy": 0.34483,
+        "accuracy_ci": {
+          "low": 0.22414,
+          "high": 0.46552
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.21154,
+          "high": 0.50877
+        },
+        "predicted": {
+          "more_dovish": 19,
+          "unchanged": 20,
+          "more_hawkish": 19
+        }
+      }
+    }
+  },
+  "baselines": {
+    "always_unchanged_vs_gold": {
+      "all": {
+        "n": 96,
+        "accuracy": 0.77083,
+        "accuracy_ci": {
+          "low": 0.6875,
+          "high": 0.85417
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.63634,
+          "high": 0.8866
+        },
+        "macro_f1": 0.2902,
+        "macro_f1_ci": {
+          "low": 0.2716,
+          "high": 0.30712
+        },
+        "macro_f1_ci_year_blocks": {
+          "low": 0.25925,
+          "high": 0.3133
+        },
+        "kappa": 0.0,
+        "per_class": {
+          "more_dovish": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 11
+          },
+          "unchanged": {
+            "precision": 0.77083,
+            "recall": 1.0,
+            "f1": 0.87059,
+            "support": 74
+          },
+          "more_hawkish": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 11
+          }
+        },
+        "confusion_matrix": [
+          [
+            0,
+            11,
+            0
+          ],
+          [
+            0,
+            74,
+            0
+          ],
+          [
+            0,
+            11,
+            0
+          ]
+        ],
+        "predicted": {
+          "more_dovish": 0,
+          "unchanged": 96,
+          "more_hawkish": 0
+        }
+      },
+      "reference_changed": {
+        "n": 22,
+        "accuracy": 0.0,
+        "accuracy_ci": {
+          "low": 0.0,
+          "high": 0.0
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.0,
+          "high": 0.0
+        },
+        "kappa": 0.0,
+        "per_class": {
+          "more_dovish": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 11
+          },
+          "unchanged": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "more_hawkish": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 11
+          }
+        },
+        "confusion_matrix": [
+          [
+            0,
+            11,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            11,
+            0
+          ]
+        ],
+        "predicted": {
+          "more_dovish": 0,
+          "unchanged": 22,
+          "more_hawkish": 0
+        }
+      },
+      "reference_unchanged": {
+        "n": 74,
+        "accuracy": 1.0,
+        "accuracy_ci": {
+          "low": 1.0,
+          "high": 1.0
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 1.0,
+          "high": 1.0
+        },
+        "predicted": {
+          "more_dovish": 0,
+          "unchanged": 74,
+          "more_hawkish": 0
+        }
+      }
+    },
+    "always_unchanged_vs_gold_both_human": {
+      "n": 10,
+      "accuracy": 0.5,
+      "accuracy_ci": {
+        "low": 0.2,
+        "high": 0.8
+      },
+      "accuracy_ci_year_blocks": {
+        "low": 0.125,
+        "high": 0.8
+      },
+      "predicted": {
+        "more_dovish": 0,
+        "unchanged": 10,
+        "more_hawkish": 0
+      }
+    },
+    "zero_shot_delta_vs_gold": {
+      "all": {
+        "n": 96,
+        "accuracy": 0.79167,
+        "accuracy_ci": {
+          "low": 0.70833,
+          "high": 0.86458
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.65211,
+          "high": 0.90426
+        },
+        "macro_f1": 0.72727,
+        "macro_f1_ci": {
+          "low": 0.60471,
+          "high": 0.82752
+        },
+        "macro_f1_ci_year_blocks": {
+          "low": 0.53009,
+          "high": 0.86241
+        },
+        "kappa": 0.5739,
+        "per_class": {
+          "more_dovish": {
+            "precision": 0.52632,
+            "recall": 0.90909,
+            "f1": 0.66667,
+            "support": 11
+          },
+          "unchanged": {
+            "precision": 0.96552,
+            "recall": 0.75676,
+            "f1": 0.84848,
+            "support": 74
+          },
+          "more_hawkish": {
+            "precision": 0.52632,
+            "recall": 0.90909,
+            "f1": 0.66667,
+            "support": 11
+          }
+        },
+        "confusion_matrix": [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            9,
+            56,
+            9
+          ],
+          [
+            0,
+            1,
+            10
+          ]
+        ],
+        "predicted": {
+          "more_dovish": 19,
+          "unchanged": 58,
+          "more_hawkish": 19
+        }
+      },
+      "reference_changed": {
+        "n": 22,
+        "accuracy": 0.90909,
+        "accuracy_ci": {
+          "low": 0.77273,
+          "high": 1.0
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.76923,
+          "high": 1.0
+        },
+        "kappa": 0.83333,
+        "per_class": {
+          "more_dovish": {
+            "precision": 1.0,
+            "recall": 0.90909,
+            "f1": 0.95238,
+            "support": 11
+          },
+          "unchanged": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "more_hawkish": {
+            "precision": 1.0,
+            "recall": 0.90909,
+            "f1": 0.95238,
+            "support": 11
+          }
+        },
+        "confusion_matrix": [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            10
+          ]
+        ],
+        "predicted": {
+          "more_dovish": 10,
+          "unchanged": 2,
+          "more_hawkish": 10
+        }
+      },
+      "reference_unchanged": {
+        "n": 74,
+        "accuracy": 0.75676,
+        "accuracy_ci": {
+          "low": 0.66216,
+          "high": 0.85135
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.59493,
+          "high": 0.89333
+        },
+        "predicted": {
+          "more_dovish": 9,
+          "unchanged": 56,
+          "more_hawkish": 9
+        }
+      }
+    },
+    "zero_shot_delta_vs_gold_both_human": {
+      "n": 10,
+      "accuracy": 0.9,
+      "accuracy_ci": {
+        "low": 0.7,
+        "high": 1.0
+      },
+      "accuracy_ci_year_blocks": {
+        "low": 0.7,
+        "high": 1.0
+      },
+      "predicted": {
+        "more_dovish": 3,
+        "unchanged": 4,
+        "more_hawkish": 3
+      }
+    },
+    "rate_decision_vs_gold": {
+      "all": {
+        "n": 96,
+        "accuracy": 0.75,
+        "accuracy_ci": {
+          "low": 0.65625,
+          "high": 0.83333
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.58333,
+          "high": 0.88043
+        },
+        "macro_f1": 0.63516,
+        "macro_f1_ci": {
+          "low": 0.49792,
+          "high": 0.74791
+        },
+        "macro_f1_ci_year_blocks": {
+          "low": 0.42812,
+          "high": 0.80768
+        },
+        "kappa": 0.42429,
+        "per_class": {
+          "more_dovish": {
+            "precision": 0.46667,
+            "recall": 0.63636,
+            "f1": 0.53846,
+            "support": 11
+          },
+          "unchanged": {
+            "precision": 0.87879,
+            "recall": 0.78378,
+            "f1": 0.82857,
+            "support": 74
+          },
+          "more_hawkish": {
+            "precision": 0.46667,
+            "recall": 0.63636,
+            "f1": 0.53846,
+            "support": 11
+          }
+        },
+        "confusion_matrix": [
+          [
+            7,
+            4,
+            0
+          ],
+          [
+            8,
+            58,
+            8
+          ],
+          [
+            0,
+            4,
+            7
+          ]
+        ],
+        "predicted": {
+          "more_dovish": 15,
+          "unchanged": 66,
+          "more_hawkish": 15
+        }
+      },
+      "reference_changed": {
+        "n": 22,
+        "accuracy": 0.63636,
+        "accuracy_ci": {
+          "low": 0.40909,
+          "high": 0.81818
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.42105,
+          "high": 0.82143
+        },
+        "kappa": 0.46667,
+        "per_class": {
+          "more_dovish": {
+            "precision": 1.0,
+            "recall": 0.63636,
+            "f1": 0.77778,
+            "support": 11
+          },
+          "unchanged": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "more_hawkish": {
+            "precision": 1.0,
+            "recall": 0.63636,
+            "f1": 0.77778,
+            "support": 11
+          }
+        },
+        "confusion_matrix": [
+          [
+            7,
+            4,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            4,
+            7
+          ]
+        ],
+        "predicted": {
+          "more_dovish": 7,
+          "unchanged": 8,
+          "more_hawkish": 7
+        }
+      },
+      "reference_unchanged": {
+        "n": 74,
+        "accuracy": 0.78378,
+        "accuracy_ci": {
+          "low": 0.68919,
+          "high": 0.87838
+        },
+        "accuracy_ci_year_blocks": {
+          "low": 0.57647,
+          "high": 0.93651
+        },
+        "predicted": {
+          "more_dovish": 8,
+          "unchanged": 58,
+          "more_hawkish": 8
+        }
+      }
+    },
+    "rate_decision_vs_gold_both_human": {
+      "n": 10,
+      "accuracy": 0.7,
+      "accuracy_ci": {
+        "low": 0.4,
+        "high": 1.0
+      },
+      "accuracy_ci_year_blocks": {
+        "low": 0.5,
+        "high": 0.91667
+      },
+      "predicted": {
+        "more_dovish": 2,
+        "unchanged": 6,
+        "more_hawkish": 2
+      }
+    }
+  },
+  "same_label_by_rate_decision": {
+    "decision_changed": {
+      "pairs": 16,
+      "llm_shift": {
+        "count": 16,
+        "of": 16,
+        "rate": 1.0
+      },
+      "zero_shot_delta_shift": {
+        "count": 8,
+        "of": 16,
+        "rate": 0.5
+      },
+      "llm_in_decision_direction": {
+        "count": 16,
+        "of": 16,
+        "rate": 1.0
+      }
+    },
+    "decision_same": {
+      "pairs": 56,
+      "llm_shift": {
+        "count": 31,
+        "of": 56,
+        "rate": 0.55357
+      },
+      "zero_shot_delta_shift": {
+        "count": 10,
+        "of": 56,
+        "rate": 0.17857
+      }
+    },
+    "no_decision": {
+      "pairs": 2,
+      "llm_shift": {
+        "count": 2,
+        "of": 2,
+        "rate": 1.0
+      },
+      "zero_shot_delta_shift": {
+        "count": 0,
+        "of": 2,
+        "rate": 0.0
+      }
+    }
+  },
+  "structural": {
+    "pairs_with_changes": 96,
+    "pairs_without_changes": 0,
+    "key_changes_present_when_changed": {
+      "count": 96,
+      "of": 96,
+      "rate": 1.0
+    },
+    "key_changes_per_changed_pair": {
+      "mean": 3.8229,
+      "max": 6
+    },
+    "cited_ids_not_changed_items": {
+      "count": 0,
+      "of": 665
+    },
+    "shift_backed_by_key_change": {
+      "count": 69,
+      "of": 69,
+      "rate": 1.0
+    },
+    "key_changes_without_quote": {
+      "count": 2,
+      "of": 367,
+      "rate": 0.0054496
+    },
+    "before_cleaning": {
+      "analyses_with_checks": 96,
+      "key_changes_returned": 367,
+      "key_changes_dropped": 0,
+      "key_changes_cut": 0,
+      "invalid_ids": 0,
+      "quotes": 948,
+      "quotes_unquoted": 17,
+      "quotes_outside_cited": 7,
+      "confidence_clipped": 0,
+      "quotes_verbatim": {
+        "count": 931,
+        "of": 948,
+        "rate": 0.98207
+      }
+    },
+    "confidence": {
+      "mean": 0.92156,
+      "min": 0.74,
+      "max": 0.99
+    }
+  },
+  "cost": {
+    "model": "gpt-5.4-mini-2026-03-17",
+    "calls": 96,
+    "input_tokens": 232529,
+    "cached_input_tokens": 0,
+    "output_tokens": 58863,
+    "reasoning_tokens": 12018,
+    "usd": 0.4393
+  },
+  "pairs": [
+    {
+      "base": "statement-2015-01-28",
+      "target": "statement-2015-03-18",
+      "changed": 12,
+      "llm": "more_hawkish",
+      "confidence": 0.84,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2015-03-18",
+      "target": "statement-2015-04-29",
+      "changed": 12,
+      "llm": "unchanged",
+      "confidence": 0.89,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.3,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2015-04-29",
+      "target": "statement-2015-06-17",
+      "changed": 9,
+      "llm": "unchanged",
+      "confidence": 0.92,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.8,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2015-06-17",
+      "target": "statement-2015-07-29",
+      "changed": 8,
+      "llm": "more_dovish",
+      "confidence": 0.74,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 1.2,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2015-07-29",
+      "target": "statement-2015-09-17",
+      "changed": 11,
+      "llm": "more_dovish",
+      "confidence": 0.88,
+      "key_changes": 6,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.25,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2015-09-17",
+      "target": "statement-2015-10-28",
+      "changed": 10,
+      "llm": "more_hawkish",
+      "confidence": 0.97,
+      "key_changes": 4,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2015-10-28",
+      "target": "statement-2015-12-16",
+      "changed": 22,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 6,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.35,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2015-12-16",
+      "target": "statement-2016-01-27",
+      "changed": 13,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 5,
+      "gold": "more_dovish",
+      "zero_shot_delta": -0.7,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2016-01-27",
+      "target": "statement-2016-03-16",
+      "changed": 13,
+      "llm": "more_hawkish",
+      "confidence": 0.83,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2016-03-16",
+      "target": "statement-2016-04-27",
+      "changed": 7,
+      "llm": "unchanged",
+      "confidence": 0.92,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2016-04-27",
+      "target": "statement-2016-06-15",
+      "changed": 12,
+      "llm": "unchanged",
+      "confidence": 0.83,
+      "key_changes": 5,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2016-06-15",
+      "target": "statement-2016-07-27",
+      "changed": 11,
+      "llm": "unchanged",
+      "confidence": 0.89,
+      "key_changes": 5,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.2,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2016-07-27",
+      "target": "statement-2016-09-21",
+      "changed": 10,
+      "llm": "more_hawkish",
+      "confidence": 0.97,
+      "key_changes": 4,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 0.3,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2016-09-21",
+      "target": "statement-2016-11-02",
+      "changed": 9,
+      "llm": "more_hawkish",
+      "confidence": 0.84,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.15,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2016-11-02",
+      "target": "statement-2016-12-14",
+      "changed": 10,
+      "llm": "more_hawkish",
+      "confidence": 0.99,
+      "key_changes": 5,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.35,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2016-12-14",
+      "target": "statement-2017-02-01",
+      "changed": 10,
+      "llm": "more_dovish",
+      "confidence": 0.94,
+      "key_changes": 4,
+      "gold": "more_dovish",
+      "zero_shot_delta": -0.8,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2017-02-01",
+      "target": "statement-2017-03-15",
+      "changed": 13,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 6,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 0.8,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2017-03-15",
+      "target": "statement-2017-05-03",
+      "changed": 12,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "more_dovish",
+      "zero_shot_delta": -0.2,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2017-05-03",
+      "target": "statement-2017-06-14",
+      "changed": 19,
+      "llm": "more_hawkish",
+      "confidence": 0.97,
+      "key_changes": 5,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 0.25,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2017-06-14",
+      "target": "statement-2017-07-26",
+      "changed": 10,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 6,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.15,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2017-07-26",
+      "target": "statement-2017-09-20",
+      "changed": 11,
+      "llm": "more_hawkish",
+      "confidence": 0.9,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2017-09-20",
+      "target": "statement-2017-11-01",
+      "changed": 11,
+      "llm": "unchanged",
+      "confidence": 0.9,
+      "key_changes": 3,
+      "gold": "more_dovish",
+      "zero_shot_delta": -0.7,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2017-11-01",
+      "target": "statement-2017-12-13",
+      "changed": 13,
+      "llm": "more_hawkish",
+      "confidence": 0.97,
+      "key_changes": 5,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 0.7,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2017-12-13",
+      "target": "statement-2018-01-31",
+      "changed": 13,
+      "llm": "more_dovish",
+      "confidence": 0.96,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.08,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2018-01-31",
+      "target": "statement-2018-03-21",
+      "changed": 8,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 6,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.18,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2018-03-21",
+      "target": "statement-2018-05-02",
+      "changed": 9,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 6,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.15,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2018-05-02",
+      "target": "statement-2018-06-13",
+      "changed": 12,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.15,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2018-06-13",
+      "target": "statement-2018-08-01",
+      "changed": 7,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.3,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2018-08-01",
+      "target": "statement-2018-09-26",
+      "changed": 4,
+      "llm": "more_hawkish",
+      "confidence": 0.99,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.3,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2018-09-26",
+      "target": "statement-2018-11-08",
+      "changed": 6,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.5,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2018-11-08",
+      "target": "statement-2018-12-19",
+      "changed": 7,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.5,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2018-12-19",
+      "target": "statement-2019-01-30",
+      "changed": 10,
+      "llm": "more_dovish",
+      "confidence": 0.99,
+      "key_changes": 4,
+      "gold": "more_dovish",
+      "zero_shot_delta": -1.25,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2019-01-30",
+      "target": "statement-2019-03-20",
+      "changed": 6,
+      "llm": "unchanged",
+      "confidence": 0.91,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.35,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2019-03-20",
+      "target": "statement-2019-05-01",
+      "changed": 5,
+      "llm": "unchanged",
+      "confidence": 0.91,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2019-05-01",
+      "target": "statement-2019-06-19",
+      "changed": 10,
+      "llm": "more_dovish",
+      "confidence": 0.97,
+      "key_changes": 5,
+      "gold": "more_dovish",
+      "zero_shot_delta": -0.4,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2019-06-19",
+      "target": "statement-2019-07-31",
+      "changed": 9,
+      "llm": "more_dovish",
+      "confidence": 0.99,
+      "key_changes": 5,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.5,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2019-07-31",
+      "target": "statement-2019-09-18",
+      "changed": 7,
+      "llm": "unchanged",
+      "confidence": 0.78,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2019-09-18",
+      "target": "statement-2019-10-04",
+      "changed": 21,
+      "llm": "unchanged",
+      "confidence": 0.98,
+      "key_changes": 2,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 0.9,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": null
+    },
+    {
+      "base": "statement-2019-10-04",
+      "target": "statement-2019-10-30",
+      "changed": 21,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "more_dovish",
+      "zero_shot_delta": -0.95,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": null
+    },
+    {
+      "base": "statement-2019-10-30",
+      "target": "statement-2019-12-11",
+      "changed": 6,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 0.95,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2019-12-11",
+      "target": "statement-2020-01-29",
+      "changed": 4,
+      "llm": "more_dovish",
+      "confidence": 0.86,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2020-01-29",
+      "target": "statement-2020-03-02",
+      "changed": 15,
+      "llm": "more_dovish",
+      "confidence": 0.99,
+      "key_changes": 4,
+      "gold": "more_dovish",
+      "zero_shot_delta": -0.95,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2020-03-02",
+      "target": "statement-2020-03-15",
+      "changed": 26,
+      "llm": "more_dovish",
+      "confidence": 0.99,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.05,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2020-03-15",
+      "target": "statement-2020-03-23",
+      "changed": 26,
+      "llm": "more_dovish",
+      "confidence": 0.95,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.2,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": null
+    },
+    {
+      "base": "statement-2020-03-23",
+      "target": "statement-2020-04-29",
+      "changed": 17,
+      "llm": "more_dovish",
+      "confidence": 0.9,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": null
+    },
+    {
+      "base": "statement-2020-04-29",
+      "target": "statement-2020-06-10",
+      "changed": 4,
+      "llm": "more_dovish",
+      "confidence": 0.77,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2020-06-10",
+      "target": "statement-2020-07-29",
+      "changed": 4,
+      "llm": "unchanged",
+      "confidence": 0.88,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2020-07-29",
+      "target": "statement-2020-09-16",
+      "changed": 20,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 5,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.2,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2020-09-16",
+      "target": "statement-2020-11-05",
+      "changed": 6,
+      "llm": "unchanged",
+      "confidence": 0.92,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2020-11-05",
+      "target": "statement-2020-12-16",
+      "changed": 5,
+      "llm": "more_dovish",
+      "confidence": 0.93,
+      "key_changes": 1,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.05,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2020-12-16",
+      "target": "statement-2021-01-27",
+      "changed": 5,
+      "llm": "more_dovish",
+      "confidence": 0.92,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.05,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2021-01-27",
+      "target": "statement-2021-03-17",
+      "changed": 3,
+      "llm": "unchanged",
+      "confidence": 0.95,
+      "key_changes": 2,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2021-03-17",
+      "target": "statement-2021-04-28",
+      "changed": 6,
+      "llm": "unchanged",
+      "confidence": 0.88,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2021-04-28",
+      "target": "statement-2021-06-16",
+      "changed": 6,
+      "llm": "unchanged",
+      "confidence": 0.97,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2021-06-16",
+      "target": "statement-2021-07-28",
+      "changed": 6,
+      "llm": "unchanged",
+      "confidence": 0.83,
+      "key_changes": 2,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2021-07-28",
+      "target": "statement-2021-09-22",
+      "changed": 4,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2021-09-22",
+      "target": "statement-2021-11-03",
+      "changed": 13,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 1.05,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2021-11-03",
+      "target": "statement-2021-12-15",
+      "changed": 12,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 5,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.35,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2021-12-15",
+      "target": "statement-2022-01-26",
+      "changed": 11,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.2,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2022-01-26",
+      "target": "statement-2022-03-16",
+      "changed": 19,
+      "llm": "more_hawkish",
+      "confidence": 0.99,
+      "key_changes": 5,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.05,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2022-03-16",
+      "target": "statement-2022-05-04",
+      "changed": 11,
+      "llm": "more_hawkish",
+      "confidence": 0.92,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2022-05-04",
+      "target": "statement-2022-06-15",
+      "changed": 11,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2022-06-15",
+      "target": "statement-2022-07-27",
+      "changed": 11,
+      "llm": "unchanged",
+      "confidence": 0.78,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.05,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2022-07-27",
+      "target": "statement-2022-09-21",
+      "changed": 3,
+      "llm": "more_hawkish",
+      "confidence": 0.99,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.05,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2022-09-21",
+      "target": "statement-2022-11-02",
+      "changed": 3,
+      "llm": "more_hawkish",
+      "confidence": 0.96,
+      "key_changes": 2,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2022-11-02",
+      "target": "statement-2022-12-14",
+      "changed": 2,
+      "llm": "unchanged",
+      "confidence": 0.94,
+      "key_changes": 2,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2022-12-14",
+      "target": "statement-2023-02-01",
+      "changed": 9,
+      "llm": "more_dovish",
+      "confidence": 0.81,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2023-02-01",
+      "target": "statement-2023-03-22",
+      "changed": 11,
+      "llm": "more_dovish",
+      "confidence": 0.95,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2023-03-22",
+      "target": "statement-2023-05-03",
+      "changed": 8,
+      "llm": "more_dovish",
+      "confidence": 0.79,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2023-05-03",
+      "target": "statement-2023-06-14",
+      "changed": 6,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.25,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2023-06-14",
+      "target": "statement-2023-07-26",
+      "changed": 3,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.2,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2023-07-26",
+      "target": "statement-2023-09-20",
+      "changed": 4,
+      "llm": "more_dovish",
+      "confidence": 0.97,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.2,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2023-09-20",
+      "target": "statement-2023-11-01",
+      "changed": 3,
+      "llm": "unchanged",
+      "confidence": 0.91,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2023-11-01",
+      "target": "statement-2023-12-13",
+      "changed": 4,
+      "llm": "more_dovish",
+      "confidence": 0.78,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2023-12-13",
+      "target": "statement-2024-01-31",
+      "changed": 14,
+      "llm": "more_dovish",
+      "confidence": 0.88,
+      "key_changes": 4,
+      "gold": "more_dovish",
+      "zero_shot_delta": -0.25,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2024-01-31",
+      "target": "statement-2024-03-20",
+      "changed": 1,
+      "llm": "unchanged",
+      "confidence": 0.97,
+      "key_changes": 1,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.3,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2024-03-20",
+      "target": "statement-2024-05-01",
+      "changed": 6,
+      "llm": "more_dovish",
+      "confidence": 0.87,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.15,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2024-05-01",
+      "target": "statement-2024-06-12",
+      "changed": 3,
+      "llm": "more_hawkish",
+      "confidence": 0.78,
+      "key_changes": 2,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.2,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2024-06-12",
+      "target": "statement-2024-07-31",
+      "changed": 7,
+      "llm": "unchanged",
+      "confidence": 0.87,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2024-07-31",
+      "target": "statement-2024-09-18",
+      "changed": 12,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 6,
+      "gold": "more_dovish",
+      "zero_shot_delta": -1.0,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2024-09-18",
+      "target": "statement-2024-11-07",
+      "changed": 6,
+      "llm": "more_hawkish",
+      "confidence": 0.95,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2024-11-07",
+      "target": "statement-2024-12-18",
+      "changed": 4,
+      "llm": "more_hawkish",
+      "confidence": 0.76,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.1,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2024-12-18",
+      "target": "statement-2025-01-29",
+      "changed": 7,
+      "llm": "more_hawkish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 0.85,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2025-01-29",
+      "target": "statement-2025-03-19",
+      "changed": 7,
+      "llm": "more_dovish",
+      "confidence": 0.95,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.35,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2025-03-19",
+      "target": "statement-2025-05-07",
+      "changed": 8,
+      "llm": "unchanged",
+      "confidence": 0.8,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.4,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2025-05-07",
+      "target": "statement-2025-06-18",
+      "changed": 5,
+      "llm": "unchanged",
+      "confidence": 0.82,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.2,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2025-06-18",
+      "target": "statement-2025-07-30",
+      "changed": 5,
+      "llm": "more_dovish",
+      "confidence": 0.92,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.25,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2025-07-30",
+      "target": "statement-2025-09-17",
+      "changed": 10,
+      "llm": "more_dovish",
+      "confidence": 0.98,
+      "key_changes": 4,
+      "gold": "more_dovish",
+      "zero_shot_delta": -0.85,
+      "zero_shot_shift": "more_dovish",
+      "rate_decision_shift": "more_dovish"
+    },
+    {
+      "base": "statement-2025-09-17",
+      "target": "statement-2025-10-29",
+      "changed": 10,
+      "llm": "more_dovish",
+      "confidence": 0.87,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2025-10-29",
+      "target": "statement-2025-12-10",
+      "changed": 8,
+      "llm": "unchanged",
+      "confidence": 0.78,
+      "key_changes": 4,
+      "gold": "unchanged",
+      "zero_shot_delta": -0.05,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2025-12-10",
+      "target": "statement-2026-01-28",
+      "changed": 10,
+      "llm": "more_hawkish",
+      "confidence": 0.96,
+      "key_changes": 6,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 0.85,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    },
+    {
+      "base": "statement-2026-01-28",
+      "target": "statement-2026-03-18",
+      "changed": 4,
+      "llm": "unchanged",
+      "confidence": 0.93,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.05,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2026-03-18",
+      "target": "statement-2026-04-29",
+      "changed": 9,
+      "llm": "unchanged",
+      "confidence": 0.85,
+      "key_changes": 3,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2026-04-29",
+      "target": "statement-2026-06-17",
+      "changed": 21,
+      "llm": "more_hawkish",
+      "confidence": 0.84,
+      "key_changes": 5,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.05,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2026-06-17",
+      "target": "statement-2026-07-29",
+      "changed": 3,
+      "llm": "unchanged",
+      "confidence": 0.96,
+      "key_changes": 2,
+      "gold": "unchanged",
+      "zero_shot_delta": 0.0,
+      "zero_shot_shift": "unchanged",
+      "rate_decision_shift": "unchanged"
+    },
+    {
+      "base": "statement-2026-07-29",
+      "target": "statement-2026-09-16",
+      "changed": 9,
+      "llm": "more_hawkish",
+      "confidence": 0.99,
+      "key_changes": 5,
+      "gold": "more_hawkish",
+      "zero_shot_delta": 0.85,
+      "zero_shot_shift": "more_hawkish",
+      "rate_decision_shift": "more_hawkish"
+    }
+  ],
+  "earlier_prompts": [
+    {
+      "analyses": "gpt-5.4-mini-2026-03-17/compare-v2.3b53da07",
+      "prompt": "pre-registered: the prompt was fixed before any analysis was scored against a reference",
+      "threshold": 0.2,
+      "coverage": {
+        "pairs": 96,
+        "analysed": 96,
+        "missing": [],
+        "invalid_stored": [],
+        "with_gold": 96,
+        "with_gold_both_human": 10,
+        "with_zero_shot": 96
+      },
+      "shift_counts": {
+        "llm": {
+          "more_dovish": 32,
+          "unchanged": 26,
+          "more_hawkish": 38
+        },
+        "gold_implied": {
+          "more_dovish": 11,
+          "unchanged": 74,
+          "more_hawkish": 11
+        },
+        "zero_shot_delta": {
+          "more_dovish": 19,
+          "unchanged": 58,
+          "more_hawkish": 19
+        }
+      },
+      "agreement": {
+        "llm_vs_gold": {
+          "all": {
+            "n": 96,
+            "accuracy": 0.47917,
+            "accuracy_ci": {
+              "low": 0.375,
+              "high": 0.57292
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.32632,
+              "high": 0.61702
+            },
+            "macro_f1": 0.47137,
+            "macro_f1_ci": {
+              "low": 0.36083,
+              "high": 0.56914
+            },
+            "macro_f1_ci_year_blocks": {
+              "low": 0.30753,
+              "high": 0.61042
+            },
+            "kappa": 0.26403,
+            "per_class": {
+              "more_dovish": {
+                "precision": 0.3125,
+                "recall": 0.90909,
+                "f1": 0.46512,
+                "support": 11
+              },
+              "unchanged": {
+                "precision": 0.96154,
+                "recall": 0.33784,
+                "f1": 0.5,
+                "support": 74
+              },
+              "more_hawkish": {
+                "precision": 0.28947,
+                "recall": 1.0,
+                "f1": 0.44898,
+                "support": 11
+              }
+            },
+            "confusion_matrix": [
+              [
+                10,
+                1,
+                0
+              ],
+              [
+                22,
+                25,
+                27
+              ],
+              [
+                0,
+                0,
+                11
+              ]
+            ],
+            "predicted": {
+              "more_dovish": 32,
+              "unchanged": 26,
+              "more_hawkish": 38
+            }
+          },
+          "reference_changed": {
+            "n": 22,
+            "accuracy": 0.95455,
+            "accuracy_ci": {
+              "low": 0.86364,
+              "high": 1.0
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.89286,
+              "high": 1.0
+            },
+            "kappa": 0.91304,
+            "per_class": {
+              "more_dovish": {
+                "precision": 1.0,
+                "recall": 0.90909,
+                "f1": 0.95238,
+                "support": 11
+              },
+              "unchanged": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "more_hawkish": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 11
+              }
+            },
+            "confusion_matrix": [
+              [
+                10,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                11
+              ]
+            ],
+            "predicted": {
+              "more_dovish": 10,
+              "unchanged": 1,
+              "more_hawkish": 11
+            }
+          },
+          "reference_unchanged": {
+            "n": 74,
+            "accuracy": 0.33784,
+            "accuracy_ci": {
+              "low": 0.22973,
+              "high": 0.44595
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.18919,
+              "high": 0.48684
+            },
+            "predicted": {
+              "more_dovish": 22,
+              "unchanged": 25,
+              "more_hawkish": 27
+            }
+          }
+        },
+        "llm_vs_gold_both_human": {
+          "n": 10,
+          "accuracy": 0.6,
+          "accuracy_ci": {
+            "low": 0.3,
+            "high": 0.9
+          },
+          "accuracy_ci_year_blocks": {
+            "low": 0.3,
+            "high": 0.88889
+          },
+          "predicted": {
+            "more_dovish": 3,
+            "unchanged": 1,
+            "more_hawkish": 6
+          }
+        },
+        "llm_vs_zero_shot_delta": {
+          "all": {
+            "n": 96,
+            "accuracy": 0.51042,
+            "accuracy_ci": {
+              "low": 0.41667,
+              "high": 0.60417
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.36458,
+              "high": 0.64516
+            },
+            "macro_f1": 0.52093,
+            "macro_f1_ci": {
+              "low": 0.4162,
+              "high": 0.6152
+            },
+            "macro_f1_ci_year_blocks": {
+              "low": 0.37833,
+              "high": 0.64456
+            },
+            "kappa": 0.29257,
+            "per_class": {
+              "more_dovish": {
+                "precision": 0.4375,
+                "recall": 0.73684,
+                "f1": 0.54902,
+                "support": 19
+              },
+              "unchanged": {
+                "precision": 0.73077,
+                "recall": 0.32759,
+                "f1": 0.45238,
+                "support": 58
+              },
+              "more_hawkish": {
+                "precision": 0.42105,
+                "recall": 0.84211,
+                "f1": 0.5614,
+                "support": 19
+              }
+            },
+            "confusion_matrix": [
+              [
+                14,
+                5,
+                0
+              ],
+              [
+                17,
+                19,
+                22
+              ],
+              [
+                1,
+                2,
+                16
+              ]
+            ],
+            "predicted": {
+              "more_dovish": 32,
+              "unchanged": 26,
+              "more_hawkish": 38
+            }
+          },
+          "reference_changed": {
+            "n": 38,
+            "accuracy": 0.78947,
+            "accuracy_ci": {
+              "low": 0.65789,
+              "high": 0.92105
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.67647,
+              "high": 0.89744
+            },
+            "kappa": 0.64444,
+            "per_class": {
+              "more_dovish": {
+                "precision": 0.93333,
+                "recall": 0.73684,
+                "f1": 0.82353,
+                "support": 19
+              },
+              "unchanged": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "more_hawkish": {
+                "precision": 1.0,
+                "recall": 0.84211,
+                "f1": 0.91429,
+                "support": 19
+              }
+            },
+            "confusion_matrix": [
+              [
+                14,
+                5,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                2,
+                16
+              ]
+            ],
+            "predicted": {
+              "more_dovish": 15,
+              "unchanged": 7,
+              "more_hawkish": 16
+            }
+          },
+          "reference_unchanged": {
+            "n": 58,
+            "accuracy": 0.32759,
+            "accuracy_ci": {
+              "low": 0.2069,
+              "high": 0.44828
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.14286,
+              "high": 0.50909
+            },
+            "predicted": {
+              "more_dovish": 17,
+              "unchanged": 19,
+              "more_hawkish": 22
+            }
+          }
+        }
+      },
+      "baselines": {
+        "always_unchanged_vs_gold": {
+          "all": {
+            "n": 96,
+            "accuracy": 0.77083,
+            "accuracy_ci": {
+              "low": 0.6875,
+              "high": 0.85417
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.63634,
+              "high": 0.8866
+            },
+            "macro_f1": 0.2902,
+            "macro_f1_ci": {
+              "low": 0.2716,
+              "high": 0.30712
+            },
+            "macro_f1_ci_year_blocks": {
+              "low": 0.25925,
+              "high": 0.3133
+            },
+            "kappa": 0.0,
+            "per_class": {
+              "more_dovish": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 11
+              },
+              "unchanged": {
+                "precision": 0.77083,
+                "recall": 1.0,
+                "f1": 0.87059,
+                "support": 74
+              },
+              "more_hawkish": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 11
+              }
+            },
+            "confusion_matrix": [
+              [
+                0,
+                11,
+                0
+              ],
+              [
+                0,
+                74,
+                0
+              ],
+              [
+                0,
+                11,
+                0
+              ]
+            ],
+            "predicted": {
+              "more_dovish": 0,
+              "unchanged": 96,
+              "more_hawkish": 0
+            }
+          },
+          "reference_changed": {
+            "n": 22,
+            "accuracy": 0.0,
+            "accuracy_ci": {
+              "low": 0.0,
+              "high": 0.0
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.0,
+              "high": 0.0
+            },
+            "kappa": 0.0,
+            "per_class": {
+              "more_dovish": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 11
+              },
+              "unchanged": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "more_hawkish": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 11
+              }
+            },
+            "confusion_matrix": [
+              [
+                0,
+                11,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                11,
+                0
+              ]
+            ],
+            "predicted": {
+              "more_dovish": 0,
+              "unchanged": 22,
+              "more_hawkish": 0
+            }
+          },
+          "reference_unchanged": {
+            "n": 74,
+            "accuracy": 1.0,
+            "accuracy_ci": {
+              "low": 1.0,
+              "high": 1.0
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 1.0,
+              "high": 1.0
+            },
+            "predicted": {
+              "more_dovish": 0,
+              "unchanged": 74,
+              "more_hawkish": 0
+            }
+          }
+        },
+        "always_unchanged_vs_gold_both_human": {
+          "n": 10,
+          "accuracy": 0.5,
+          "accuracy_ci": {
+            "low": 0.2,
+            "high": 0.8
+          },
+          "accuracy_ci_year_blocks": {
+            "low": 0.125,
+            "high": 0.8
+          },
+          "predicted": {
+            "more_dovish": 0,
+            "unchanged": 10,
+            "more_hawkish": 0
+          }
+        },
+        "zero_shot_delta_vs_gold": {
+          "all": {
+            "n": 96,
+            "accuracy": 0.79167,
+            "accuracy_ci": {
+              "low": 0.70833,
+              "high": 0.86458
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.65211,
+              "high": 0.90426
+            },
+            "macro_f1": 0.72727,
+            "macro_f1_ci": {
+              "low": 0.60471,
+              "high": 0.82752
+            },
+            "macro_f1_ci_year_blocks": {
+              "low": 0.53009,
+              "high": 0.86241
+            },
+            "kappa": 0.5739,
+            "per_class": {
+              "more_dovish": {
+                "precision": 0.52632,
+                "recall": 0.90909,
+                "f1": 0.66667,
+                "support": 11
+              },
+              "unchanged": {
+                "precision": 0.96552,
+                "recall": 0.75676,
+                "f1": 0.84848,
+                "support": 74
+              },
+              "more_hawkish": {
+                "precision": 0.52632,
+                "recall": 0.90909,
+                "f1": 0.66667,
+                "support": 11
+              }
+            },
+            "confusion_matrix": [
+              [
+                10,
+                1,
+                0
+              ],
+              [
+                9,
+                56,
+                9
+              ],
+              [
+                0,
+                1,
+                10
+              ]
+            ],
+            "predicted": {
+              "more_dovish": 19,
+              "unchanged": 58,
+              "more_hawkish": 19
+            }
+          },
+          "reference_changed": {
+            "n": 22,
+            "accuracy": 0.90909,
+            "accuracy_ci": {
+              "low": 0.77273,
+              "high": 1.0
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.76923,
+              "high": 1.0
+            },
+            "kappa": 0.83333,
+            "per_class": {
+              "more_dovish": {
+                "precision": 1.0,
+                "recall": 0.90909,
+                "f1": 0.95238,
+                "support": 11
+              },
+              "unchanged": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "more_hawkish": {
+                "precision": 1.0,
+                "recall": 0.90909,
+                "f1": 0.95238,
+                "support": 11
+              }
+            },
+            "confusion_matrix": [
+              [
+                10,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                10
+              ]
+            ],
+            "predicted": {
+              "more_dovish": 10,
+              "unchanged": 2,
+              "more_hawkish": 10
+            }
+          },
+          "reference_unchanged": {
+            "n": 74,
+            "accuracy": 0.75676,
+            "accuracy_ci": {
+              "low": 0.66216,
+              "high": 0.85135
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.59493,
+              "high": 0.89333
+            },
+            "predicted": {
+              "more_dovish": 9,
+              "unchanged": 56,
+              "more_hawkish": 9
+            }
+          }
+        },
+        "zero_shot_delta_vs_gold_both_human": {
+          "n": 10,
+          "accuracy": 0.9,
+          "accuracy_ci": {
+            "low": 0.7,
+            "high": 1.0
+          },
+          "accuracy_ci_year_blocks": {
+            "low": 0.7,
+            "high": 1.0
+          },
+          "predicted": {
+            "more_dovish": 3,
+            "unchanged": 4,
+            "more_hawkish": 3
+          }
+        },
+        "rate_decision_vs_gold": {
+          "all": {
+            "n": 96,
+            "accuracy": 0.75,
+            "accuracy_ci": {
+              "low": 0.65625,
+              "high": 0.83333
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.58333,
+              "high": 0.88043
+            },
+            "macro_f1": 0.63516,
+            "macro_f1_ci": {
+              "low": 0.49792,
+              "high": 0.74791
+            },
+            "macro_f1_ci_year_blocks": {
+              "low": 0.42812,
+              "high": 0.80768
+            },
+            "kappa": 0.42429,
+            "per_class": {
+              "more_dovish": {
+                "precision": 0.46667,
+                "recall": 0.63636,
+                "f1": 0.53846,
+                "support": 11
+              },
+              "unchanged": {
+                "precision": 0.87879,
+                "recall": 0.78378,
+                "f1": 0.82857,
+                "support": 74
+              },
+              "more_hawkish": {
+                "precision": 0.46667,
+                "recall": 0.63636,
+                "f1": 0.53846,
+                "support": 11
+              }
+            },
+            "confusion_matrix": [
+              [
+                7,
+                4,
+                0
+              ],
+              [
+                8,
+                58,
+                8
+              ],
+              [
+                0,
+                4,
+                7
+              ]
+            ],
+            "predicted": {
+              "more_dovish": 15,
+              "unchanged": 66,
+              "more_hawkish": 15
+            }
+          },
+          "reference_changed": {
+            "n": 22,
+            "accuracy": 0.63636,
+            "accuracy_ci": {
+              "low": 0.40909,
+              "high": 0.81818
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.42105,
+              "high": 0.82143
+            },
+            "kappa": 0.46667,
+            "per_class": {
+              "more_dovish": {
+                "precision": 1.0,
+                "recall": 0.63636,
+                "f1": 0.77778,
+                "support": 11
+              },
+              "unchanged": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "more_hawkish": {
+                "precision": 1.0,
+                "recall": 0.63636,
+                "f1": 0.77778,
+                "support": 11
+              }
+            },
+            "confusion_matrix": [
+              [
+                7,
+                4,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                4,
+                7
+              ]
+            ],
+            "predicted": {
+              "more_dovish": 7,
+              "unchanged": 8,
+              "more_hawkish": 7
+            }
+          },
+          "reference_unchanged": {
+            "n": 74,
+            "accuracy": 0.78378,
+            "accuracy_ci": {
+              "low": 0.68919,
+              "high": 0.87838
+            },
+            "accuracy_ci_year_blocks": {
+              "low": 0.57647,
+              "high": 0.93651
+            },
+            "predicted": {
+              "more_dovish": 8,
+              "unchanged": 58,
+              "more_hawkish": 8
+            }
+          }
+        },
+        "rate_decision_vs_gold_both_human": {
+          "n": 10,
+          "accuracy": 0.7,
+          "accuracy_ci": {
+            "low": 0.4,
+            "high": 1.0
+          },
+          "accuracy_ci_year_blocks": {
+            "low": 0.5,
+            "high": 0.91667
+          },
+          "predicted": {
+            "more_dovish": 2,
+            "unchanged": 6,
+            "more_hawkish": 2
+          }
+        }
+      },
+      "same_label_by_rate_decision": {
+        "decision_changed": {
+          "pairs": 16,
+          "llm_shift": {
+            "count": 15,
+            "of": 16,
+            "rate": 0.9375
+          },
+          "zero_shot_delta_shift": {
+            "count": 8,
+            "of": 16,
+            "rate": 0.5
+          },
+          "llm_in_decision_direction": {
+            "count": 15,
+            "of": 16,
+            "rate": 0.9375
+          }
+        },
+        "decision_same": {
+          "pairs": 56,
+          "llm_shift": {
+            "count": 33,
+            "of": 56,
+            "rate": 0.58929
+          },
+          "zero_shot_delta_shift": {
+            "count": 10,
+            "of": 56,
+            "rate": 0.17857
+          }
+        },
+        "no_decision": {
+          "pairs": 2,
+          "llm_shift": {
+            "count": 1,
+            "of": 2,
+            "rate": 0.5
+          },
+          "zero_shot_delta_shift": {
+            "count": 0,
+            "of": 2,
+            "rate": 0.0
+          }
+        }
+      },
+      "structural": {
+        "pairs_with_changes": 96,
+        "pairs_without_changes": 0,
+        "key_changes_present_when_changed": {
+          "count": 96,
+          "of": 96,
+          "rate": 1.0
+        },
+        "key_changes_per_changed_pair": {
+          "mean": 3.7708,
+          "max": 6
+        },
+        "cited_ids_not_changed_items": {
+          "count": 0,
+          "of": 669
+        },
+        "shift_backed_by_key_change": {
+          "count": 69,
+          "of": 70,
+          "rate": 0.98571
+        },
+        "key_changes_without_quote": {
+          "count": 7,
+          "of": 362,
+          "rate": 0.019337
+        },
+        "before_cleaning": {
+          "analyses_with_checks": 96,
+          "key_changes_returned": 362,
+          "key_changes_dropped": 0,
+          "key_changes_cut": 0,
+          "invalid_ids": 0,
+          "quotes": 921,
+          "quotes_unquoted": 4,
+          "quotes_outside_cited": 6,
+          "confidence_clipped": 0,
+          "quotes_verbatim": {
+            "count": 917,
+            "of": 921,
+            "rate": 0.99566
+          }
+        },
+        "confidence": {
+          "mean": 0.93042,
+          "min": 0.69,
+          "max": 0.99
+        }
+      },
+      "cost": {
+        "model": "gpt-5.4-mini-2026-03-17",
+        "calls": 96,
+        "input_tokens": 215857,
+        "cached_input_tokens": 3072,
+        "output_tokens": 56560,
+        "reasoning_tokens": 10476,
+        "usd": 0.4143
+      },
+      "pairs": [
+        {
+          "base": "statement-2015-01-28",
+          "target": "statement-2015-03-18",
+          "changed": 12,
+          "llm": "more_dovish",
+          "confidence": 0.91,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2015-03-18",
+          "target": "statement-2015-04-29",
+          "changed": 12,
+          "llm": "unchanged",
+          "confidence": 0.79,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.3,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2015-04-29",
+          "target": "statement-2015-06-17",
+          "changed": 9,
+          "llm": "unchanged",
+          "confidence": 0.86,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.8,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2015-06-17",
+          "target": "statement-2015-07-29",
+          "changed": 8,
+          "llm": "more_hawkish",
+          "confidence": 0.76,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 1.2,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2015-07-29",
+          "target": "statement-2015-09-17",
+          "changed": 11,
+          "llm": "more_dovish",
+          "confidence": 0.92,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.25,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2015-09-17",
+          "target": "statement-2015-10-28",
+          "changed": 10,
+          "llm": "more_hawkish",
+          "confidence": 0.94,
+          "key_changes": 6,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2015-10-28",
+          "target": "statement-2015-12-16",
+          "changed": 22,
+          "llm": "more_hawkish",
+          "confidence": 0.99,
+          "key_changes": 6,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.35,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2015-12-16",
+          "target": "statement-2016-01-27",
+          "changed": 13,
+          "llm": "more_dovish",
+          "confidence": 0.98,
+          "key_changes": 4,
+          "gold": "more_dovish",
+          "zero_shot_delta": -0.7,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2016-01-27",
+          "target": "statement-2016-03-16",
+          "changed": 13,
+          "llm": "more_hawkish",
+          "confidence": 0.69,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2016-03-16",
+          "target": "statement-2016-04-27",
+          "changed": 7,
+          "llm": "unchanged",
+          "confidence": 0.86,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2016-04-27",
+          "target": "statement-2016-06-15",
+          "changed": 12,
+          "llm": "unchanged",
+          "confidence": 0.78,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2016-06-15",
+          "target": "statement-2016-07-27",
+          "changed": 11,
+          "llm": "unchanged",
+          "confidence": 0.86,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.2,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2016-07-27",
+          "target": "statement-2016-09-21",
+          "changed": 10,
+          "llm": "more_hawkish",
+          "confidence": 0.95,
+          "key_changes": 5,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 0.3,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2016-09-21",
+          "target": "statement-2016-11-02",
+          "changed": 9,
+          "llm": "unchanged",
+          "confidence": 0.84,
+          "key_changes": 6,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.15,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2016-11-02",
+          "target": "statement-2016-12-14",
+          "changed": 10,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.35,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2016-12-14",
+          "target": "statement-2017-02-01",
+          "changed": 10,
+          "llm": "more_dovish",
+          "confidence": 0.97,
+          "key_changes": 3,
+          "gold": "more_dovish",
+          "zero_shot_delta": -0.8,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2017-02-01",
+          "target": "statement-2017-03-15",
+          "changed": 13,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 6,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 0.8,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2017-03-15",
+          "target": "statement-2017-05-03",
+          "changed": 12,
+          "llm": "more_dovish",
+          "confidence": 0.97,
+          "key_changes": 4,
+          "gold": "more_dovish",
+          "zero_shot_delta": -0.2,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2017-05-03",
+          "target": "statement-2017-06-14",
+          "changed": 19,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 5,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 0.25,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2017-06-14",
+          "target": "statement-2017-07-26",
+          "changed": 10,
+          "llm": "more_dovish",
+          "confidence": 0.88,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.15,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2017-07-26",
+          "target": "statement-2017-09-20",
+          "changed": 11,
+          "llm": "more_hawkish",
+          "confidence": 0.93,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2017-09-20",
+          "target": "statement-2017-11-01",
+          "changed": 11,
+          "llm": "unchanged",
+          "confidence": 0.92,
+          "key_changes": 4,
+          "gold": "more_dovish",
+          "zero_shot_delta": -0.7,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2017-11-01",
+          "target": "statement-2017-12-13",
+          "changed": 13,
+          "llm": "more_hawkish",
+          "confidence": 0.99,
+          "key_changes": 4,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 0.7,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2017-12-13",
+          "target": "statement-2018-01-31",
+          "changed": 13,
+          "llm": "more_dovish",
+          "confidence": 0.87,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.08,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2018-01-31",
+          "target": "statement-2018-03-21",
+          "changed": 8,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.18,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2018-03-21",
+          "target": "statement-2018-05-02",
+          "changed": 9,
+          "llm": "more_dovish",
+          "confidence": 0.98,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.15,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2018-05-02",
+          "target": "statement-2018-06-13",
+          "changed": 12,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.15,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2018-06-13",
+          "target": "statement-2018-08-01",
+          "changed": 7,
+          "llm": "more_dovish",
+          "confidence": 0.98,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.3,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2018-08-01",
+          "target": "statement-2018-09-26",
+          "changed": 4,
+          "llm": "more_hawkish",
+          "confidence": 0.99,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.3,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2018-09-26",
+          "target": "statement-2018-11-08",
+          "changed": 6,
+          "llm": "more_dovish",
+          "confidence": 0.98,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.5,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2018-11-08",
+          "target": "statement-2018-12-19",
+          "changed": 7,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.5,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2018-12-19",
+          "target": "statement-2019-01-30",
+          "changed": 10,
+          "llm": "more_dovish",
+          "confidence": 0.98,
+          "key_changes": 4,
+          "gold": "more_dovish",
+          "zero_shot_delta": -1.25,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2019-01-30",
+          "target": "statement-2019-03-20",
+          "changed": 6,
+          "llm": "more_dovish",
+          "confidence": 0.89,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.35,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2019-03-20",
+          "target": "statement-2019-05-01",
+          "changed": 5,
+          "llm": "more_hawkish",
+          "confidence": 0.78,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2019-05-01",
+          "target": "statement-2019-06-19",
+          "changed": 10,
+          "llm": "more_dovish",
+          "confidence": 0.95,
+          "key_changes": 1,
+          "gold": "more_dovish",
+          "zero_shot_delta": -0.4,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2019-06-19",
+          "target": "statement-2019-07-31",
+          "changed": 9,
+          "llm": "more_dovish",
+          "confidence": 0.98,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.5,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2019-07-31",
+          "target": "statement-2019-09-18",
+          "changed": 7,
+          "llm": "more_dovish",
+          "confidence": 0.98,
+          "key_changes": 2,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2019-09-18",
+          "target": "statement-2019-10-04",
+          "changed": 21,
+          "llm": "more_hawkish",
+          "confidence": 0.93,
+          "key_changes": 3,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 0.9,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": null
+        },
+        {
+          "base": "statement-2019-10-04",
+          "target": "statement-2019-10-30",
+          "changed": 21,
+          "llm": "more_dovish",
+          "confidence": 0.99,
+          "key_changes": 4,
+          "gold": "more_dovish",
+          "zero_shot_delta": -0.95,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": null
+        },
+        {
+          "base": "statement-2019-10-30",
+          "target": "statement-2019-12-11",
+          "changed": 6,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 3,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 0.95,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2019-12-11",
+          "target": "statement-2020-01-29",
+          "changed": 4,
+          "llm": "unchanged",
+          "confidence": 0.88,
+          "key_changes": 2,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2020-01-29",
+          "target": "statement-2020-03-02",
+          "changed": 15,
+          "llm": "more_dovish",
+          "confidence": 0.99,
+          "key_changes": 3,
+          "gold": "more_dovish",
+          "zero_shot_delta": -0.95,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2020-03-02",
+          "target": "statement-2020-03-15",
+          "changed": 26,
+          "llm": "more_dovish",
+          "confidence": 0.99,
+          "key_changes": 6,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.05,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2020-03-15",
+          "target": "statement-2020-03-23",
+          "changed": 26,
+          "llm": "more_dovish",
+          "confidence": 0.88,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.2,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": null
+        },
+        {
+          "base": "statement-2020-03-23",
+          "target": "statement-2020-04-29",
+          "changed": 17,
+          "llm": "unchanged",
+          "confidence": 0.91,
+          "key_changes": 1,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": null
+        },
+        {
+          "base": "statement-2020-04-29",
+          "target": "statement-2020-06-10",
+          "changed": 4,
+          "llm": "more_dovish",
+          "confidence": 0.88,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2020-06-10",
+          "target": "statement-2020-07-29",
+          "changed": 4,
+          "llm": "unchanged",
+          "confidence": 0.88,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2020-07-29",
+          "target": "statement-2020-09-16",
+          "changed": 20,
+          "llm": "more_dovish",
+          "confidence": 0.98,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.2,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2020-09-16",
+          "target": "statement-2020-11-05",
+          "changed": 6,
+          "llm": "unchanged",
+          "confidence": 0.95,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2020-11-05",
+          "target": "statement-2020-12-16",
+          "changed": 5,
+          "llm": "more_dovish",
+          "confidence": 0.97,
+          "key_changes": 2,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.05,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2020-12-16",
+          "target": "statement-2021-01-27",
+          "changed": 5,
+          "llm": "unchanged",
+          "confidence": 0.92,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.05,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2021-01-27",
+          "target": "statement-2021-03-17",
+          "changed": 3,
+          "llm": "unchanged",
+          "confidence": 0.93,
+          "key_changes": 2,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2021-03-17",
+          "target": "statement-2021-04-28",
+          "changed": 6,
+          "llm": "unchanged",
+          "confidence": 0.88,
+          "key_changes": 2,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2021-04-28",
+          "target": "statement-2021-06-16",
+          "changed": 6,
+          "llm": "unchanged",
+          "confidence": 0.93,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2021-06-16",
+          "target": "statement-2021-07-28",
+          "changed": 6,
+          "llm": "more_hawkish",
+          "confidence": 0.89,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2021-07-28",
+          "target": "statement-2021-09-22",
+          "changed": 4,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2021-09-22",
+          "target": "statement-2021-11-03",
+          "changed": 13,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 5,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 1.05,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2021-11-03",
+          "target": "statement-2021-12-15",
+          "changed": 12,
+          "llm": "more_hawkish",
+          "confidence": 0.97,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.35,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2021-12-15",
+          "target": "statement-2022-01-26",
+          "changed": 11,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.2,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2022-01-26",
+          "target": "statement-2022-03-16",
+          "changed": 19,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.05,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2022-03-16",
+          "target": "statement-2022-05-04",
+          "changed": 11,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2022-05-04",
+          "target": "statement-2022-06-15",
+          "changed": 11,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2022-06-15",
+          "target": "statement-2022-07-27",
+          "changed": 11,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.05,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2022-07-27",
+          "target": "statement-2022-09-21",
+          "changed": 3,
+          "llm": "more_hawkish",
+          "confidence": 0.99,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.05,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2022-09-21",
+          "target": "statement-2022-11-02",
+          "changed": 3,
+          "llm": "more_hawkish",
+          "confidence": 0.95,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2022-11-02",
+          "target": "statement-2022-12-14",
+          "changed": 2,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 2,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2022-12-14",
+          "target": "statement-2023-02-01",
+          "changed": 9,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2023-02-01",
+          "target": "statement-2023-03-22",
+          "changed": 11,
+          "llm": "more_hawkish",
+          "confidence": 0.86,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2023-03-22",
+          "target": "statement-2023-05-03",
+          "changed": 8,
+          "llm": "more_hawkish",
+          "confidence": 0.96,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2023-05-03",
+          "target": "statement-2023-06-14",
+          "changed": 6,
+          "llm": "unchanged",
+          "confidence": 0.97,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.25,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2023-06-14",
+          "target": "statement-2023-07-26",
+          "changed": 3,
+          "llm": "more_hawkish",
+          "confidence": 0.99,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.2,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2023-07-26",
+          "target": "statement-2023-09-20",
+          "changed": 4,
+          "llm": "more_dovish",
+          "confidence": 0.97,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.2,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2023-09-20",
+          "target": "statement-2023-11-01",
+          "changed": 3,
+          "llm": "unchanged",
+          "confidence": 0.92,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2023-11-01",
+          "target": "statement-2023-12-13",
+          "changed": 4,
+          "llm": "more_dovish",
+          "confidence": 0.84,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2023-12-13",
+          "target": "statement-2024-01-31",
+          "changed": 14,
+          "llm": "more_dovish",
+          "confidence": 0.92,
+          "key_changes": 3,
+          "gold": "more_dovish",
+          "zero_shot_delta": -0.25,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2024-01-31",
+          "target": "statement-2024-03-20",
+          "changed": 1,
+          "llm": "unchanged",
+          "confidence": 0.98,
+          "key_changes": 1,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.3,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2024-03-20",
+          "target": "statement-2024-05-01",
+          "changed": 6,
+          "llm": "unchanged",
+          "confidence": 0.84,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.15,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2024-05-01",
+          "target": "statement-2024-06-12",
+          "changed": 3,
+          "llm": "unchanged",
+          "confidence": 0.9,
+          "key_changes": 2,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.2,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2024-06-12",
+          "target": "statement-2024-07-31",
+          "changed": 7,
+          "llm": "unchanged",
+          "confidence": 0.82,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2024-07-31",
+          "target": "statement-2024-09-18",
+          "changed": 12,
+          "llm": "more_dovish",
+          "confidence": 0.98,
+          "key_changes": 6,
+          "gold": "more_dovish",
+          "zero_shot_delta": -1.0,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2024-09-18",
+          "target": "statement-2024-11-07",
+          "changed": 6,
+          "llm": "more_hawkish",
+          "confidence": 0.96,
+          "key_changes": 5,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2024-11-07",
+          "target": "statement-2024-12-18",
+          "changed": 4,
+          "llm": "more_dovish",
+          "confidence": 0.97,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.1,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2024-12-18",
+          "target": "statement-2025-01-29",
+          "changed": 7,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 3,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 0.85,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2025-01-29",
+          "target": "statement-2025-03-19",
+          "changed": 7,
+          "llm": "more_dovish",
+          "confidence": 0.93,
+          "key_changes": 2,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.35,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2025-03-19",
+          "target": "statement-2025-05-07",
+          "changed": 8,
+          "llm": "unchanged",
+          "confidence": 0.89,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.4,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2025-05-07",
+          "target": "statement-2025-06-18",
+          "changed": 5,
+          "llm": "more_dovish",
+          "confidence": 0.78,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.2,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2025-06-18",
+          "target": "statement-2025-07-30",
+          "changed": 5,
+          "llm": "unchanged",
+          "confidence": 0.93,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.25,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2025-07-30",
+          "target": "statement-2025-09-17",
+          "changed": 10,
+          "llm": "more_dovish",
+          "confidence": 0.98,
+          "key_changes": 6,
+          "gold": "more_dovish",
+          "zero_shot_delta": -0.85,
+          "zero_shot_shift": "more_dovish",
+          "rate_decision_shift": "more_dovish"
+        },
+        {
+          "base": "statement-2025-09-17",
+          "target": "statement-2025-10-29",
+          "changed": 10,
+          "llm": "more_dovish",
+          "confidence": 0.94,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2025-10-29",
+          "target": "statement-2025-12-10",
+          "changed": 8,
+          "llm": "more_dovish",
+          "confidence": 0.95,
+          "key_changes": 4,
+          "gold": "unchanged",
+          "zero_shot_delta": -0.05,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2025-12-10",
+          "target": "statement-2026-01-28",
+          "changed": 10,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 6,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 0.85,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        },
+        {
+          "base": "statement-2026-01-28",
+          "target": "statement-2026-03-18",
+          "changed": 4,
+          "llm": "unchanged",
+          "confidence": 0.84,
+          "key_changes": 2,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.05,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2026-03-18",
+          "target": "statement-2026-04-29",
+          "changed": 9,
+          "llm": "unchanged",
+          "confidence": 0.87,
+          "key_changes": 3,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2026-04-29",
+          "target": "statement-2026-06-17",
+          "changed": 21,
+          "llm": "more_hawkish",
+          "confidence": 0.92,
+          "key_changes": 6,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.05,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2026-06-17",
+          "target": "statement-2026-07-29",
+          "changed": 3,
+          "llm": "unchanged",
+          "confidence": 0.95,
+          "key_changes": 2,
+          "gold": "unchanged",
+          "zero_shot_delta": 0.0,
+          "zero_shot_shift": "unchanged",
+          "rate_decision_shift": "unchanged"
+        },
+        {
+          "base": "statement-2026-07-29",
+          "target": "statement-2026-09-16",
+          "changed": 9,
+          "llm": "more_hawkish",
+          "confidence": 0.98,
+          "key_changes": 6,
+          "gold": "more_hawkish",
+          "zero_shot_delta": 0.85,
+          "zero_shot_shift": "more_hawkish",
+          "rate_decision_shift": "more_hawkish"
+        }
+      ]
+    }
+  ]
+}
