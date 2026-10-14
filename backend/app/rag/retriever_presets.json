@@ -1,0 +1,12 @@
+{
+  "tuned": {
+    "description": "Frozen 2026-10-13, chosen on the DEV split only (no TEST question was ranked or scored): highest dev nDCG@10 of hybrid_rerank (tie-break recall@10), preferring fewer non-default options within 0.01 (docs/rag-tuning.md). Options: date_prior 3, statement_boost 1.5, year_prior 1.25, recency_prior 1 with a 90-day half-life. Everything else is phase3: BM25 without stemming or query expansion, RRF k=60 with equal weights, 50 candidates, and the MiniLM-L-6 cross-encoder, pinned here to the commit the settings use so the preset does not follow a RERANKER_MODEL change. The production default (RETRIEVER_PRESET) since the one TEST evaluation, where the switch rule decided before that run held (docs/rag-tuning.md).",
+    "date_prior": 3.0,
+    "statement_boost": 1.5,
+    "year_prior": 1.25,
+    "recency_prior": 1.0,
+    "recency_half_life_days": 90.0,
+    "reranker_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "reranker_revision": "233902d25c440f23af6f7d6e94d2946bac0bee0a"
+  }
+}
