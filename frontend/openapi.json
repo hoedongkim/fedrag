@@ -1,0 +1,5848 @@
+{
+  "components": {
+    "schemas": {
+      "AnnotatorAgreement": {
+        "description": "How often two annotators agree on one kind of check: how reproducible the labels are, when\nthe two worked independently (AnnotatorInfo.isolated).",
+        "properties": {
+          "agreement": {
+            "description": "Share of verdicts the two agree on, with the labels collapsed to pass / fail (supported; supports or partially supports; covered; answers or partial).",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Agreement",
+            "type": "number"
+          },
+          "annotators": {
+            "description": "Ids of the two annotators compared.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Annotators",
+            "type": "array"
+          },
+          "check": {
+            "description": "\"claim_support\": is a claim supported by the passages it cites; \"citation_support\": does a cited passage support its sentence; \"fact_coverage\": does the answer state a required fact; \"refusal\": does the answer decline.",
+            "enum": [
+              "claim_support",
+              "citation_support",
+              "fact_coverage",
+              "refusal"
+            ],
+            "title": "Check",
+            "type": "string"
+          },
+          "exact_agreement": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Share with the same label before collapsing (e.g. supports vs partially_supports); null when not recorded.",
+            "title": "Exact Agreement"
+          },
+          "kappa": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": -1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Cohen's kappa on pass / fail; null when undefined.",
+            "title": "Kappa"
+          },
+          "n": {
+            "description": "Labels compared.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "check",
+          "annotators",
+          "n",
+          "agreement",
+          "exact_agreement",
+          "kappa"
+        ],
+        "title": "AnnotatorAgreement",
+        "type": "object"
+      },
+      "AnnotatorInfo": {
+        "description": "One annotator of the judge-validation sample.",
+        "properties": {
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Who or what annotated, and how (blind to the judge, ...).",
+            "title": "Description"
+          },
+          "id": {
+            "description": "Short id the agreement rows use, e.g. A.",
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "isolated": {
+            "default": false,
+            "description": "True when the annotator worked from a copy of the sample alone and saved its labels before seeing the judge's verdicts or the other annotators' labels; two annotators that are not isolated may not be independent of each other.",
+            "title": "Isolated",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "description",
+          "isolated"
+        ],
+        "title": "AnnotatorInfo",
+        "type": "object"
+      },
+      "AnswerCitation": {
+        "description": "A passage an answer cites.",
+        "properties": {
+          "chunk_id": {
+            "description": "Chunk id; its text is QuestionDetail.passages[chunk_id].",
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "doc_match": {
+            "description": "From one of the relevant documents.",
+            "title": "Doc Match",
+            "type": "boolean"
+          },
+          "n": {
+            "description": "Citation number: [n] in the answer.",
+            "minimum": 1.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Its rank in the run's retrieved list; null if absent.",
+            "title": "Rank"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "enum": [
+                  "primary",
+                  "supporting"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Gold role; null when not a gold chunk.",
+            "title": "Role"
+          }
+        },
+        "required": [
+          "n",
+          "chunk_id",
+          "rank",
+          "role",
+          "doc_match"
+        ],
+        "title": "AnswerCitation",
+        "type": "object"
+      },
+      "AnswerDetail": {
+        "description": "An answer with its citations resolved and the judge's verdicts.",
+        "properties": {
+          "citations": {
+            "description": "Cited passages in [n] order.",
+            "items": {
+              "$ref": "#/components/schemas/AnswerCitation"
+            },
+            "title": "Citations",
+            "type": "array"
+          },
+          "cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "OpenAI cost of the answer.",
+            "title": "Cost Usd"
+          },
+          "judge": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JudgeVerdicts"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The judge's verdicts; null if unjudged."
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "End-to-end latency, ms.",
+            "title": "Latency Ms"
+          },
+          "notes": {
+            "description": "System notes, as in AskResponse.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
+          "text": {
+            "description": "The answer with [n] markers.",
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text",
+          "citations",
+          "notes",
+          "latency_ms",
+          "cost_usd",
+          "judge"
+        ],
+        "title": "AnswerDetail",
+        "type": "object"
+      },
+      "AnswerRow": {
+        "description": "LLM-judged quality of the answers one method and config produced, on one split.",
+        "properties": {
+          "answer_correctness": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "Share of a question's required facts the answer states, with its bootstrap interval over questions."
+          },
+          "citation_accuracy": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "Share of an answer's citations whose passage supports the cited sentence, with its bootstrap interval over questions."
+          },
+          "config": {
+            "description": "Retriever config id (EvaluationReport.configs), e.g. phase3 or tuned.",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,31}$",
+            "title": "Config",
+            "type": "string"
+          },
+          "cost_per_query_usd": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Mean OpenAI cost of the answer call for one question (the query embedding, about $0.000001, is excluded), at the prices in code.",
+            "title": "Cost Per Query Usd"
+          },
+          "faithfulness": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "Share of an answer's claims supported by the passages it cites, with its bootstrap interval over questions."
+          },
+          "false_refusal_rate": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "Share of answerable questions declined (lower is better), with its bootstrap interval over questions."
+          },
+          "judge_cost_per_query_usd": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Mean OpenAI cost of judging one answer.",
+            "title": "Judge Cost Per Query Usd"
+          },
+          "latency_ms_p50": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Median end-to-end latency (retrieval and answer), ms.",
+            "title": "Latency Ms P50"
+          },
+          "latency_ms_p95": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "95th-percentile end-to-end latency, ms.",
+            "title": "Latency Ms P95"
+          },
+          "method": {
+            "description": "Retrieval method that fed the answers.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "n_questions": {
+            "description": "Answers judged.",
+            "minimum": 0.0,
+            "title": "N Questions",
+            "type": "integer"
+          },
+          "refusal_accuracy": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "Share of unanswerable questions declined without fabricating an answer, with its bootstrap interval over questions."
+          },
+          "split": {
+            "description": "Questions the row is computed on: \"dev\" (used to choose settings), \"test\" (held out until the settings were fixed) or \"all\".",
+            "enum": [
+              "dev",
+              "test",
+              "all"
+            ],
+            "title": "Split",
+            "type": "string"
+          }
+        },
+        "required": [
+          "method",
+          "config",
+          "split",
+          "n_questions",
+          "faithfulness",
+          "citation_accuracy",
+          "answer_correctness",
+          "refusal_accuracy",
+          "false_refusal_rate",
+          "latency_ms_p50",
+          "latency_ms_p95",
+          "cost_per_query_usd",
+          "judge_cost_per_query_usd"
+        ],
+        "title": "AnswerRow",
+        "type": "object"
+      },
+      "AskExample": {
+        "description": "A real answer of the production configuration, recorded during the RAG evaluation and\nserved as it was given, with no LLM call: what Ask the Fed shows on the public demo, where it\ndoes not answer new questions.\n\nThe AskResponse fields are the answer exactly as POST /api/ask returned it (citations\nresolved from the search index the same way); the rest says where it comes from and how the\nevaluation's judge scored it.",
+        "properties": {
+          "answer": {
+            "description": "Generated answer with inline citation markers: [n] refers to citations[n - 1]. Only the model's text; notes about it are in notes. Without supporting passages it says so and has no markers.",
+            "title": "Answer",
+            "type": "string"
+          },
+          "as_of": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Point-in-time cutoff that was applied, if any.",
+            "title": "As Of"
+          },
+          "citations": {
+            "description": "Passages the answer cites, in order of first citation; empty when the retrieved passages do not support an answer.",
+            "items": {
+              "$ref": "#/components/schemas/Citation"
+            },
+            "title": "Citations",
+            "type": "array"
+          },
+          "description": {
+            "description": "One sentence on why it was picked.",
+            "minLength": 1,
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "description": "Evaluation question id, e.g. sf-14: GET /api/evaluation/questions/{id} has its gold passages, every retrieval run and the judge's verdicts.",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$",
+            "title": "Id",
+            "type": "string"
+          },
+          "judge": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExampleJudgement"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The evaluation judge's verdicts on the answer; null if it was not judged."
+          },
+          "label": {
+            "description": "What the example shows, in a few words, e.g. Point in time.",
+            "minLength": 1,
+            "title": "Label",
+            "type": "string"
+          },
+          "latency_ms": {
+            "description": "End-to-end latency of retrieval and generation in milliseconds.",
+            "title": "Latency Ms",
+            "type": "number"
+          },
+          "model": {
+            "description": "LLM that generated the answer.",
+            "title": "Model",
+            "type": "string"
+          },
+          "notes": {
+            "description": "System notes about the answer, e.g. that the newest cited passage is old relative to as_of, so later decisions may be missing; empty when there is nothing to note.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
+          "question": {
+            "description": "The question as it was asked.",
+            "minLength": 3,
+            "title": "Question",
+            "type": "string"
+          },
+          "question_type": {
+            "description": "Its type in the evaluation question set.",
+            "enum": [
+              "statement_fact",
+              "minutes_fact",
+              "point_in_time",
+              "date_specific",
+              "multi_doc",
+              "paraphrase",
+              "unanswerable"
+            ],
+            "title": "Question Type",
+            "type": "string"
+          },
+          "recorded_at": {
+            "description": "When the answer was generated (UTC).",
+            "format": "date-time",
+            "title": "Recorded At",
+            "type": "string"
+          },
+          "retrieval": {
+            "description": "Retrieval strategy that was used.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Retrieval",
+            "type": "string"
+          },
+          "retriever_preset": {
+            "description": "Retriever preset that found the passages (RETRIEVER_PRESET), e.g. tuned.",
+            "title": "Retriever Preset",
+            "type": "string"
+          }
+        },
+        "required": [
+          "answer",
+          "citations",
+          "notes",
+          "retrieval",
+          "as_of",
+          "model",
+          "latency_ms",
+          "id",
+          "label",
+          "description",
+          "question",
+          "question_type",
+          "retriever_preset",
+          "recorded_at",
+          "judge"
+        ],
+        "title": "AskExample",
+        "type": "object"
+      },
+      "AskRequest": {
+        "additionalProperties": false,
+        "description": "A question about Fed policy, optionally limited to what was public on a given date.",
+        "properties": {
+          "as_of": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Point-in-time cutoff: only documents with release_date <= as_of are retrievable, and the answer is written as of that date. Null means no cutoff.",
+            "examples": [
+              "2024-10-01"
+            ],
+            "title": "As Of"
+          },
+          "doc_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "enum": [
+                    "statement",
+                    "minutes",
+                    "sep",
+                    "press_conference"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 4,
+                "minItems": 1,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Restrict retrieval to these document types. Null means all.",
+            "title": "Doc Types"
+          },
+          "question": {
+            "description": "Natural-language question about FOMC policy.",
+            "examples": [
+              "How did the Committee describe inflation risks?"
+            ],
+            "maxLength": 2000,
+            "minLength": 3,
+            "title": "Question",
+            "type": "string"
+          },
+          "retrieval": {
+            "default": "hybrid_rerank",
+            "description": "Retrieval strategy used to find supporting passages.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Retrieval",
+            "type": "string"
+          },
+          "top_k": {
+            "default": 5,
+            "description": "Number of passages retrieved and given to the LLM; the citations are the ones the answer actually cites.",
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Top K",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "title": "AskRequest",
+        "type": "object"
+      },
+      "AskResponse": {
+        "description": "An answer grounded in cited FOMC passages.",
+        "properties": {
+          "answer": {
+            "description": "Generated answer with inline citation markers: [n] refers to citations[n - 1]. Only the model's text; notes about it are in notes. Without supporting passages it says so and has no markers.",
+            "title": "Answer",
+            "type": "string"
+          },
+          "as_of": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Point-in-time cutoff that was applied, if any.",
+            "title": "As Of"
+          },
+          "citations": {
+            "description": "Passages the answer cites, in order of first citation; empty when the retrieved passages do not support an answer.",
+            "items": {
+              "$ref": "#/components/schemas/Citation"
+            },
+            "title": "Citations",
+            "type": "array"
+          },
+          "latency_ms": {
+            "description": "End-to-end latency of retrieval and generation in milliseconds.",
+            "title": "Latency Ms",
+            "type": "number"
+          },
+          "model": {
+            "description": "LLM that generated the answer.",
+            "title": "Model",
+            "type": "string"
+          },
+          "notes": {
+            "description": "System notes about the answer, e.g. that the newest cited passage is old relative to as_of, so later decisions may be missing; empty when there is nothing to note.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
+          "retrieval": {
+            "description": "Retrieval strategy that was used.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Retrieval",
+            "type": "string"
+          }
+        },
+        "required": [
+          "answer",
+          "citations",
+          "notes",
+          "retrieval",
+          "as_of",
+          "model",
+          "latency_ms"
+        ],
+        "title": "AskResponse",
+        "type": "object"
+      },
+      "BaselineDifference": {
+        "description": "A statement-level row minus a baseline (StanceBenchmark.statement_baselines), both scored\non the same resampled statements.",
+        "properties": {
+          "accuracy": {
+            "$ref": "#/components/schemas/MetricDifference",
+            "description": "Accuracy difference."
+          },
+          "baseline": {
+            "description": "The baseline subtracted.",
+            "enum": [
+              "majority_class",
+              "rate_move_rule"
+            ],
+            "title": "Baseline",
+            "type": "string"
+          },
+          "macro_f1": {
+            "$ref": "#/components/schemas/MetricDifference",
+            "description": "Macro-F1 difference."
+          },
+          "n": {
+            "description": "Statements compared.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "row": {
+            "$ref": "#/components/schemas/StatementRowKey",
+            "description": "The row the baseline is subtracted from."
+          },
+          "subset": {
+            "description": "\"all\" statements with a reference label, or only the \"human_subset\".",
+            "enum": [
+              "all",
+              "human_subset"
+            ],
+            "title": "Subset",
+            "type": "string"
+          }
+        },
+        "required": [
+          "row",
+          "baseline",
+          "subset",
+          "n",
+          "accuracy",
+          "macro_f1"
+        ],
+        "title": "BaselineDifference",
+        "type": "object"
+      },
+      "BenchmarkDataset": {
+        "description": "The public sentence-level dataset the classifiers are benchmarked on.",
+        "properties": {
+          "citation": {
+            "description": "How to cite the dataset.",
+            "title": "Citation",
+            "type": "string"
+          },
+          "commit": {
+            "description": "Commit of the dataset repository that was used.",
+            "title": "Commit",
+            "type": "string"
+          },
+          "license": {
+            "description": "Dataset license.",
+            "title": "License",
+            "type": "string"
+          },
+          "name": {
+            "description": "Dataset name.",
+            "title": "Name",
+            "type": "string"
+          },
+          "url": {
+            "description": "Where the dataset is published.",
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "citation",
+          "license",
+          "url",
+          "commit"
+        ],
+        "title": "BenchmarkDataset",
+        "type": "object"
+      },
+      "BootstrapInfo": {
+        "description": "How the intervals were computed.",
+        "properties": {
+          "level": {
+            "description": "Confidence level of the intervals.",
+            "exclusiveMaximum": 1.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Level",
+            "type": "number"
+          },
+          "method": {
+            "description": "The resampling method, in words.",
+            "title": "Method",
+            "type": "string"
+          },
+          "resamples": {
+            "description": "Bootstrap resamples.",
+            "minimum": 1.0,
+            "title": "Resamples",
+            "type": "integer"
+          },
+          "seed": {
+            "description": "Seed of the random number generator.",
+            "title": "Seed",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "method",
+          "resamples",
+          "seed",
+          "level"
+        ],
+        "title": "BootstrapInfo",
+        "type": "object"
+      },
+      "Citation": {
+        "description": "A retrieved passage that the answer cites.",
+        "properties": {
+          "chunk_id": {
+            "description": "Stable identifier of the passage: the doc_id, '#', and its position.",
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "document": {
+            "$ref": "#/components/schemas/SourceDocument",
+            "description": "Document the passage comes from."
+          },
+          "passage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The whole cited passage when snippet is only its beginning. Set on the recorded answers (GET /api/ask/examples), so the text an answer relies on can be shown in full; null when snippet is the whole passage, and in live answers.",
+            "title": "Passage"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Retrieval score of the passage, higher is more relevant. Its scale depends on the retrieval method (BM25, vector similarity, fused rank or cross-encoder), so compare scores only within one response.",
+            "title": "Score"
+          },
+          "section": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Minutes section the passage comes from; null for statements.",
+            "title": "Section"
+          },
+          "snippet": {
+            "description": "The cited passage text, trimmed at a sentence boundary to about 600 characters.",
+            "title": "Snippet",
+            "type": "string"
+          }
+        },
+        "required": [
+          "document",
+          "chunk_id",
+          "section",
+          "snippet",
+          "passage",
+          "score"
+        ],
+        "title": "Citation",
+        "type": "object"
+      },
+      "CitationVerdict": {
+        "description": "The judge's verdict on one citation marker.",
+        "properties": {
+          "n": {
+            "description": "Citation number: [n] refers to the answer's citations[n-1].",
+            "minimum": 1.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The judge's short justification.",
+            "title": "Reason"
+          },
+          "sentence": {
+            "description": "The sentence the marker is attached to.",
+            "title": "Sentence",
+            "type": "string"
+          },
+          "supported": {
+            "description": "The cited passage supports that sentence.",
+            "title": "Supported",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "n",
+          "sentence",
+          "supported",
+          "reason"
+        ],
+        "title": "CitationVerdict",
+        "type": "object"
+      },
+      "ClaimVerdict": {
+        "description": "The judge's verdict on one claim extracted from an answer.",
+        "properties": {
+          "citations": {
+            "description": "Citation numbers [n] attached to the claim.",
+            "items": {
+              "type": "integer"
+            },
+            "title": "Citations",
+            "type": "array"
+          },
+          "claim": {
+            "description": "The claim, as the judge extracted it.",
+            "title": "Claim",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The judge's short justification.",
+            "title": "Reason"
+          },
+          "supported": {
+            "description": "Supported by the passages the claim cites.",
+            "title": "Supported",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "claim",
+          "citations",
+          "supported",
+          "reason"
+        ],
+        "title": "ClaimVerdict",
+        "type": "object"
+      },
+      "CompareRequest": {
+        "additionalProperties": false,
+        "description": "Two meetings whose FOMC statements should be compared, earlier one first.",
+        "properties": {
+          "analysis": {
+            "default": "cached_only",
+            "description": "LLM analysis of the changes. \"cached_only\" returns a stored analysis if there is one and never calls the LLM; \"generate\" also writes and stores one when none is stored (normally one paid LLM call per pair, two if the first reply cannot be parsed; stored once it succeeds). The public demo never writes one: there a pair without a stored analysis has analysis_status \"disabled_on_demo\".",
+            "enum": [
+              "cached_only",
+              "generate"
+            ],
+            "title": "Analysis",
+            "type": "string"
+          },
+          "base_date": {
+            "description": "Meeting date of the earlier (base) statement.",
+            "format": "date",
+            "title": "Base Date",
+            "type": "string"
+          },
+          "target_date": {
+            "description": "Meeting date of the later (target) statement.",
+            "format": "date",
+            "title": "Target Date",
+            "type": "string"
+          }
+        },
+        "required": [
+          "base_date",
+          "target_date"
+        ],
+        "title": "CompareRequest",
+        "type": "object"
+      },
+      "CompareResponse": {
+        "description": "Sentence-level diff of two FOMC statements plus an LLM reading of what changed.",
+        "properties": {
+          "analysis": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ComparisonAnalysis"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "LLM reading of the changes; null unless analysis_status is ready."
+          },
+          "analysis_model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Model and prompt version that wrote the analysis, e.g. \"gpt-5.4-mini-2026-03-17/compare-v3.edfeb8da\" (the prompt version ends in a fingerprint of its templates); null without an analysis.",
+            "title": "Analysis Model Version"
+          },
+          "analysis_status": {
+            "description": "\"ready\": analysis holds a stored or newly written analysis. \"not_cached\": none is stored for this pair; request analysis=\"generate\" to write one. \"llm_not_configured\": none is stored and OPENAI_API_KEY is not set, so none can be written. \"disabled_on_demo\": none is stored and this is the public demo, where no analysis is written (whatever the analysis mode), to avoid API costs. \"failed\": writing one failed; the diff is still returned.",
+            "enum": [
+              "ready",
+              "not_cached",
+              "llm_not_configured",
+              "disabled_on_demo",
+              "failed"
+            ],
+            "title": "Analysis Status",
+            "type": "string"
+          },
+          "base": {
+            "$ref": "#/components/schemas/SourceDocument",
+            "description": "Earlier (base) statement."
+          },
+          "changes": {
+            "description": "The sentence alignment in document order, unchanged sentences included.",
+            "items": {
+              "$ref": "#/components/schemas/SentenceChange"
+            },
+            "title": "Changes",
+            "type": "array"
+          },
+          "stance": {
+            "$ref": "#/components/schemas/ComparisonStance",
+            "description": "Stance of each statement according to the llm_zero_shot classifier, as stored by the stance pipeline (not part of the analysis)."
+          },
+          "stats": {
+            "$ref": "#/components/schemas/ComparisonStats",
+            "description": "Summary of the alignment."
+          },
+          "target": {
+            "$ref": "#/components/schemas/SourceDocument",
+            "description": "Later (target) statement."
+          }
+        },
+        "required": [
+          "base",
+          "target",
+          "changes",
+          "stats",
+          "analysis",
+          "analysis_status",
+          "analysis_model_version",
+          "stance"
+        ],
+        "title": "CompareResponse",
+        "type": "object"
+      },
+      "ComparisonAnalysis": {
+        "description": "An LLM reading of the changes, as of the target statement's release date.",
+        "properties": {
+          "confidence": {
+            "description": "Model-reported confidence in stance_shift. NOT a calibrated probability.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "key_changes": {
+            "description": "The policy-relevant changes, most important first.",
+            "items": {
+              "$ref": "#/components/schemas/KeyChange"
+            },
+            "title": "Key Changes",
+            "type": "array"
+          },
+          "stance_shift": {
+            "description": "Whether the target statement leans more hawkish or more dovish than the base.",
+            "enum": [
+              "more_hawkish",
+              "unchanged",
+              "more_dovish"
+            ],
+            "title": "Stance Shift",
+            "type": "string"
+          },
+          "summary": {
+            "description": "What the changes signal overall, in 2 to 4 sentences.",
+            "title": "Summary",
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary",
+          "key_changes",
+          "stance_shift",
+          "confidence"
+        ],
+        "title": "ComparisonAnalysis",
+        "type": "object"
+      },
+      "ComparisonStance": {
+        "description": "The stored stance of both statements, for context next to the analysis.",
+        "properties": {
+          "base": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StanceSnapshot"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Base statement; null if not classified."
+          },
+          "target": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StanceSnapshot"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Target statement; null if not classified."
+          }
+        },
+        "required": [
+          "base",
+          "target"
+        ],
+        "title": "ComparisonStance",
+        "type": "object"
+      },
+      "ComparisonStats": {
+        "description": "Counts of the aligned items by kind, and how similar the two statements are overall.",
+        "properties": {
+          "added": {
+            "description": "Sentences only in the target statement.",
+            "minimum": 0.0,
+            "title": "Added",
+            "type": "integer"
+          },
+          "modified": {
+            "description": "Sentence pairs that were reworded.",
+            "minimum": 0.0,
+            "title": "Modified",
+            "type": "integer"
+          },
+          "removed": {
+            "description": "Sentences only in the base statement.",
+            "minimum": 0.0,
+            "title": "Removed",
+            "type": "integer"
+          },
+          "similarity": {
+            "description": "Word-level similarity of the two whole statements (difflib ratio on lower-cased word tokens): 1 means the same words in the same order.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Similarity",
+            "type": "number"
+          },
+          "unchanged": {
+            "description": "Sentences identical up to whitespace.",
+            "minimum": 0.0,
+            "title": "Unchanged",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "unchanged",
+          "modified",
+          "added",
+          "removed",
+          "similarity"
+        ],
+        "title": "ComparisonStats",
+        "type": "object"
+      },
+      "ConfidenceInterval": {
+        "description": "A bootstrap confidence interval (StanceBenchmark.statement_bootstrap says which).",
+        "properties": {
+          "high": {
+            "description": "Upper bound.",
+            "title": "High",
+            "type": "number"
+          },
+          "low": {
+            "description": "Lower bound.",
+            "title": "Low",
+            "type": "number"
+          }
+        },
+        "required": [
+          "low",
+          "high"
+        ],
+        "title": "ConfidenceInterval",
+        "type": "object"
+      },
+      "ConfigSelection": {
+        "description": "The run chosen, and how: the best dev run of a metric, or a rule decided before the test\nsplit was scored (e.g. the default-switch rule).",
+        "properties": {
+          "config": {
+            "description": "Retriever config id (EvaluationReport.configs), e.g. phase3 or tuned.",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,31}$",
+            "title": "Config",
+            "type": "string"
+          },
+          "method": {
+            "description": "Chosen retrieval method.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "metric": {
+            "description": "Metric the choice maximised, or the rule's main metric.",
+            "enum": [
+              "recall_at_5",
+              "recall_at_10",
+              "mrr_at_10",
+              "ndcg_at_10",
+              "doc_recall_at_5",
+              "doc_recall_at_10",
+              "faithfulness",
+              "citation_accuracy",
+              "answer_correctness",
+              "refusal_accuracy",
+              "false_refusal_rate"
+            ],
+            "title": "Metric",
+            "type": "string"
+          },
+          "rule": {
+            "description": "The selection rule, in words (including tie-breaks).",
+            "title": "Rule",
+            "type": "string"
+          },
+          "split": {
+            "description": "Split the choice was made on: dev for a best-of-dev choice, test for a rule decided before the test run and applied once to the held-out split.",
+            "enum": [
+              "dev",
+              "test",
+              "all"
+            ],
+            "title": "Split",
+            "type": "string"
+          }
+        },
+        "required": [
+          "method",
+          "config",
+          "metric",
+          "split",
+          "rule"
+        ],
+        "title": "ConfigSelection",
+        "type": "object"
+      },
+      "CostLine": {
+        "description": "OpenAI usage of one stage of the evaluation.",
+        "properties": {
+          "cached_input_tokens": {
+            "default": 0,
+            "description": "Input tokens OpenAI cached.",
+            "minimum": 0.0,
+            "title": "Cached Input Tokens",
+            "type": "integer"
+          },
+          "calls": {
+            "description": "API calls behind the results, cached ones included; for the embedding stage, the texts embedded (they go out in batched requests).",
+            "minimum": 0.0,
+            "title": "Calls",
+            "type": "integer"
+          },
+          "input_tokens": {
+            "description": "Input tokens.",
+            "minimum": 0.0,
+            "title": "Input Tokens",
+            "type": "integer"
+          },
+          "model": {
+            "description": "Model called.",
+            "title": "Model",
+            "type": "string"
+          },
+          "output_tokens": {
+            "description": "Output tokens, reasoning included.",
+            "minimum": 0.0,
+            "title": "Output Tokens",
+            "type": "integer"
+          },
+          "stage": {
+            "description": "generation, judge or embedding (query vectors).",
+            "enum": [
+              "generation",
+              "judge",
+              "embedding"
+            ],
+            "title": "Stage",
+            "type": "string"
+          },
+          "usd": {
+            "description": "Cost in USD at the recorded prices.",
+            "minimum": 0.0,
+            "title": "Usd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "stage",
+          "model",
+          "calls",
+          "input_tokens",
+          "cached_input_tokens",
+          "output_tokens",
+          "usd"
+        ],
+        "title": "CostLine",
+        "type": "object"
+      },
+      "CostSummary": {
+        "description": "What the results cost, counting answers and verdicts reused from the on-disk cache at the\ncost they had when first made.",
+        "properties": {
+          "lines": {
+            "description": "Usage per stage and model.",
+            "items": {
+              "$ref": "#/components/schemas/CostLine"
+            },
+            "title": "Lines",
+            "type": "array"
+          },
+          "max_usd": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Spending cap per command (--max-usd); null when the report does not know it (a report rebuilt from the caches).",
+            "title": "Max Usd"
+          },
+          "total_usd": {
+            "description": "Total cost in USD.",
+            "minimum": 0.0,
+            "title": "Total Usd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "total_usd",
+          "max_usd",
+          "lines"
+        ],
+        "title": "CostSummary",
+        "type": "object"
+      },
+      "DiffSegment": {
+        "description": "A run of words that is common to both sentences, or only in one of them.",
+        "properties": {
+          "op": {
+            "description": "\"equal\" (in both), \"delete\" (only in base) or \"insert\" (only in target).",
+            "enum": [
+              "equal",
+              "insert",
+              "delete"
+            ],
+            "title": "Op",
+            "type": "string"
+          },
+          "text": {
+            "description": "The words, with the whitespace between them, verbatim.",
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "op",
+          "text"
+        ],
+        "title": "DiffSegment",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "description": "Error body returned by HTTPException.",
+        "properties": {
+          "detail": {
+            "description": "Human-readable error message.",
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "detail"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "Estimate": {
+        "description": "A mean over questions, with its interval and the number of questions behind it.",
+        "properties": {
+          "ci": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MetricInterval"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "95% bootstrap interval of the mean; null when not computed."
+          },
+          "n": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Questions behind the mean (e.g. only unanswerable ones for refusal accuracy); null when not recorded.",
+            "title": "N"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Mean over the questions; null when no question qualifies.",
+            "title": "Value"
+          }
+        },
+        "required": [
+          "value",
+          "ci",
+          "n"
+        ],
+        "title": "Estimate",
+        "type": "object"
+      },
+      "EvalDataset": {
+        "description": "The evaluation question set.",
+        "properties": {
+          "construction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "How the questions and their labels were made, in words.",
+            "title": "Construction"
+          },
+          "file": {
+            "description": "Repository path of the question set.",
+            "title": "File",
+            "type": "string"
+          },
+          "n_answerable": {
+            "description": "Questions the corpus can answer.",
+            "minimum": 0.0,
+            "title": "N Answerable",
+            "type": "integer"
+          },
+          "n_human_reviewed": {
+            "description": "Questions whose labels a human reviewed and corrected where needed.",
+            "minimum": 0.0,
+            "title": "N Human Reviewed",
+            "type": "integer"
+          },
+          "n_questions": {
+            "description": "Questions.",
+            "minimum": 0.0,
+            "title": "N Questions",
+            "type": "integer"
+          },
+          "n_with_as_of": {
+            "description": "Questions with a point-in-time cutoff.",
+            "minimum": 0.0,
+            "title": "N With As Of",
+            "type": "integer"
+          },
+          "sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Hash of the file that was evaluated.",
+            "title": "Sha256"
+          },
+          "splits": {
+            "description": "Questions per split.",
+            "items": {
+              "$ref": "#/components/schemas/SplitCount"
+            },
+            "title": "Splits",
+            "type": "array"
+          },
+          "types": {
+            "description": "Questions per type.",
+            "items": {
+              "$ref": "#/components/schemas/TypeCount"
+            },
+            "title": "Types",
+            "type": "array"
+          }
+        },
+        "required": [
+          "file",
+          "sha256",
+          "n_questions",
+          "n_answerable",
+          "n_with_as_of",
+          "n_human_reviewed",
+          "splits",
+          "types",
+          "construction"
+        ],
+        "title": "EvalDataset",
+        "type": "object"
+      },
+      "EvalDifference": {
+        "description": "A paired bootstrap comparison of two runs on the same questions: both are scored on each\nresample, so the interval reflects where they differ, not two separate spreads.",
+        "properties": {
+          "ci": {
+            "$ref": "#/components/schemas/MetricInterval",
+            "description": "95% percentile bootstrap interval of the difference."
+          },
+          "difference": {
+            "description": "Observed difference: minuend - subtrahend.",
+            "maximum": 1.0,
+            "minimum": -1.0,
+            "title": "Difference",
+            "type": "number"
+          },
+          "metric": {
+            "description": "Metric compared.",
+            "enum": [
+              "recall_at_5",
+              "recall_at_10",
+              "mrr_at_10",
+              "ndcg_at_10",
+              "doc_recall_at_5",
+              "doc_recall_at_10",
+              "faithfulness",
+              "citation_accuracy",
+              "answer_correctness",
+              "refusal_accuracy",
+              "false_refusal_rate"
+            ],
+            "title": "Metric",
+            "type": "string"
+          },
+          "minuend": {
+            "$ref": "#/components/schemas/RunKey",
+            "description": "The run the other is subtracted from."
+          },
+          "n": {
+            "description": "Questions compared.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "split": {
+            "description": "Questions the row is computed on: \"dev\" (used to choose settings), \"test\" (held out until the settings were fixed) or \"all\".",
+            "enum": [
+              "dev",
+              "test",
+              "all"
+            ],
+            "title": "Split",
+            "type": "string"
+          },
+          "subtrahend": {
+            "$ref": "#/components/schemas/RunKey",
+            "description": "The run subtracted."
+          }
+        },
+        "required": [
+          "metric",
+          "split",
+          "minuend",
+          "subtrahend",
+          "n",
+          "difference",
+          "ci"
+        ],
+        "title": "EvalDifference",
+        "type": "object"
+      },
+      "EvalPassage": {
+        "description": "A chunk of the search index, as the reader sees it.",
+        "properties": {
+          "chunk_id": {
+            "description": "Chunk id.",
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "document": {
+            "$ref": "#/components/schemas/SourceDocument",
+            "description": "Document the chunk belongs to."
+          },
+          "section": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Minutes section; null for statements.",
+            "title": "Section"
+          },
+          "text": {
+            "description": "The passage text.",
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "chunk_id",
+          "document",
+          "section",
+          "text"
+        ],
+        "title": "EvalPassage",
+        "type": "object"
+      },
+      "EvaluationReport": {
+        "description": "Results of the RAG evaluation: retrieval and answer quality per retrieval method and\nretriever config, with bootstrap intervals, per question type and per split.",
+        "properties": {
+          "answers": {
+            "description": "One row per answered method, config and split.",
+            "items": {
+              "$ref": "#/components/schemas/AnswerRow"
+            },
+            "title": "Answers",
+            "type": "array"
+          },
+          "bootstrap": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BootstrapInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "How intervals were computed; null without intervals."
+          },
+          "configs": {
+            "description": "Retriever configs compared, in display order.",
+            "items": {
+              "$ref": "#/components/schemas/RetrieverConfig"
+            },
+            "minItems": 1,
+            "title": "Configs",
+            "type": "array"
+          },
+          "cost": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CostSummary"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "OpenAI usage and cost."
+          },
+          "dataset": {
+            "$ref": "#/components/schemas/EvalDataset",
+            "description": "The question set."
+          },
+          "differences": {
+            "description": "Paired bootstrap differences between runs.",
+            "items": {
+              "$ref": "#/components/schemas/EvalDifference"
+            },
+            "title": "Differences",
+            "type": "array"
+          },
+          "generated_at": {
+            "description": "When the newest result behind the report was made (the latest cached retrieval, answer or judgment), so a rebuild with nothing new keeps it.",
+            "format": "date-time",
+            "title": "Generated At",
+            "type": "string"
+          },
+          "generator": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GeneratorInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "How answers were generated; null without answers."
+          },
+          "judge": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JudgeInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The judge; null without answers."
+          },
+          "notes": {
+            "description": "Caveats the run recorded.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
+          "per_type": {
+            "description": "One row per method, config, split and question type.",
+            "items": {
+              "$ref": "#/components/schemas/TypeRow"
+            },
+            "title": "Per Type",
+            "type": "array"
+          },
+          "questions": {
+            "description": "Every question, summarised.",
+            "items": {
+              "$ref": "#/components/schemas/QuestionSummary"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "retrieval": {
+            "description": "One row per method, config and split.",
+            "items": {
+              "$ref": "#/components/schemas/RetrievalRow"
+            },
+            "title": "Retrieval",
+            "type": "array"
+          },
+          "selection": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ConfigSelection"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The run chosen and the rule; null when none was chosen."
+          }
+        },
+        "required": [
+          "generated_at",
+          "dataset",
+          "configs",
+          "generator",
+          "judge",
+          "bootstrap",
+          "selection",
+          "retrieval",
+          "answers",
+          "per_type",
+          "differences",
+          "cost",
+          "notes",
+          "questions"
+        ],
+        "title": "EvaluationReport",
+        "type": "object"
+      },
+      "ExampleJudgement": {
+        "description": "The RAG evaluation's LLM judge on a recorded answer: the same verdicts the RAG Performance\npage shows for it (GET /api/evaluation/questions/{id}).",
+        "properties": {
+          "answer_correctness": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Required facts the answer states / required facts; null for an unanswerable question.",
+            "title": "Answer Correctness"
+          },
+          "citation_accuracy": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Supporting citations / citations; null without citations.",
+            "title": "Citation Accuracy"
+          },
+          "faithfulness": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Supported claims / claims; null for an answer without claims.",
+            "title": "Faithfulness"
+          },
+          "false_refusal": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Answerable question: declined anyway. Null if unanswerable.",
+            "title": "False Refusal"
+          },
+          "model": {
+            "description": "Judge model.",
+            "title": "Model",
+            "type": "string"
+          },
+          "n_claims": {
+            "description": "Claims the judge extracted from the answer.",
+            "minimum": 0.0,
+            "title": "N Claims",
+            "type": "integer"
+          },
+          "n_claims_supported": {
+            "description": "Of those, supported by their passages.",
+            "minimum": 0.0,
+            "title": "N Claims Supported",
+            "type": "integer"
+          },
+          "n_facts": {
+            "description": "Required facts of the question.",
+            "minimum": 0.0,
+            "title": "N Facts",
+            "type": "integer"
+          },
+          "n_facts_covered": {
+            "description": "Of those, stated by the answer.",
+            "minimum": 0.0,
+            "title": "N Facts Covered",
+            "type": "integer"
+          },
+          "refusal_correct": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Unanswerable question: declined without fabricating. Null if answerable.",
+            "title": "Refusal Correct"
+          }
+        },
+        "required": [
+          "model",
+          "faithfulness",
+          "citation_accuracy",
+          "answer_correctness",
+          "refusal_correct",
+          "false_refusal",
+          "n_claims",
+          "n_claims_supported",
+          "n_facts",
+          "n_facts_covered"
+        ],
+        "title": "ExampleJudgement",
+        "type": "object"
+      },
+      "FactVerdict": {
+        "description": "The judge's verdict on one required fact of the question.",
+        "properties": {
+          "covered": {
+            "description": "The answer states it (judged against the reference).",
+            "title": "Covered",
+            "type": "boolean"
+          },
+          "fact": {
+            "description": "The required fact.",
+            "title": "Fact",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The judge's short justification.",
+            "title": "Reason"
+          }
+        },
+        "required": [
+          "fact",
+          "covered",
+          "reason"
+        ],
+        "title": "FactVerdict",
+        "type": "object"
+      },
+      "FedFundsTarget": {
+        "description": "The federal funds target range from one change point until the next (FRED DFEDTARL and\nDFEDTARU).",
+        "properties": {
+          "date": {
+            "description": "Day the range took effect.",
+            "format": "date",
+            "title": "Date",
+            "type": "string"
+          },
+          "lower": {
+            "description": "Lower bound of the target range, in percent.",
+            "minimum": 0.0,
+            "title": "Lower",
+            "type": "number"
+          },
+          "upper": {
+            "description": "Upper bound of the target range, in percent.",
+            "minimum": 0.0,
+            "title": "Upper",
+            "type": "number"
+          }
+        },
+        "required": [
+          "date",
+          "lower",
+          "upper"
+        ],
+        "title": "FedFundsTarget",
+        "type": "object"
+      },
+      "GeneratorInfo": {
+        "description": "How the evaluated answers were generated: the production chain of POST /api/ask.",
+        "properties": {
+          "model": {
+            "description": "LLM that wrote the answers.",
+            "title": "Model",
+            "type": "string"
+          },
+          "prompt_version": {
+            "description": "Version of the answer prompt.",
+            "title": "Prompt Version",
+            "type": "string"
+          },
+          "reasoning_effort": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Its reasoning effort.",
+            "title": "Reasoning Effort"
+          },
+          "top_k": {
+            "description": "Passages given to the LLM per question.",
+            "minimum": 1.0,
+            "title": "Top K",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "model",
+          "reasoning_effort",
+          "prompt_version",
+          "top_k"
+        ],
+        "title": "GeneratorInfo",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "description": "Service status and readiness of the pieces later phases depend on.",
+        "properties": {
+          "database_configured": {
+            "description": "True when DATABASE_URL is set. Reachability is not checked.",
+            "title": "Database Configured",
+            "type": "boolean"
+          },
+          "demo_mode": {
+            "description": "True on the public demo (PUBLIC_DEMO=true), where every feature that would call OpenAI is off: POST /api/ask and /api/ask/stream answer 403 (GET /api/ask/examples serves recorded answers instead), and POST /api/compare reports \"disabled_on_demo\" for a pair without a stored analysis. Stored results are served as usual.",
+            "title": "Demo Mode",
+            "type": "boolean"
+          },
+          "environment": {
+            "description": "Runtime environment: development, test or production.",
+            "title": "Environment",
+            "type": "string"
+          },
+          "llm_configured": {
+            "description": "True when an OpenAI API key is configured.",
+            "title": "Llm Configured",
+            "type": "boolean"
+          },
+          "status": {
+            "const": "ok",
+            "description": "Always \"ok\" when the API is serving requests.",
+            "title": "Status",
+            "type": "string"
+          },
+          "vector_store_ready": {
+            "description": "True when the search index is built: its manifest exists and Chroma holds every indexed chunk (run make index).",
+            "title": "Vector Store Ready",
+            "type": "boolean"
+          },
+          "version": {
+            "description": "Backend version.",
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "version",
+          "environment",
+          "llm_configured",
+          "database_configured",
+          "vector_store_ready",
+          "demo_mode"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "JudgeAgreement": {
+        "description": "How often the judge's verdicts match an annotator's on one kind of check.",
+        "properties": {
+          "agreement": {
+            "description": "Share of verdicts the two agree on, with the labels collapsed to pass / fail (supported; supports or partially supports; covered; answers or partial).",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Agreement",
+            "type": "number"
+          },
+          "annotator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Id of the annotator compared with (JudgeValidation.annotators); null when the file names none.",
+            "title": "Annotator"
+          },
+          "check": {
+            "description": "\"claim_support\": is a claim supported by the passages it cites; \"citation_support\": does a cited passage support its sentence; \"fact_coverage\": does the answer state a required fact; \"refusal\": does the answer decline.",
+            "enum": [
+              "claim_support",
+              "citation_support",
+              "fact_coverage",
+              "refusal"
+            ],
+            "title": "Check",
+            "type": "string"
+          },
+          "exact_agreement": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Share with the same label before collapsing (e.g. supports vs partially_supports); null when not recorded.",
+            "title": "Exact Agreement"
+          },
+          "kappa": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": -1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Cohen's kappa on pass / fail; null when undefined.",
+            "title": "Kappa"
+          },
+          "n": {
+            "description": "Verdicts compared.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "check",
+          "annotator",
+          "n",
+          "agreement",
+          "exact_agreement",
+          "kappa"
+        ],
+        "title": "JudgeAgreement",
+        "type": "object"
+      },
+      "JudgeInfo": {
+        "description": "The LLM judge that scored the answers.",
+        "properties": {
+          "model": {
+            "description": "Judge model: larger than the generator, to limit self-preference.",
+            "title": "Model",
+            "type": "string"
+          },
+          "n_answers": {
+            "description": "Answers judged.",
+            "minimum": 0.0,
+            "title": "N Answers",
+            "type": "integer"
+          },
+          "prompt_version": {
+            "description": "Version of the judge prompt.",
+            "title": "Prompt Version",
+            "type": "string"
+          },
+          "reasoning_effort": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Its reasoning effort.",
+            "title": "Reasoning Effort"
+          },
+          "validation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JudgeValidation"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Agreement with annotators on a blind sample; null before any."
+          }
+        },
+        "required": [
+          "model",
+          "reasoning_effort",
+          "prompt_version",
+          "n_answers",
+          "validation"
+        ],
+        "title": "JudgeInfo",
+        "type": "object"
+      },
+      "JudgeValidation": {
+        "description": "The check of the LLM judge against annotators on a blind sample of answers.",
+        "properties": {
+          "agreement": {
+            "description": "Judge vs annotator, per annotator and kind of check; empty until annotated.",
+            "items": {
+              "$ref": "#/components/schemas/JudgeAgreement"
+            },
+            "title": "Agreement",
+            "type": "array"
+          },
+          "annotator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Who annotated, e.g. 'one human annotator, blind to verdicts'.",
+            "title": "Annotator"
+          },
+          "annotators": {
+            "description": "Each annotator, when the file names them.",
+            "items": {
+              "$ref": "#/components/schemas/AnnotatorInfo"
+            },
+            "title": "Annotators",
+            "type": "array"
+          },
+          "inter_annotator": {
+            "description": "Annotator vs annotator per kind of check; empty with fewer than two.",
+            "items": {
+              "$ref": "#/components/schemas/AnnotatorAgreement"
+            },
+            "title": "Inter Annotator",
+            "type": "array"
+          },
+          "n_annotated": {
+            "description": "Answers the annotator has labelled.",
+            "minimum": 0.0,
+            "title": "N Annotated",
+            "type": "integer"
+          },
+          "n_sampled": {
+            "description": "Answers in the exported sample.",
+            "minimum": 0.0,
+            "title": "N Sampled",
+            "type": "integer"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Anything else worth knowing.",
+            "title": "Note"
+          },
+          "sample_file": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Repository path of the exported sample.",
+            "title": "Sample File"
+          },
+          "sampled_runs": {
+            "description": "The runs the sampled answers come from: the judge was checked on these only.",
+            "items": {
+              "$ref": "#/components/schemas/SampledRun"
+            },
+            "title": "Sampled Runs",
+            "type": "array"
+          },
+          "status": {
+            "description": "\"not_started\": no sample exported; \"pending\": a sample was exported and awaits annotation; \"complete\": annotated, and agreement is reported.",
+            "enum": [
+              "not_started",
+              "pending",
+              "complete"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "n_sampled",
+          "n_annotated",
+          "annotator",
+          "annotators",
+          "sample_file",
+          "sampled_runs",
+          "agreement",
+          "inter_annotator",
+          "note"
+        ],
+        "title": "JudgeValidation",
+        "type": "object"
+      },
+      "JudgeVerdicts": {
+        "description": "Everything the judge said about one answer, and the per-answer scores derived from it.",
+        "properties": {
+          "answer_correctness": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Covered facts / required facts; null for unanswerable questions.",
+            "title": "Answer Correctness"
+          },
+          "citation_accuracy": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Supporting citations / citations; null without citations.",
+            "title": "Citation Accuracy"
+          },
+          "citations": {
+            "description": "Per-citation verdicts.",
+            "items": {
+              "$ref": "#/components/schemas/CitationVerdict"
+            },
+            "title": "Citations",
+            "type": "array"
+          },
+          "claims": {
+            "description": "Per-claim verdicts.",
+            "items": {
+              "$ref": "#/components/schemas/ClaimVerdict"
+            },
+            "title": "Claims",
+            "type": "array"
+          },
+          "facts": {
+            "description": "Per-fact verdicts.",
+            "items": {
+              "$ref": "#/components/schemas/FactVerdict"
+            },
+            "title": "Facts",
+            "type": "array"
+          },
+          "faithfulness": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Supported claims / claims; null for an answer without claims.",
+            "title": "Faithfulness"
+          },
+          "false_refusal": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Answerable question: declined anyway. Null if unanswerable.",
+            "title": "False Refusal"
+          },
+          "refusal": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RefusalVerdict"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The refusal verdict."
+          },
+          "refusal_correct": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Unanswerable question: declined without fabricating. Null if answerable.",
+            "title": "Refusal Correct"
+          }
+        },
+        "required": [
+          "faithfulness",
+          "citation_accuracy",
+          "answer_correctness",
+          "refusal_correct",
+          "false_refusal",
+          "claims",
+          "citations",
+          "facts",
+          "refusal"
+        ],
+        "title": "JudgeVerdicts",
+        "type": "object"
+      },
+      "KeyChange": {
+        "description": "One policy-relevant change in wording and what it signals.",
+        "properties": {
+          "change_ids": {
+            "description": "Ids of the changes (items of `changes`) this point is about.",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 1,
+            "title": "Change Ids",
+            "type": "array"
+          },
+          "direction": {
+            "description": "Policy lean of this change.",
+            "enum": [
+              "hawkish",
+              "neutral",
+              "dovish"
+            ],
+            "title": "Direction",
+            "type": "string"
+          },
+          "interpretation": {
+            "description": "What the change signals for monetary policy.",
+            "title": "Interpretation",
+            "type": "string"
+          },
+          "what_changed": {
+            "description": "What changed, quoting the changed words.",
+            "title": "What Changed",
+            "type": "string"
+          }
+        },
+        "required": [
+          "change_ids",
+          "what_changed",
+          "interpretation",
+          "direction"
+        ],
+        "title": "KeyChange",
+        "type": "object"
+      },
+      "MeetingSummary": {
+        "description": "An FOMC meeting and the document types collected for it.",
+        "properties": {
+          "doc_types": {
+            "description": "Document types collected for this meeting; with as_of, only those released by then.",
+            "items": {
+              "enum": [
+                "statement",
+                "minutes",
+                "sep",
+                "press_conference"
+              ],
+              "type": "string"
+            },
+            "title": "Doc Types",
+            "type": "array"
+          },
+          "has_press_conference": {
+            "description": "True when the Chair held a press conference after the meeting.",
+            "title": "Has Press Conference",
+            "type": "boolean"
+          },
+          "has_sep": {
+            "description": "True when a Summary of Economic Projections was released with the meeting.",
+            "title": "Has Sep",
+            "type": "boolean"
+          },
+          "meeting_date": {
+            "description": "Last day of the FOMC meeting, normally the day its statement was released (two unscheduled meetings, 2019-10-04 and 2020-03-02, released theirs later).",
+            "format": "date",
+            "title": "Meeting Date",
+            "type": "string"
+          },
+          "start_date": {
+            "description": "First day of the meeting; equal to meeting_date for a one-day meeting.",
+            "format": "date",
+            "title": "Start Date",
+            "type": "string"
+          },
+          "unscheduled": {
+            "description": "True for an unscheduled meeting, such as the emergency meetings of March 2020, or a notation vote that issued a statement (2020-03-23).",
+            "title": "Unscheduled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "meeting_date",
+          "start_date",
+          "unscheduled",
+          "has_sep",
+          "has_press_conference",
+          "doc_types"
+        ],
+        "title": "MeetingSummary",
+        "type": "object"
+      },
+      "MetricDifference": {
+        "description": "One metric's paired difference between two rows on the same statements.",
+        "properties": {
+          "ci": {
+            "$ref": "#/components/schemas/ConfidenceInterval",
+            "description": "95% percentile bootstrap interval of the difference (paired resamples)."
+          },
+          "difference": {
+            "description": "Observed difference: minuend minus subtrahend.",
+            "maximum": 1.0,
+            "minimum": -1.0,
+            "title": "Difference",
+            "type": "number"
+          }
+        },
+        "required": [
+          "difference",
+          "ci"
+        ],
+        "title": "MetricDifference",
+        "type": "object"
+      },
+      "MetricInterval": {
+        "description": "A percentile bootstrap interval, resampling questions (EvaluationReport.bootstrap).",
+        "properties": {
+          "high": {
+            "description": "Upper bound.",
+            "title": "High",
+            "type": "number"
+          },
+          "low": {
+            "description": "Lower bound.",
+            "title": "Low",
+            "type": "number"
+          }
+        },
+        "required": [
+          "low",
+          "high"
+        ],
+        "title": "MetricInterval",
+        "type": "object"
+      },
+      "PairedDifference": {
+        "description": "A paired bootstrap comparison of two statement-level rows: both are scored on the same\nresampled statements, so the interval reflects their disagreements, not two separate\nspreads.",
+        "properties": {
+          "accuracy": {
+            "$ref": "#/components/schemas/MetricDifference",
+            "description": "Accuracy difference."
+          },
+          "macro_f1": {
+            "$ref": "#/components/schemas/MetricDifference",
+            "description": "Macro-F1 difference."
+          },
+          "minuend": {
+            "$ref": "#/components/schemas/StatementRowKey",
+            "description": "The row the other is subtracted from."
+          },
+          "n": {
+            "description": "Statements compared.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "subset": {
+            "description": "\"all\" statements with a reference label, or only the \"human_subset\".",
+            "enum": [
+              "all",
+              "human_subset"
+            ],
+            "title": "Subset",
+            "type": "string"
+          },
+          "subtrahend": {
+            "$ref": "#/components/schemas/StatementRowKey",
+            "description": "The row subtracted."
+          }
+        },
+        "required": [
+          "minuend",
+          "subtrahend",
+          "subset",
+          "n",
+          "accuracy",
+          "macro_f1"
+        ],
+        "title": "PairedDifference",
+        "type": "object"
+      },
+      "QuestionDetail": {
+        "description": "One evaluation question in full: gold chunks, each run's retrieval and answer, and the\ntext of every chunk they refer to.",
+        "properties": {
+          "answerable": {
+            "description": "The corpus can answer it.",
+            "title": "Answerable",
+            "type": "boolean"
+          },
+          "as_of": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Point-in-time cutoff, if any.",
+            "title": "As Of"
+          },
+          "gold": {
+            "description": "Gold chunks, primary first.",
+            "items": {
+              "$ref": "#/components/schemas/RelevantChunk"
+            },
+            "title": "Gold",
+            "type": "array"
+          },
+          "human_reviewed": {
+            "default": false,
+            "description": "A human reviewed its labels.",
+            "title": "Human Reviewed",
+            "type": "boolean"
+          },
+          "id": {
+            "description": "Question id.",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$",
+            "title": "Id",
+            "type": "string"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Labelling notes.",
+            "title": "Notes"
+          },
+          "passages": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/EvalPassage"
+            },
+            "description": "Every gold, retrieved or cited chunk by chunk id, each once; a chunk the local search index does not have is missing.",
+            "title": "Passages",
+            "type": "object"
+          },
+          "passages_available": {
+            "description": "The search index could be read here (make index); without it, passages is empty.",
+            "title": "Passages Available",
+            "type": "boolean"
+          },
+          "question": {
+            "description": "The question, as a user would ask it.",
+            "title": "Question",
+            "type": "string"
+          },
+          "reference_answer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reference answer.",
+            "title": "Reference Answer"
+          },
+          "relevant_doc_ids": {
+            "description": "Documents that answer it.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Relevant Doc Ids",
+            "type": "array"
+          },
+          "required_facts": {
+            "description": "Facts a correct answer states.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Required Facts",
+            "type": "array"
+          },
+          "runs": {
+            "description": "One entry per method and config.",
+            "items": {
+              "$ref": "#/components/schemas/RunDetail"
+            },
+            "title": "Runs",
+            "type": "array"
+          },
+          "split": {
+            "description": "dev or test.",
+            "enum": [
+              "dev",
+              "test"
+            ],
+            "title": "Split",
+            "type": "string"
+          },
+          "type": {
+            "description": "Question type.",
+            "enum": [
+              "statement_fact",
+              "minutes_fact",
+              "point_in_time",
+              "date_specific",
+              "multi_doc",
+              "paraphrase",
+              "unanswerable"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "question",
+          "as_of",
+          "type",
+          "split",
+          "answerable",
+          "human_reviewed",
+          "reference_answer",
+          "required_facts",
+          "relevant_doc_ids",
+          "notes",
+          "gold",
+          "runs",
+          "passages",
+          "passages_available"
+        ],
+        "title": "QuestionDetail",
+        "type": "object"
+      },
+      "QuestionSummary": {
+        "description": "A question and its outcome under every run, without passages or answers.",
+        "properties": {
+          "answerable": {
+            "description": "The corpus can answer it.",
+            "title": "Answerable",
+            "type": "boolean"
+          },
+          "as_of": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Point-in-time cutoff, if any.",
+            "title": "As Of"
+          },
+          "human_reviewed": {
+            "default": false,
+            "description": "A human reviewed its labels.",
+            "title": "Human Reviewed",
+            "type": "boolean"
+          },
+          "id": {
+            "description": "Question id.",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$",
+            "title": "Id",
+            "type": "string"
+          },
+          "question": {
+            "description": "The question, as a user would ask it.",
+            "title": "Question",
+            "type": "string"
+          },
+          "runs": {
+            "description": "One entry per method and config.",
+            "items": {
+              "$ref": "#/components/schemas/RunSummary"
+            },
+            "title": "Runs",
+            "type": "array"
+          },
+          "split": {
+            "description": "dev or test.",
+            "enum": [
+              "dev",
+              "test"
+            ],
+            "title": "Split",
+            "type": "string"
+          },
+          "type": {
+            "description": "Question type.",
+            "enum": [
+              "statement_fact",
+              "minutes_fact",
+              "point_in_time",
+              "date_specific",
+              "multi_doc",
+              "paraphrase",
+              "unanswerable"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "question",
+          "as_of",
+          "type",
+          "split",
+          "answerable",
+          "human_reviewed",
+          "runs"
+        ],
+        "title": "QuestionSummary",
+        "type": "object"
+      },
+      "ReferenceLabel": {
+        "description": "The reference stance of a statement that the classifiers are scored against.",
+        "properties": {
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Confidence of the LLM-adjudicated label as the labelling run recorded it (a number in [0, 1] or a level such as \"high\"); null for a human label. NOT a calibrated probability.",
+            "title": "Confidence"
+          },
+          "label": {
+            "description": "Reference stance of the statement.",
+            "enum": [
+              "hawkish",
+              "neutral",
+              "dovish"
+            ],
+            "title": "Label",
+            "type": "string"
+          },
+          "source": {
+            "description": "\"human\" when a human reviewed the statement blind and set the label; otherwise \"llm_adjudicated\": two LLM annotations under the labelling rubric, with disagreements adjudicated by a third pass.",
+            "enum": [
+              "llm_adjudicated",
+              "human"
+            ],
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "source",
+          "confidence"
+        ],
+        "title": "ReferenceLabel",
+        "type": "object"
+      },
+      "ReferenceLabelSummary": {
+        "description": "The statement reference labels as they stand now (data/eval/stance_gold.jsonl).",
+        "properties": {
+          "n_human_reviewed": {
+            "description": "Statements whose reference label was set by a human reviewer.",
+            "minimum": 0.0,
+            "title": "N Human Reviewed",
+            "type": "integer"
+          },
+          "n_labels": {
+            "description": "Statements with a reference label.",
+            "minimum": 0.0,
+            "title": "N Labels",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "n_labels",
+          "n_human_reviewed"
+        ],
+        "title": "ReferenceLabelSummary",
+        "type": "object"
+      },
+      "RefusalVerdict": {
+        "description": "Whether the answer declines, and whether it fabricates.",
+        "properties": {
+          "declined": {
+            "description": "The answer says the passages do not answer the question.",
+            "title": "Declined",
+            "type": "boolean"
+          },
+          "fabricated": {
+            "default": false,
+            "description": "It asserts facts the passages do not contain.",
+            "title": "Fabricated",
+            "type": "boolean"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The judge's short justification.",
+            "title": "Reason"
+          }
+        },
+        "required": [
+          "declined",
+          "fabricated",
+          "reason"
+        ],
+        "title": "RefusalVerdict",
+        "type": "object"
+      },
+      "RelevantChunk": {
+        "description": "A gold chunk of a question.",
+        "properties": {
+          "chunk_id": {
+            "description": "Chunk id in the search index ({doc_id}#{index:04d}).",
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "role": {
+            "description": "\"primary\": answers the question (gain 2); \"supporting\": helps (gain 1).",
+            "enum": [
+              "primary",
+              "supporting"
+            ],
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "chunk_id",
+          "role"
+        ],
+        "title": "RelevantChunk",
+        "type": "object"
+      },
+      "RetrievalRow": {
+        "description": "Retrieval scores of one method and config on one split, over the answerable questions\n(point-in-time cutoffs applied as in /api/ask).",
+        "properties": {
+          "as_of_leaks": {
+            "default": 0,
+            "description": "Retrieved passages released after their question's as_of; must be 0.",
+            "minimum": 0.0,
+            "title": "As Of Leaks",
+            "type": "integer"
+          },
+          "config": {
+            "description": "Retriever config id (EvaluationReport.configs), e.g. phase3 or tuned.",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,31}$",
+            "title": "Config",
+            "type": "string"
+          },
+          "doc_recall_at_10": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "Share of a question's relevant documents in the top 10, with its bootstrap interval over questions."
+          },
+          "doc_recall_at_5": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "Share of a question's relevant documents in the top 5, with its bootstrap interval over questions."
+          },
+          "latency_ms_p50": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Median retrieval latency per question, ms.",
+            "title": "Latency Ms P50"
+          },
+          "latency_ms_p95": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "95th-percentile retrieval latency per question, ms.",
+            "title": "Latency Ms P95"
+          },
+          "method": {
+            "description": "Retrieval method.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "mrr_at_10": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "Reciprocal rank of the first gold chunk in the top 10, with its bootstrap interval over questions."
+          },
+          "n_questions": {
+            "description": "Answerable questions scored.",
+            "minimum": 0.0,
+            "title": "N Questions",
+            "type": "integer"
+          },
+          "ndcg_at_10": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "nDCG@10 with graded gains (primary chunk 2, supporting chunk 1), with its bootstrap interval over questions."
+          },
+          "recall_at_10": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "Share of a question's gold chunks in the top 10, with its bootstrap interval over questions."
+          },
+          "recall_at_5": {
+            "$ref": "#/components/schemas/Estimate",
+            "description": "Share of a question's gold chunks in the top 5, with its bootstrap interval over questions."
+          },
+          "split": {
+            "description": "Questions the row is computed on: \"dev\" (used to choose settings), \"test\" (held out until the settings were fixed) or \"all\".",
+            "enum": [
+              "dev",
+              "test",
+              "all"
+            ],
+            "title": "Split",
+            "type": "string"
+          }
+        },
+        "required": [
+          "method",
+          "config",
+          "split",
+          "n_questions",
+          "recall_at_5",
+          "recall_at_10",
+          "mrr_at_10",
+          "ndcg_at_10",
+          "doc_recall_at_5",
+          "doc_recall_at_10",
+          "latency_ms_p50",
+          "latency_ms_p95",
+          "as_of_leaks"
+        ],
+        "title": "RetrievalRow",
+        "type": "object"
+      },
+      "RetrievedHit": {
+        "description": "A retrieved chunk with its hit marker.",
+        "properties": {
+          "chunk_id": {
+            "description": "Chunk id; its text is QuestionDetail.passages[chunk_id].",
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "doc_id": {
+            "description": "Document id (the part of the chunk id before '#').",
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "doc_match": {
+            "description": "The chunk is from one of the relevant documents.",
+            "title": "Doc Match",
+            "type": "boolean"
+          },
+          "rank": {
+            "description": "1-based rank.",
+            "minimum": 1.0,
+            "title": "Rank",
+            "type": "integer"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "enum": [
+                  "primary",
+                  "supporting"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Gold role of the chunk; null when it is not a gold chunk.",
+            "title": "Role"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Retrieval score, comparable only within a method.",
+            "title": "Score"
+          }
+        },
+        "required": [
+          "rank",
+          "chunk_id",
+          "doc_id",
+          "score",
+          "role",
+          "doc_match"
+        ],
+        "title": "RetrievedHit",
+        "type": "object"
+      },
+      "RetrieverConfig": {
+        "description": "A set of retriever settings every method was run under.",
+        "properties": {
+          "description": {
+            "description": "What the config changes, in a sentence or two.",
+            "title": "Description",
+            "type": "string"
+          },
+          "hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Hash of the settings: part of the answer and judge cache keys.",
+            "title": "Hash"
+          },
+          "id": {
+            "description": "Short id the rows refer to, e.g. phase3 or tuned.",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,31}$",
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "description": "Display name, e.g. 'Phase 3 settings'.",
+            "title": "Label",
+            "type": "string"
+          },
+          "params": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "description": "The settings themselves, by name.",
+            "title": "Params",
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "description",
+          "hash",
+          "params"
+        ],
+        "title": "RetrieverConfig",
+        "type": "object"
+      },
+      "RunDetail": {
+        "description": "One question under one run: what was retrieved and what was answered.",
+        "properties": {
+          "answer": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnswerDetail"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The answer; null when not generated."
+          },
+          "config": {
+            "description": "Retriever config id (EvaluationReport.configs), e.g. phase3 or tuned.",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,31}$",
+            "title": "Config",
+            "type": "string"
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Retrieval latency, ms.",
+            "title": "Latency Ms"
+          },
+          "method": {
+            "description": "Retrieval method.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "retrieved": {
+            "description": "Retrieved chunks in rank order.",
+            "items": {
+              "$ref": "#/components/schemas/RetrievedHit"
+            },
+            "title": "Retrieved",
+            "type": "array"
+          },
+          "scores": {
+            "$ref": "#/components/schemas/RunScores",
+            "description": "Retrieval scores."
+          }
+        },
+        "required": [
+          "method",
+          "config",
+          "latency_ms",
+          "scores",
+          "retrieved",
+          "answer"
+        ],
+        "title": "RunDetail",
+        "type": "object"
+      },
+      "RunKey": {
+        "description": "One retrieval method under one retriever config.",
+        "properties": {
+          "config": {
+            "description": "Retriever config id (EvaluationReport.configs), e.g. phase3 or tuned.",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,31}$",
+            "title": "Config",
+            "type": "string"
+          },
+          "method": {
+            "description": "Retrieval method.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Method",
+            "type": "string"
+          }
+        },
+        "required": [
+          "method",
+          "config"
+        ],
+        "title": "RunKey",
+        "type": "object"
+      },
+      "RunScores": {
+        "description": "One question's retrieval scores under one run.",
+        "properties": {
+          "doc_recall_at_10": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Document recall@10 of this question; null when it does not apply (e.g. unanswerable).",
+            "title": "Doc Recall At 10"
+          },
+          "doc_recall_at_5": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Document recall@5 of this question; null when it does not apply (e.g. unanswerable).",
+            "title": "Doc Recall At 5"
+          },
+          "first_relevant_rank": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Rank of the first gold chunk in the top 10; null if none.",
+            "title": "First Relevant Rank"
+          },
+          "mrr_at_10": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reciprocal rank of this question; null when it does not apply (e.g. unanswerable).",
+            "title": "Mrr At 10"
+          },
+          "ndcg_at_10": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "nDCG@10 of this question; null when it does not apply (e.g. unanswerable).",
+            "title": "Ndcg At 10"
+          },
+          "recall_at_10": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Recall@10 of this question; null when it does not apply (e.g. unanswerable).",
+            "title": "Recall At 10"
+          },
+          "recall_at_5": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Recall@5 of this question; null when it does not apply (e.g. unanswerable).",
+            "title": "Recall At 5"
+          }
+        },
+        "required": [
+          "first_relevant_rank",
+          "recall_at_5",
+          "recall_at_10",
+          "mrr_at_10",
+          "ndcg_at_10",
+          "doc_recall_at_5",
+          "doc_recall_at_10"
+        ],
+        "title": "RunScores",
+        "type": "object"
+      },
+      "RunSummary": {
+        "description": "One question's outcome under one run, for the question list.",
+        "properties": {
+          "answer_correctness": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As JudgeVerdicts.",
+            "title": "Answer Correctness"
+          },
+          "answered": {
+            "description": "An answer was generated under this run.",
+            "title": "Answered",
+            "type": "boolean"
+          },
+          "citation_accuracy": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As JudgeVerdicts.",
+            "title": "Citation Accuracy"
+          },
+          "config": {
+            "description": "Retriever config id (EvaluationReport.configs), e.g. phase3 or tuned.",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,31}$",
+            "title": "Config",
+            "type": "string"
+          },
+          "declined": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The judge read the answer as declining (RefusalVerdict.declined); null if not judged. Tells a decline the judge still faults (an unsupported claim beside it) from an answer to an unanswerable question.",
+            "title": "Declined"
+          },
+          "faithfulness": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As JudgeVerdicts; null if not judged.",
+            "title": "Faithfulness"
+          },
+          "false_refusal": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As JudgeVerdicts.",
+            "title": "False Refusal"
+          },
+          "first_relevant_rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As RunScores.",
+            "title": "First Relevant Rank"
+          },
+          "method": {
+            "description": "Retrieval method.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "ndcg_at_10": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As RunScores.",
+            "title": "Ndcg At 10"
+          },
+          "recall_at_5": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As RunScores.",
+            "title": "Recall At 5"
+          },
+          "refusal_correct": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As JudgeVerdicts.",
+            "title": "Refusal Correct"
+          }
+        },
+        "required": [
+          "method",
+          "config",
+          "first_relevant_rank",
+          "recall_at_5",
+          "ndcg_at_10",
+          "answered",
+          "faithfulness",
+          "citation_accuracy",
+          "answer_correctness",
+          "refusal_correct",
+          "false_refusal",
+          "declined"
+        ],
+        "title": "RunSummary",
+        "type": "object"
+      },
+      "SampledRun": {
+        "description": "How many of the validation sample's answers come from one run.",
+        "properties": {
+          "config": {
+            "description": "Retriever config id (EvaluationReport.configs), e.g. phase3 or tuned.",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,31}$",
+            "title": "Config",
+            "type": "string"
+          },
+          "method": {
+            "description": "Retrieval method.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "n": {
+            "description": "Sampled answers of this run.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "method",
+          "config",
+          "n"
+        ],
+        "title": "SampledRun",
+        "type": "object"
+      },
+      "SentenceBaseline": {
+        "description": "A reference point that uses no classifier, on one TDW test split (mean and sd over the\nseeds): the floor a sentence classifier has to clear.",
+        "properties": {
+          "accuracy_mean": {
+            "description": "Accuracy, mean over the seeds.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Accuracy Mean",
+            "type": "number"
+          },
+          "accuracy_sd": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Accuracy, sample standard deviation over the seeds; null for one seed.",
+            "title": "Accuracy Sd"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "enum": [
+                  "hawkish",
+                  "neutral",
+                  "dovish"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The stance it always predicts; null when the seeds' majority classes differ.",
+            "title": "Label"
+          },
+          "macro_f1_mean": {
+            "description": "Macro-F1, mean over the seeds.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Macro F1 Mean",
+            "type": "number"
+          },
+          "macro_f1_sd": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Macro-F1, sample standard deviation over the seeds; null for one seed.",
+            "title": "Macro F1 Sd"
+          },
+          "n_seeds": {
+            "description": "Number of train/test seeds averaged.",
+            "minimum": 1.0,
+            "title": "N Seeds",
+            "type": "integer"
+          },
+          "n_test_mean": {
+            "description": "Test sentences per seed, on average.",
+            "minimum": 0.0,
+            "title": "N Test Mean",
+            "type": "number"
+          },
+          "name": {
+            "const": "majority_class",
+            "description": "\"majority_class\": each seed's most frequent training label, always.",
+            "title": "Name",
+            "type": "string"
+          },
+          "split": {
+            "description": "Test split, as in SentenceBenchmark.",
+            "enum": [
+              "official",
+              "deduplicated"
+            ],
+            "title": "Split",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "label",
+          "split",
+          "macro_f1_mean",
+          "macro_f1_sd",
+          "accuracy_mean",
+          "accuracy_sd",
+          "n_seeds",
+          "n_test_mean"
+        ],
+        "title": "SentenceBaseline",
+        "type": "object"
+      },
+      "SentenceBenchmark": {
+        "description": "Sentence-level scores of one classifier on one test split of Trillion Dollar Words, as\nthe mean and standard deviation over the dataset's three train/test seeds.",
+        "properties": {
+          "accuracy_mean": {
+            "description": "Accuracy, mean over the seeds.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Accuracy Mean",
+            "type": "number"
+          },
+          "accuracy_sd": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Accuracy, sample standard deviation over the seeds; null for one seed.",
+            "title": "Accuracy Sd"
+          },
+          "classifier": {
+            "description": "Classifier being scored.",
+            "enum": [
+              "keyword",
+              "finbert",
+              "llm_zero_shot",
+              "llm_few_shot"
+            ],
+            "title": "Classifier",
+            "type": "string"
+          },
+          "macro_f1_mean": {
+            "description": "Macro-F1, mean over the seeds.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Macro F1 Mean",
+            "type": "number"
+          },
+          "macro_f1_sd": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Macro-F1, sample standard deviation over the seeds; null for one seed.",
+            "title": "Macro F1 Sd"
+          },
+          "n_seeds": {
+            "description": "Number of train/test seeds averaged.",
+            "minimum": 1.0,
+            "title": "N Seeds",
+            "type": "integer"
+          },
+          "n_test_mean": {
+            "description": "Test sentences per seed, on average.",
+            "minimum": 0.0,
+            "title": "N Test Mean",
+            "type": "number"
+          },
+          "per_class_f1_mean": {
+            "$ref": "#/components/schemas/StanceF1",
+            "description": "F1 of each class, mean over the seeds."
+          },
+          "split": {
+            "description": "\"official\": the published test split. \"deduplicated\": the test split minus sentences whose text also appears in that seed's train split.",
+            "enum": [
+              "official",
+              "deduplicated"
+            ],
+            "title": "Split",
+            "type": "string"
+          }
+        },
+        "required": [
+          "classifier",
+          "split",
+          "macro_f1_mean",
+          "macro_f1_sd",
+          "accuracy_mean",
+          "accuracy_sd",
+          "per_class_f1_mean",
+          "n_seeds",
+          "n_test_mean"
+        ],
+        "title": "SentenceBenchmark",
+        "type": "object"
+      },
+      "SentenceChange": {
+        "description": "One item of the sentence alignment: a base/target sentence pair, or a lone sentence.",
+        "properties": {
+          "base": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Sentence of the base statement; null if added.",
+            "title": "Base"
+          },
+          "id": {
+            "description": "Index of the item in `changes`; the analysis cites changes by it. Stable for a given pair of statement texts.",
+            "minimum": 0.0,
+            "title": "Id",
+            "type": "integer"
+          },
+          "kind": {
+            "description": "\"unchanged\" (identical up to whitespace), \"modified\" (aligned with a similarity at or above the threshold), \"added\" (only in target) or \"removed\" (only in base).",
+            "enum": [
+              "unchanged",
+              "modified",
+              "added",
+              "removed"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "procedural": {
+            "description": "A roll call, vote tally or similar note rather than policy content.",
+            "title": "Procedural",
+            "type": "boolean"
+          },
+          "segments": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/DiffSegment"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Word-level diff of a modified pair: the equal and delete segments rebuild the base sentence exactly, the equal and insert segments the target one. Null otherwise.",
+            "title": "Segments"
+          },
+          "similarity": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Word-level similarity of the pair (difflib ratio on lower-cased word tokens); null if added or removed.",
+            "title": "Similarity"
+          },
+          "target": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Sentence of the target statement; null if removed.",
+            "title": "Target"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "base",
+          "target",
+          "similarity",
+          "procedural",
+          "segments"
+        ],
+        "title": "SentenceChange",
+        "type": "object"
+      },
+      "SourceDocument": {
+        "description": "An FOMC document that an answer or comparison is grounded in.",
+        "properties": {
+          "doc_id": {
+            "description": "Stable identifier of the document.",
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "doc_type": {
+            "description": "Kind of FOMC document.",
+            "enum": [
+              "statement",
+              "minutes",
+              "sep",
+              "press_conference"
+            ],
+            "title": "Doc Type",
+            "type": "string"
+          },
+          "meeting_date": {
+            "description": "Date of the FOMC meeting the document belongs to.",
+            "format": "date",
+            "title": "Meeting Date",
+            "type": "string"
+          },
+          "page_updated": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The Fed's \"Last Update\" stamp on the page. Later than release_date means the stored text was revised after release; null when the page has no stamp.",
+            "title": "Page Updated"
+          },
+          "release_date": {
+            "description": "Date the document became public. Point-in-time retrieval filters on this, not meeting_date, because minutes are released about three weeks after the meeting.",
+            "format": "date",
+            "title": "Release Date",
+            "type": "string"
+          },
+          "title": {
+            "description": "Human-readable document title.",
+            "title": "Title",
+            "type": "string"
+          },
+          "url": {
+            "description": "Canonical source URL of the document.",
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "doc_type",
+          "meeting_date",
+          "release_date",
+          "page_updated",
+          "title",
+          "url"
+        ],
+        "title": "SourceDocument",
+        "type": "object"
+      },
+      "SplitCount": {
+        "description": "Questions in one split.",
+        "properties": {
+          "n": {
+            "description": "Questions.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "n_answerable": {
+            "description": "Questions the corpus can answer.",
+            "minimum": 0.0,
+            "title": "N Answerable",
+            "type": "integer"
+          },
+          "split": {
+            "description": "dev or test.",
+            "enum": [
+              "dev",
+              "test"
+            ],
+            "title": "Split",
+            "type": "string"
+          }
+        },
+        "required": [
+          "split",
+          "n",
+          "n_answerable"
+        ],
+        "title": "SplitCount",
+        "type": "object"
+      },
+      "StanceBenchmark": {
+        "description": "How well each stance classifier does, on sentences and on whole statements.",
+        "properties": {
+          "dataset": {
+            "$ref": "#/components/schemas/BenchmarkDataset",
+            "description": "Sentence-level benchmark dataset."
+          },
+          "generated_at": {
+            "description": "When the benchmark was computed.",
+            "format": "date-time",
+            "title": "Generated At",
+            "type": "string"
+          },
+          "reference_labels": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReferenceLabelSummary"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The reference labels as they stand now, which can be newer than the statement-level scores; null when there are none."
+          },
+          "sentence_baselines": {
+            "description": "Reference points with no classifier on the same test splits.",
+            "items": {
+              "$ref": "#/components/schemas/SentenceBaseline"
+            },
+            "title": "Sentence Baselines",
+            "type": "array"
+          },
+          "sentence_level": {
+            "description": "One entry per classifier and test split.",
+            "items": {
+              "$ref": "#/components/schemas/SentenceBenchmark"
+            },
+            "title": "Sentence Level",
+            "type": "array"
+          },
+          "statement_baselines": {
+            "description": "Reference points with no classifier on the same statements.",
+            "items": {
+              "$ref": "#/components/schemas/StatementBaseline"
+            },
+            "title": "Statement Baselines",
+            "type": "array"
+          },
+          "statement_bootstrap": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StatementBootstrap"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The bootstrap behind the statement-level intervals, with paired comparisons; null when not computed."
+          },
+          "statement_level": {
+            "description": "One entry per classifier and aggregation variant (pre-registered first); empty until reference labels exist.",
+            "items": {
+              "$ref": "#/components/schemas/StatementBenchmark"
+            },
+            "title": "Statement Level",
+            "type": "array"
+          }
+        },
+        "required": [
+          "generated_at",
+          "dataset",
+          "sentence_level",
+          "statement_level",
+          "sentence_baselines",
+          "statement_baselines",
+          "statement_bootstrap",
+          "reference_labels"
+        ],
+        "title": "StanceBenchmark",
+        "type": "object"
+      },
+      "StanceF1": {
+        "description": "F1 score of each stance class.",
+        "properties": {
+          "dovish": {
+            "description": "F1 of the dovish class.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Dovish",
+            "type": "number"
+          },
+          "hawkish": {
+            "description": "F1 of the hawkish class.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Hawkish",
+            "type": "number"
+          },
+          "neutral": {
+            "description": "F1 of the neutral class.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Neutral",
+            "type": "number"
+          }
+        },
+        "required": [
+          "dovish",
+          "neutral",
+          "hawkish"
+        ],
+        "title": "StanceF1",
+        "type": "object"
+      },
+      "StanceResult": {
+        "description": "Stance of one FOMC meeting according to one classifier.",
+        "properties": {
+          "classifier": {
+            "description": "Classifier that produced this result.",
+            "enum": [
+              "keyword",
+              "finbert",
+              "llm_zero_shot",
+              "llm_few_shot"
+            ],
+            "title": "Classifier",
+            "type": "string"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Model-reported confidence (LLM classifiers) or |score| (sentence classifiers). NOT a calibrated probability.",
+            "title": "Confidence"
+          },
+          "doc_id": {
+            "description": "Document that was classified.",
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "evidence": {
+            "description": "Sentences quoted verbatim from the document that drove the call.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "key_factors": {
+            "description": "Short phrases summarising what drove the call.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Key Factors",
+            "type": "array"
+          },
+          "meeting_date": {
+            "description": "Date of the FOMC meeting.",
+            "format": "date",
+            "title": "Meeting Date",
+            "type": "string"
+          },
+          "model_version": {
+            "description": "Model, prompt or lexicon version that produced the result.",
+            "title": "Model Version",
+            "type": "string"
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReferenceLabel"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reference label of the statement (data/eval/stance_gold.jsonl); null when there is none."
+          },
+          "score": {
+            "description": "Model-reported stance score: +1 most hawkish, -1 most dovish. NOT a calibrated probability.",
+            "maximum": 1.0,
+            "minimum": -1.0,
+            "title": "Score",
+            "type": "number"
+          },
+          "stance": {
+            "description": "Predicted policy stance.",
+            "enum": [
+              "hawkish",
+              "neutral",
+              "dovish"
+            ],
+            "title": "Stance",
+            "type": "string"
+          },
+          "url": {
+            "description": "Canonical source URL of the classified document.",
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "meeting_date",
+          "doc_id",
+          "classifier",
+          "stance",
+          "score",
+          "confidence",
+          "key_factors",
+          "evidence",
+          "model_version",
+          "url",
+          "reference"
+        ],
+        "title": "StanceResult",
+        "type": "object"
+      },
+      "StanceSnapshot": {
+        "description": "A statement's stance according to one classifier (GET /api/stance has the details).",
+        "properties": {
+          "classifier": {
+            "description": "Classifier that produced the stance.",
+            "enum": [
+              "keyword",
+              "finbert",
+              "llm_zero_shot",
+              "llm_few_shot"
+            ],
+            "title": "Classifier",
+            "type": "string"
+          },
+          "score": {
+            "description": "Model-reported stance score: +1 most hawkish, -1 most dovish. NOT a calibrated probability.",
+            "maximum": 1.0,
+            "minimum": -1.0,
+            "title": "Score",
+            "type": "number"
+          },
+          "stance": {
+            "description": "Predicted policy stance.",
+            "enum": [
+              "hawkish",
+              "neutral",
+              "dovish"
+            ],
+            "title": "Stance",
+            "type": "string"
+          }
+        },
+        "required": [
+          "classifier",
+          "stance",
+          "score"
+        ],
+        "title": "StanceSnapshot",
+        "type": "object"
+      },
+      "StanceTimeline": {
+        "description": "Stance results for a range of meetings, in meeting order, with the policy rate.",
+        "properties": {
+          "classifier": {
+            "description": "Classifier that produced the results.",
+            "enum": [
+              "keyword",
+              "finbert",
+              "llm_zero_shot",
+              "llm_few_shot"
+            ],
+            "title": "Classifier",
+            "type": "string"
+          },
+          "fed_funds": {
+            "description": "Change points of the federal funds target range in date order: first the range in force on `start` (its date can be earlier than `start`), then every change up to `end`. Without `start`, every change point up to `end`. Empty when not loaded.",
+            "items": {
+              "$ref": "#/components/schemas/FedFundsTarget"
+            },
+            "title": "Fed Funds",
+            "type": "array"
+          },
+          "points": {
+            "description": "One result per meeting.",
+            "items": {
+              "$ref": "#/components/schemas/StanceResult"
+            },
+            "title": "Points",
+            "type": "array"
+          }
+        },
+        "required": [
+          "classifier",
+          "points",
+          "fed_funds"
+        ],
+        "title": "StanceTimeline",
+        "type": "object"
+      },
+      "StatementBaseline": {
+        "description": "A reference point that uses no classifier, scored against the reference labels like a\nstatement-level row.",
+        "properties": {
+          "accuracy": {
+            "description": "Share of statements labelled as the reference.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Accuracy",
+            "type": "number"
+          },
+          "accuracy_ci": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ConfidenceInterval"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "95% percentile bootstrap interval of the accuracy, resampling statements (StanceBenchmark.statement_bootstrap); null when not computed."
+          },
+          "human_subset": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StatementScores"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The same scores on the human-reviewed statements; null before any review."
+          },
+          "kappa": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": -1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Cohen's kappa with the reference; null when undefined.",
+            "title": "Kappa"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "enum": [
+                  "hawkish",
+                  "neutral",
+                  "dovish"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The stance it always predicts (majority_class); null otherwise.",
+            "title": "Label"
+          },
+          "macro_f1": {
+            "description": "Macro-F1 over the three stances.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Macro F1",
+            "type": "number"
+          },
+          "macro_f1_ci": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ConfidenceInterval"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "95% percentile bootstrap interval of the macro-F1, resampling statements (StanceBenchmark.statement_bootstrap); null when not computed."
+          },
+          "n": {
+            "description": "Statements that have a reference label.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "name": {
+            "description": "\"majority_class\": always the most frequent reference label. \"rate_move_rule\": the verb of the statement's rate-action sentence decides a move (raise or increase hawkish, lower, reduce or cut dovish) and anything else is neutral; a post-hoc control for the post-hoc rows, showing what detecting the move alone scores.",
+            "enum": [
+              "majority_class",
+              "rate_move_rule"
+            ],
+            "title": "Name",
+            "type": "string"
+          },
+          "post_hoc": {
+            "description": "Designed after the pre-registered results were seen.",
+            "title": "Post Hoc",
+            "type": "boolean"
+          },
+          "spearman": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": -1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Spearman rank correlation of its call (dovish -1, neutral 0, hawkish +1) with the reference stance; null when undefined (a constant call).",
+            "title": "Spearman"
+          }
+        },
+        "required": [
+          "name",
+          "label",
+          "post_hoc",
+          "n",
+          "accuracy",
+          "macro_f1",
+          "kappa",
+          "spearman",
+          "accuracy_ci",
+          "macro_f1_ci",
+          "human_subset"
+        ],
+        "title": "StatementBaseline",
+        "type": "object"
+      },
+      "StatementBenchmark": {
+        "description": "Statement-level agreement of one classifier with the reference labels.",
+        "properties": {
+          "accuracy": {
+            "description": "Share of statements labelled as the reference.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Accuracy",
+            "type": "number"
+          },
+          "accuracy_ci": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ConfidenceInterval"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "95% percentile bootstrap interval of the accuracy, resampling statements (StanceBenchmark.statement_bootstrap); null when not computed."
+          },
+          "classifier": {
+            "description": "Classifier being scored.",
+            "enum": [
+              "keyword",
+              "finbert",
+              "llm_zero_shot",
+              "llm_few_shot"
+            ],
+            "title": "Classifier",
+            "type": "string"
+          },
+          "human_subset": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StatementScores"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The same scores on only the statements whose reference label a human set in a blind review; null before any review."
+          },
+          "kappa": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": -1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Cohen's kappa with the reference; null when undefined.",
+            "title": "Kappa"
+          },
+          "macro_f1": {
+            "description": "Macro-F1 over the three stances.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Macro F1",
+            "type": "number"
+          },
+          "macro_f1_ci": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ConfidenceInterval"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "95% percentile bootstrap interval of the macro-F1, resampling statements (StanceBenchmark.statement_bootstrap); null when not computed."
+          },
+          "n": {
+            "description": "Statements that have both a prediction and a reference.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "reference": {
+            "description": "Reference labels the scores were computed against: \"llm_adjudicated\" (no human review yet), \"mixed\" (some statements human-reviewed) or \"human\".",
+            "enum": [
+              "llm_adjudicated",
+              "mixed",
+              "human"
+            ],
+            "title": "Reference",
+            "type": "string"
+          },
+          "spearman": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": -1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Spearman rank correlation of the classifier's score with the reference stance (dovish -1, neutral 0, hawkish +1): agreement in ordering, free of any label threshold; null when undefined.",
+            "title": "Spearman"
+          },
+          "variant": {
+            "default": "pre_registered",
+            "description": "How a statement's stance was obtained. \"pre_registered\": the method fixed before any reference label existed (the LLM judges the whole statement; a sentence classifier's sentence scores are averaged and cut at +-0.15); every timeline result is this variant. \"post_hoc_rubric_ordered\" (sentence classifiers only): the rate-action sentence's label decides, else the mean score of the rate-guidance sentences, else neutral; designed after the pre-registered results were seen.",
+            "enum": [
+              "pre_registered",
+              "post_hoc_rubric_ordered"
+            ],
+            "title": "Variant",
+            "type": "string"
+          }
+        },
+        "required": [
+          "classifier",
+          "variant",
+          "n",
+          "accuracy",
+          "macro_f1",
+          "kappa",
+          "reference",
+          "spearman",
+          "accuracy_ci",
+          "macro_f1_ci",
+          "human_subset"
+        ],
+        "title": "StatementBenchmark",
+        "type": "object"
+      },
+      "StatementBootstrap": {
+        "description": "How the statement-level intervals were computed, and the paired comparisons.",
+        "properties": {
+          "baseline_differences": {
+            "description": "Paired comparisons of selected rows with a baseline.",
+            "items": {
+              "$ref": "#/components/schemas/BaselineDifference"
+            },
+            "title": "Baseline Differences",
+            "type": "array"
+          },
+          "level": {
+            "description": "Confidence level of the intervals.",
+            "exclusiveMaximum": 1.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Level",
+            "type": "number"
+          },
+          "method": {
+            "description": "The resampling method, in words.",
+            "title": "Method",
+            "type": "string"
+          },
+          "paired_differences": {
+            "description": "Paired comparisons of selected rows.",
+            "items": {
+              "$ref": "#/components/schemas/PairedDifference"
+            },
+            "title": "Paired Differences",
+            "type": "array"
+          },
+          "resamples": {
+            "description": "Bootstrap resamples.",
+            "minimum": 1.0,
+            "title": "Resamples",
+            "type": "integer"
+          },
+          "seed": {
+            "description": "Seed of the random number generator.",
+            "title": "Seed",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "method",
+          "resamples",
+          "seed",
+          "level",
+          "paired_differences",
+          "baseline_differences"
+        ],
+        "title": "StatementBootstrap",
+        "type": "object"
+      },
+      "StatementRowKey": {
+        "description": "Which statement-level row a comparison refers to.",
+        "properties": {
+          "classifier": {
+            "description": "Classifier of the row.",
+            "enum": [
+              "keyword",
+              "finbert",
+              "llm_zero_shot",
+              "llm_few_shot"
+            ],
+            "title": "Classifier",
+            "type": "string"
+          },
+          "variant": {
+            "description": "Aggregation variant of the row.",
+            "enum": [
+              "pre_registered",
+              "post_hoc_rubric_ordered"
+            ],
+            "title": "Variant",
+            "type": "string"
+          }
+        },
+        "required": [
+          "classifier",
+          "variant"
+        ],
+        "title": "StatementRowKey",
+        "type": "object"
+      },
+      "StatementScores": {
+        "description": "Agreement of one classifier with the reference labels on a subset of the statements.",
+        "properties": {
+          "accuracy": {
+            "description": "Share of statements labelled as the reference.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Accuracy",
+            "type": "number"
+          },
+          "accuracy_ci": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ConfidenceInterval"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "95% percentile bootstrap interval of the accuracy, resampling statements (StanceBenchmark.statement_bootstrap); null when not computed."
+          },
+          "kappa": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": -1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Cohen's kappa with the reference; null when undefined.",
+            "title": "Kappa"
+          },
+          "macro_f1": {
+            "description": "Macro-F1 over the three stances.",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Macro F1",
+            "type": "number"
+          },
+          "macro_f1_ci": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ConfidenceInterval"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "95% percentile bootstrap interval of the macro-F1, resampling statements (StanceBenchmark.statement_bootstrap); null when not computed."
+          },
+          "n": {
+            "description": "Statements in the subset.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "n",
+          "accuracy",
+          "macro_f1",
+          "kappa",
+          "accuracy_ci",
+          "macro_f1_ci"
+        ],
+        "title": "StatementScores",
+        "type": "object"
+      },
+      "StreamCitation": {
+        "description": "Data of a `citation` event: a passage the answer cites for the first time, sent just\nbefore the delta that cites it.",
+        "properties": {
+          "citation": {
+            "$ref": "#/components/schemas/Citation",
+            "description": "The cited passage."
+          },
+          "n": {
+            "description": "Citation number: [n] markers refer to this passage, and it is citations[n - 1] of the final answer.",
+            "minimum": 1.0,
+            "title": "N",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "n",
+          "citation"
+        ],
+        "title": "StreamCitation",
+        "type": "object"
+      },
+      "StreamDelta": {
+        "description": "Data of a `delta` event: the next piece of a streamed answer.",
+        "properties": {
+          "text": {
+            "description": "Answer text to append. Its [n] markers already carry their final citation numbers, and a marker is never split across deltas.",
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "StreamDelta",
+        "type": "object"
+      },
+      "StreamError": {
+        "description": "Data of an `error` event: the answer failed after the stream started, which ends it.",
+        "properties": {
+          "detail": {
+            "description": "Human-readable error message.",
+            "title": "Detail",
+            "type": "string"
+          },
+          "status": {
+            "description": "HTTP status POST /api/ask returns for the same failure: 502 when the OpenAI request failed, 503 when the index or the reranker became unavailable, 500 otherwise.",
+            "title": "Status",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "status",
+          "detail"
+        ],
+        "title": "StreamError",
+        "type": "object"
+      },
+      "StreamStatus": {
+        "description": "Data of a `status` event: the stage a streamed answer has reached.",
+        "properties": {
+          "stage": {
+            "description": "retrieving: searching for passages; generating: the LLM is writing the answer.",
+            "enum": [
+              "retrieving",
+              "generating"
+            ],
+            "title": "Stage",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage"
+        ],
+        "title": "StreamStatus",
+        "type": "object"
+      },
+      "TypeCount": {
+        "description": "Questions of one type.",
+        "properties": {
+          "n": {
+            "description": "Questions.",
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "n_answerable": {
+            "description": "Questions the corpus can answer.",
+            "minimum": 0.0,
+            "title": "N Answerable",
+            "type": "integer"
+          },
+          "type": {
+            "description": "Question type.",
+            "enum": [
+              "statement_fact",
+              "minutes_fact",
+              "point_in_time",
+              "date_specific",
+              "multi_doc",
+              "paraphrase",
+              "unanswerable"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "n",
+          "n_answerable"
+        ],
+        "title": "TypeCount",
+        "type": "object"
+      },
+      "TypeRow": {
+        "description": "Scores of one method and config on the questions of one type.",
+        "properties": {
+          "answer_correctness": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As AnswerRow."
+          },
+          "citation_accuracy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As AnswerRow."
+          },
+          "config": {
+            "description": "Retriever config id (EvaluationReport.configs), e.g. phase3 or tuned.",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,31}$",
+            "title": "Config",
+            "type": "string"
+          },
+          "doc_recall_at_10": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As RetrievalRow."
+          },
+          "doc_recall_at_5": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As RetrievalRow."
+          },
+          "faithfulness": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As AnswerRow."
+          },
+          "false_refusal_rate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As AnswerRow."
+          },
+          "method": {
+            "description": "Retrieval method.",
+            "enum": [
+              "bm25",
+              "dense",
+              "hybrid",
+              "hybrid_rerank"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "mrr_at_10": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As RetrievalRow."
+          },
+          "n_questions": {
+            "description": "Questions of this type in the split.",
+            "minimum": 0.0,
+            "title": "N Questions",
+            "type": "integer"
+          },
+          "ndcg_at_10": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As RetrievalRow."
+          },
+          "recall_at_10": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As RetrievalRow."
+          },
+          "recall_at_5": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As RetrievalRow."
+          },
+          "refusal_accuracy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "As AnswerRow."
+          },
+          "split": {
+            "description": "Questions the row is computed on: \"dev\" (used to choose settings), \"test\" (held out until the settings were fixed) or \"all\".",
+            "enum": [
+              "dev",
+              "test",
+              "all"
+            ],
+            "title": "Split",
+            "type": "string"
+          },
+          "type": {
+            "description": "Question type.",
+            "enum": [
+              "statement_fact",
+              "minutes_fact",
+              "point_in_time",
+              "date_specific",
+              "multi_doc",
+              "paraphrase",
+              "unanswerable"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "method",
+          "config",
+          "split",
+          "type",
+          "n_questions",
+          "recall_at_5",
+          "recall_at_10",
+          "mrr_at_10",
+          "ndcg_at_10",
+          "doc_recall_at_5",
+          "doc_recall_at_10",
+          "faithfulness",
+          "citation_accuracy",
+          "answer_correctness",
+          "refusal_accuracy",
+          "false_refusal_rate"
+        ],
+        "title": "TypeRow",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "FedRAG analyses Federal Reserve (FOMC) communications: it answers questions with retrieval-augmented generation grounded in cited statements and minutes, classifies each meeting's policy stance as hawkish, neutral or dovish, compares two statements sentence by sentence, and benchmarks the retrieval strategies behind it. Endpoints backed by Postgres return 503 while DATABASE_URL is not set or the database cannot be reached, Ask the Fed returns 503 until OPENAI_API_KEY is set and the search index is built (make index), and the evaluation returns 503 until make rag-eval has written data/eval/rag_benchmark.json. On the public demo (PUBLIC_DEMO=true; GET /api/health reports demo_mode) nothing calls OpenAI: Ask the Fed returns 403 and GET /api/ask/examples serves recorded answers instead, and comparisons serve stored analyses only (analysis_status \"disabled_on_demo\" otherwise).",
+    "title": "FedRAG API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/ask": {
+      "post": {
+        "description": "Answer a question from retrieved FOMC passages, citing the ones the answer relies on.\n\nWith `as_of` only documents released by then are searched, and the model is told to answer as\nof that date. Each `[n]` marker in the answer refers to `citations[n - 1]`. Disabled (403) on\nthe public demo, after request validation.",
+        "operationId": "ask",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AskRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AskResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Disabled on the public demo (PUBLIC_DEMO=true), which makes no OpenAI calls; GET /api/ask/examples serves recorded answers instead."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "The OpenAI request failed: network error, rate limit, no credit left on the OpenAI account, or bad key."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "LLM not configured (OPENAI_API_KEY is not set), the search index not built yet (run make index), or the reranker model unavailable."
+          }
+        },
+        "summary": "Ask a question about FOMC communications",
+        "tags": [
+          "ask"
+        ]
+      }
+    },
+    "/api/ask/examples": {
+      "get": {
+        "description": "Real answers of the production configuration (hybrid + rerank under the tuned retriever\npreset), recorded during the RAG evaluation, each with its citations, the question's\nevaluation id and the evaluation judge's verdicts.\n\nRead from data/eval/ask_examples.json (make ask-examples); serving them calls no LLM, so they\nare available in every mode, including the public demo, where they stand in for live\nanswers.",
+        "operationId": "listAskExamples",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AskExample"
+                  },
+                  "title": "Response Listaskexamples",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "The example answers have not been exported (make ask-examples), or their file does not fit the contract."
+          }
+        },
+        "summary": "Recorded example answers",
+        "tags": [
+          "ask"
+        ]
+      }
+    },
+    "/api/ask/stream": {
+      "post": {
+        "description": "Answer like POST /api/ask, streaming the answer as server-sent events.\n\nA missing key, index or reranker is an HTTP error before the stream starts, as for /api/ask,\nand so is the public demo's 403. The `done` event carries the same AskResponse that /api/ask\nreturns. If the client disconnects, generation stops.",
+        "operationId": "askStream",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AskRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/event-stream": {
+                "itemSchema": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "data": {
+                          "contentMediaType": "application/json",
+                          "contentSchema": {
+                            "$ref": "#/components/schemas/StreamStatus"
+                          }
+                        },
+                        "event": {
+                          "const": "status"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "contentMediaType": "application/json",
+                          "contentSchema": {
+                            "$ref": "#/components/schemas/StreamDelta"
+                          }
+                        },
+                        "event": {
+                          "const": "delta"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "contentMediaType": "application/json",
+                          "contentSchema": {
+                            "$ref": "#/components/schemas/StreamCitation"
+                          }
+                        },
+                        "event": {
+                          "const": "citation"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "contentMediaType": "application/json",
+                          "contentSchema": {
+                            "$ref": "#/components/schemas/AskResponse"
+                          }
+                        },
+                        "event": {
+                          "const": "done"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "contentMediaType": "application/json",
+                          "contentSchema": {
+                            "$ref": "#/components/schemas/StreamError"
+                          }
+                        },
+                        "event": {
+                          "const": "error"
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "string"
+                    },
+                    "event": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "retry": {
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "event",
+                    "data"
+                  ],
+                  "type": "object"
+                },
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/StreamStatus"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StreamDelta"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StreamCitation"
+                    },
+                    {
+                      "$ref": "#/components/schemas/AskResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StreamError"
+                    }
+                  ],
+                  "title": "Response 200 Askstream"
+                }
+              }
+            },
+            "description": "A text/event-stream; each event is `event: <name>` and `data: <JSON>`. In order: `status` (StreamStatus) when retrieval starts and again when generation starts; then `delta` (StreamDelta), the next piece of the answer with final citation numbers, each passage's first citation preceded by `citation` (StreamCitation); last `done` (AskResponse), the final answer that replaces the streamed text. A failure after the stream started ends it with `error` (StreamError) instead of `done`. Comment lines (`: ping`) keep an idle connection open. The schema is the union of the data payloads."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Disabled on the public demo (PUBLIC_DEMO=true), which makes no OpenAI calls; GET /api/ask/examples serves recorded answers instead."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "LLM not configured (OPENAI_API_KEY is not set), the search index not built yet (run make index), or the reranker model unavailable."
+          }
+        },
+        "summary": "Ask a question and stream the answer as it is written",
+        "tags": [
+          "ask"
+        ]
+      }
+    },
+    "/api/compare": {
+      "post": {
+        "description": "Sentence-level diff of the FOMC statements of two meetings, looked up by meeting date,\nwith an LLM reading of what the changed wording signals and each statement's stored stance.\n\nThe diff is deterministic and needs no LLM: sentences are aligned in order, each item is\nunchanged, modified (with a word-level diff), added or removed, and ids index `changes`.\nThe analysis reads only the changed items and the target statement, as of the target's\nrelease date; it is stored per pair, so `analysis=\"generate\"` normally pays for one LLM call\nper pair (a second when the first reply cannot be parsed); a failed generation is not\nstored, so asking again pays again. Without OPENAI_API_KEY the diff is still returned\n(analysis_status llm_not_configured, unless an analysis is already stored). The public demo\nnever writes one: there the status of a pair without a stored analysis is disabled_on_demo.",
+        "operationId": "compareStatements",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompareResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No FOMC statement for a meeting on base_date or target_date; the message names the nearest statement dates."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Database not configured (DATABASE_URL is not set), not reachable, or not loaded yet (run make db-load)."
+          }
+        },
+        "summary": "Compare two FOMC statements",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/evaluation": {
+      "get": {
+        "description": "Retrieval and answer quality of BM25, dense, hybrid and hybrid + rerank retrieval under\neach retriever config, on the evaluation question set.\n\nRetrieval: chunk-level recall@5/@10, MRR@10 and graded nDCG@10, document-level recall, per\nquestion type and split, and latency. Answers (the production chain of POST /api/ask), scored\nby an LLM judge: faithfulness, citation accuracy, answer correctness, refusals. Means come\nwith percentile bootstrap intervals over questions, and paired intervals for differences\nbetween runs. Every question is listed with its outcome per run; GET\n/api/evaluation/questions/{question_id} has the passages and answers. Read from\ndata/eval/rag_benchmark.json (make rag-eval); serving it calls no LLM.",
+        "operationId": "getEvaluationReport",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationReport"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "The evaluation has not been run yet (run make rag-eval), or its file does not fit the contract."
+          }
+        },
+        "summary": "RAG evaluation report",
+        "tags": [
+          "evaluation"
+        ]
+      }
+    },
+    "/api/evaluation/questions/{question_id}": {
+      "get": {
+        "description": "One question of the evaluation: its labels, the gold passages, and under each run the top\nretrieved passages with hit markers, the answer, and the judge's verdicts on its claims,\ncitations, required facts and refusal.\n\nPassage text comes from the local search index; without one (make index) the ids and\nmarkers are still returned, with `passages_available` false.",
+        "operationId": "getEvaluationQuestion",
+        "parameters": [
+          {
+            "description": "Question id, e.g. sf-05.",
+            "in": "path",
+            "name": "question_id",
+            "required": true,
+            "schema": {
+              "description": "Question id, e.g. sf-05.",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$",
+              "title": "Question Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No question with that id in the evaluation."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "The evaluation has not been run yet (run make rag-eval), or its file does not fit the contract."
+          }
+        },
+        "summary": "One evaluation question in detail",
+        "tags": [
+          "evaluation"
+        ]
+      }
+    },
+    "/api/health": {
+      "get": {
+        "description": "Report the backend version, whether the LLM, database and vector store are set up, and\nwhether this is the public demo, where every feature that would call OpenAI is off.",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Service health",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/meetings": {
+      "get": {
+        "description": "List FOMC meetings in date order and the document types collected for each.\n\nWith `as_of` the list is the point-in-time view on that date: later meetings are left out and\nso are documents released after it, such as minutes that came out weeks after the meeting.",
+        "operationId": "listMeetings",
+        "parameters": [
+          {
+            "description": "Only meetings that have this document type (released by as_of, if given).",
+            "in": "query",
+            "name": "doc_type",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "statement",
+                    "minutes",
+                    "sep",
+                    "press_conference"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only meetings that have this document type (released by as_of, if given).",
+              "title": "Doc Type"
+            }
+          },
+          {
+            "description": "Point-in-time view: only meetings whose meeting_date is on or before this date (an unscheduled meeting only once one of its documents is released), listing only documents released on or before it. Null means no cutoff.",
+            "in": "query",
+            "name": "as_of",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Point-in-time view: only meetings whose meeting_date is on or before this date (an unscheduled meeting only once one of its documents is released), listing only documents released on or before it. Null means no cutoff.",
+              "title": "As Of"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MeetingSummary"
+                  },
+                  "title": "Response Listmeetings",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Database not configured (DATABASE_URL is not set), not reachable, or not loaded yet (run make db-load)."
+          }
+        },
+        "summary": "List FOMC meetings",
+        "tags": [
+          "meetings"
+        ]
+      }
+    },
+    "/api/stance": {
+      "get": {
+        "description": "Hawkish/neutral/dovish stance of every statement in a date range according to one\nclassifier, with each statement's reference label and the federal funds target range.\n\nScores and confidences are model outputs, not calibrated probabilities.",
+        "operationId": "getStanceTimeline",
+        "parameters": [
+          {
+            "description": "Classifier to report. The default, llm_few_shot, was fixed before any results and is not chosen by score; GET /api/stance/benchmark compares the classifiers.",
+            "in": "query",
+            "name": "classifier",
+            "required": false,
+            "schema": {
+              "default": "llm_few_shot",
+              "description": "Classifier to report. The default, llm_few_shot, was fixed before any results and is not chosen by score; GET /api/stance/benchmark compares the classifiers.",
+              "enum": [
+                "keyword",
+                "finbert",
+                "llm_zero_shot",
+                "llm_few_shot"
+              ],
+              "title": "Classifier",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Earliest meeting date (inclusive).",
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Earliest meeting date (inclusive).",
+              "title": "Start"
+            }
+          },
+          {
+            "description": "Latest meeting date (inclusive).",
+            "in": "query",
+            "name": "end",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Latest meeting date (inclusive).",
+              "title": "End"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StanceTimeline"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Database not configured (DATABASE_URL is not set) or not reachable, or no stance results stored for the classifier yet (run make stance)."
+          }
+        },
+        "summary": "Policy stance timeline",
+        "tags": [
+          "stance"
+        ]
+      }
+    },
+    "/api/stance/benchmark": {
+      "get": {
+        "description": "Scores of the four stance classifiers on the Trillion Dollar Words sentence test splits\n(official and deduplicated, mean and sd over three seeds) and on whole FOMC statements\nagainst the reference labels.",
+        "operationId": "getStanceBenchmark",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StanceBenchmark"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "The benchmark file has not been computed yet (run make stance)."
+          }
+        },
+        "summary": "Stance classifier benchmark",
+        "tags": [
+          "stance"
+        ]
+      }
+    },
+    "/api/stance/{meeting_date}": {
+      "get": {
+        "description": "Stance of a single meeting's statement, with the evidence behind it and its reference\nlabel.",
+        "operationId": "getStanceForMeeting",
+        "parameters": [
+          {
+            "description": "FOMC meeting date (YYYY-MM-DD).",
+            "in": "path",
+            "name": "meeting_date",
+            "required": true,
+            "schema": {
+              "description": "FOMC meeting date (YYYY-MM-DD).",
+              "format": "date",
+              "title": "Meeting Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Classifier to report. The default, llm_few_shot, was fixed before any results and is not chosen by score; GET /api/stance/benchmark compares the classifiers.",
+            "in": "query",
+            "name": "classifier",
+            "required": false,
+            "schema": {
+              "default": "llm_few_shot",
+              "description": "Classifier to report. The default, llm_few_shot, was fixed before any results and is not chosen by score; GET /api/stance/benchmark compares the classifiers.",
+              "enum": [
+                "keyword",
+                "finbert",
+                "llm_zero_shot",
+                "llm_few_shot"
+              ],
+              "title": "Classifier",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StanceResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No FOMC statement for a meeting on that date."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Database not configured (DATABASE_URL is not set) or not reachable, or no stance results stored for the classifier yet (run make stance)."
+          }
+        },
+        "summary": "Policy stance for one meeting",
+        "tags": [
+          "stance"
+        ]
+      }
+    }
+  }
+}

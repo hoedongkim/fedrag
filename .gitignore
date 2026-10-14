@@ -1,0 +1,40 @@
+# Secrets and local settings. The .env.example templates are tracked.
+.env
+.env.*
+!.env.example
+
+# Python
+backend/.venv/
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Node (frontend/.gitignore also covers /node_modules, /.next/ and next-env.d.ts)
+node_modules/
+
+# Data: downloaded documents, processed text and the vector store are rebuilt locally
+# (Phase 2+). The .gitkeep placeholders, data/README.md and data/eval/ stay tracked.
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/chroma/
+data/index/
+data/external/
+data/models/
+data/stance/
+data/eval_cache/
+
+# Claude Code: per-user settings; launch.json holds this machine's absolute paths
+.claude/settings.local.json
+.claude/launch.json
+
+# macOS / editors
+.DS_Store
+*.log
+.Rhistory
+.RData
+.Rproj.user/
