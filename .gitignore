@@ -16,17 +16,27 @@ __pycache__/
 node_modules/
 
 # Data: downloaded documents, processed text and the vector store are rebuilt locally
-# (Phase 2+). The .gitkeep placeholders, data/README.md and data/eval/ stay tracked.
+# (Phase 2+). The .gitkeep placeholders, data/README.md and data/eval/ stay tracked, and so do the
+# search index's passages and manifest, which the public demo on Vercel serves from the repository.
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
 data/chroma/
-data/index/
+data/index/*
+!data/index/chunks.jsonl
+!data/index/manifest.json
 data/external/
 data/models/
 data/stance/
 data/eval_cache/
+
+# Vercel CLI output in the repository root: `vercel link` and `vercel build` write .vercel/, and the
+# Python builder converts requirements.txt into a pyproject.toml and uv.lock next to it. Committed,
+# those two would take precedence over requirements.txt on Vercel (backend/tests/test_vercel.py).
+/.vercel/
+/pyproject.toml
+/uv.lock
 
 # Claude Code: per-user settings; launch.json holds this machine's absolute paths
 .claude/settings.local.json

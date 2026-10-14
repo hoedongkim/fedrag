@@ -57,10 +57,13 @@ chunks. Git-ignored, and not created until the first index build.
   presence means the build completed, and `/api/health` reports `vector_store_ready: true` only when
   it matches the Chroma collection's count.
 
-Git-ignored. Rebuild both with `make index`; `make index INDEX_ARGS=--rebuild` re-embeds everything
-(needed after changing `EMBEDDING_MODEL`). The public demo's Hugging Face Space bundle
-(`make space-bundle`, see `docs/deploy.md`) copies `chunks.jsonl` and `manifest.json`, so the RAG
-Performance drilldown can show passage text without a vector store; it never copies `chroma/`.
+Both files are tracked in git (everything else in `index/` is ignored): the public demo's API, a
+Vercel function built from the repository (see `docs/deploy.md`), serves the RAG Performance
+drilldown's passage text from `chunks.jsonl` without a vector store, and the Hugging Face Space
+bundle (`make space-bundle`) copies both. `make index` rewrites them; `make index
+INDEX_ARGS=--rebuild` re-embeds everything (needed after changing `EMBEDDING_MODEL`); a build that
+changes nothing leaves both files as they are. Commit them when the chunks change. `chroma/` is
+never tracked or deployed.
 
 **`eval/`** is tracked in git, because the questions and results are part of the project's claims.
 `smoke.jsonl` holds the 12 smoke-check questions (`id`, `question`, `as_of`, `expected_doc_ids`

@@ -39,15 +39,16 @@ hosted demo, which makes no OpenAI calls). One store fetches health once per pag
 | `/compare` | No **Generate analysis** button and no "Ask about this change" link. A pair without a stored analysis shows the diff and offers the consecutive pair that ends at the same statement |
 | `/stance`, `/performance` | Complete; the "Ask about this meeting" and "Ask it in Ask the Fed" links are hidden, since the demo takes no new questions |
 
-**A sleeping backend.** The demo's API runs on free hosting (a Hugging Face Space) that sleeps
-after two days without visitors. When `BACKEND_MAY_SLEEP` is true (the default for any
-`BACKEND_URL` that is not on this machine), a backend that does not answer within 2.5 s is shown as
-waking: the header status reads "Waking", a line above the page says so (`WakeNotice`), health
-is polled with backoff (2, 4, 8, then every 10 s), and requests that failed meanwhile are sent
-again once it answers (`apiFetchAwake`). After 150 s the pages report the demo server as not
-responding. A local backend that does not answer is reported offline at once, with how to start
-it. `src/lib/api/wake.ts` decides which failures mean "not up yet": no response, a timeout, or a
-5xx without FastAPI's JSON `detail`.
+**A backend that is starting.** The demo's API runs as a Vercel function, which starts on demand:
+after a quiet spell, the first request waits a few seconds for a cold start (a Hugging Face Space,
+the alternative host, sleeps after two days without visitors and takes a minute or two). When
+`BACKEND_MAY_SLEEP` is true (the default for any `BACKEND_URL` that is not on this machine), a
+backend that does not answer within 2.5 s is shown as waking: the header status reads "Waking", a
+line above the page says so (`WakeNotice`), health is polled with backoff (2, 4, 8, then every
+10 s), and requests that failed meanwhile are sent again once it answers (`apiFetchAwake`). After
+150 s the pages report the demo server as not responding. A local backend that does not answer is
+reported offline at once, with how to start it. `src/lib/api/wake.ts` decides which failures mean
+"not up yet": no response, a timeout, or a 5xx without FastAPI's JSON `detail`.
 
 ## Ask the Fed
 
@@ -231,11 +232,12 @@ Environment variables (`.env.example`), all read when `next dev` starts or `next
 
 | Variable | Default | What it does |
 | -------- | ------- | ------------ |
-| `BACKEND_URL` | `http://127.0.0.1:8000` | The FastAPI backend the `/api` rewrite and server code call. On Vercel, the Space's URL |
-| `BACKEND_MAY_SLEEP` | `true` unless `BACKEND_URL` is local | Wait for a sleeping backend (above) instead of reporting it offline |
+| `BACKEND_URL` | `http://127.0.0.1:8000` | The FastAPI backend the `/api` rewrite and server code call. On Vercel, the backend project's production URL |
+| `BACKEND_MAY_SLEEP` | `true` unless `BACKEND_URL` is local | Wait for a backend that is starting (above) instead of reporting it offline |
 | `SITE_URL` | Vercel's production domain, else `http://localhost:3000` | The origin of absolute link-preview (Open Graph) URLs |
 
-Deployment (Vercel, root directory `frontend`) is in [`docs/deploy.md`](../docs/deploy.md).
+Deployment (a Vercel project with root directory `frontend`, next to the API's own Vercel project)
+is in [`docs/deploy.md`](../docs/deploy.md).
 
 ## Scripts
 
@@ -303,7 +305,7 @@ src/
                     IntervalChart, QuestionBrowser, QuestionDrilldown, JudgeCheck,
                     PerformanceAbout, parts, PerformanceSkeleton, usePerformanceData
   lib/api/          client.ts (fetch helper), backend.ts (health store, demo mode, wake-aware
-                    fetch), wake.ts and hosting.ts (sleeping-backend rules), stream.ts (POST
+                    fetch), wake.ts and hosting.ts (starting-backend rules), stream.ts (POST
                     /api/ask/stream), types.ts (API type aliases), schema.d.ts (generated)
   lib/ask/          pure logic: URL/form state, answer reducer, [n] marker splitting, failures,
                     formatting, recorded answers (each with a *.test.ts), example questions

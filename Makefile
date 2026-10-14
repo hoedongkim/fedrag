@@ -23,6 +23,7 @@ TRAIN_ARGS ?=
 COMPARE_ARGS ?=
 EVAL_ARGS ?=
 MAX_USD ?=
+ENV_FILE ?=
 # The benchmark's two retriever configs: the Phase 3 baseline first, then the frozen candidate.
 EVAL_CONFIGS := phase3 tuned
 EVAL := cd $(BACKEND) && .venv/bin/python -m app.evaluation
@@ -30,7 +31,7 @@ EVAL := cd $(BACKEND) && .venv/bin/python -m app.evaluation
 .PHONY: help setup dev dev-backend dev-frontend test test-frontend test-db lint typecheck build gen-api \
 	contract-check check clean ingest db-load db-up db-down index ask smoke \
 	stance-fetch stance-train stance-benchmark stance compare-precompute compare-evaluate \
-	rag-eval rag-eval-report ask-examples space-bundle
+	rag-eval rag-eval-report ask-examples space-bundle vercel-check
 
 help: ## List the available targets
 	@echo "FedRAG - make targets:"
@@ -73,8 +74,8 @@ test-db: ## Run only the Postgres tests (pytest -m db) against TEST_DATABASE_URL
 	fi
 	cd $(BACKEND) && .venv/bin/pytest -m db
 
-lint: ## Ruff lint + format check on the backend, ESLint on the frontend
-	cd $(BACKEND) && .venv/bin/ruff check . && .venv/bin/ruff format --check .
+lint: ## Ruff lint + format check on the backend and api/ (the Vercel entrypoint), ESLint on the frontend
+	cd $(BACKEND) && .venv/bin/ruff check . ../api && .venv/bin/ruff format --check . ../api
 	cd $(FRONTEND) && npm run lint
 
 typecheck: ## Type-check the frontend (tsc --noEmit)
@@ -163,7 +164,10 @@ rag-eval-report: ## Rebuild data/eval/rag_benchmark.json from data/eval_cache (o
 ask-examples: ## Export the recorded example answers GET /api/ask/examples serves to data/eval/ask_examples.json (from data/eval_cache; no API calls)
 	$(EVAL) export-ask-examples
 
-space-bundle: ## Assemble the Hugging Face Space folder of the API (public demo) in deploy/build/hf-space and check it for secrets (docs/deploy.md)
+vercel-check: ## Run the demo API's Vercel function locally: a clean venv from requirements.txt, the files git would push, every demo call (ENV_FILE=~/.fedrag-space.env adds the database)
+	scripts/check_vercel.sh $(ENV_FILE)
+
+space-bundle: ## Assemble the Hugging Face Space folder of the API (public demo, the alternative to Vercel) in deploy/build/hf-space and check it for secrets (deploy/README.md)
 	scripts/build_hf_space.sh
 
 db-up: ## Start a local Postgres 17 in Docker on 127.0.0.1:55432 (databases fedrag, fedrag_test)

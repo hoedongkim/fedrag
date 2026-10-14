@@ -1,2 +1,3 @@
-# Build output of scripts/build_hf_space.sh (the Hugging Face Space folder): rebuilt, not tracked.
+# Build output, rebuilt and never tracked: scripts/build_hf_space.sh (the Hugging Face Space
+# folder) and scripts/check_vercel.sh (a virtualenv and a copy of the Vercel function's files).
 /build/

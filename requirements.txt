@@ -1,0 +1,65 @@
+# Python packages of the public demo API on Vercel (api/index.py, PUBLIC_DEMO=true), not of the
+# full backend: backend/pyproject.toml stays the source of truth for the app, and `make setup`
+# never reads this file. Vercel's FastAPI preset installs it with uv because it is the dependency
+# file at the project root (docs/deploy.md).
+#
+# The demo never imports torch, transformers, sentence-transformers, chromadb, openai or their
+# LangChain packages, so they are left out: installed, these take about 170 MB, against 1.8 GB for
+# the full backend. Every version is the one backend/constraints.txt pins. Vercel installs this
+# file without a constraints file, so the packages these pull in are pinned here too.
+#
+# backend/tests/test_vercel.py fails when this list drifts: a version that differs from
+# constraints.txt, a package the demo imports that is missing, or one that nothing needs.
+
+# The backend dependencies the demo imports (backend/pyproject.toml)
+fastapi==0.143.0
+httpx2==2.13.1
+langchain-core==1.6.10
+langchain-text-splitters==1.1.3
+numpy==2.5.4
+openpyxl==3.1.5
+psycopg[binary]==3.3.6
+psycopg-pool==3.3.3
+pydantic-settings==2.15.0
+rank-bm25==0.2.2
+tiktoken==0.14.0
+
+# What they install
+annotated-doc==0.0.5
+annotated-types==0.8.0
+anyio==4.15.1
+certifi==2026.7.22
+charset-normalizer==3.5.2
+distro==1.9.0
+et_xmlfile==2.0.0
+h11==0.16.0
+httpcore==1.0.9
+httpcore2==2.13.1
+httpx==0.28.1
+idna==3.20
+jsonpatch==1.35
+jsonpointer==3.2.1
+langchain-protocol==0.0.19
+langsmith==0.14.8
+opentelemetry-api==1.45.1
+orjson==3.13.0
+packaging==26.3
+psycopg-binary==3.3.6
+pydantic==2.14.1
+pydantic_core==2.50.1
+python-dotenv==1.2.4
+PyYAML==6.0.3
+regex==2026.9.29
+requests==2.34.2
+requests-toolbelt==1.0.0
+sniffio==1.3.1
+starlette==1.7.0
+tenacity==9.2.1
+truststore==0.10.4
+typing-inspection==0.4.4
+typing_extensions==4.16.0
+urllib3==2.8.0
+uuid_utils==0.17.1
+websockets==17.2
+xxhash==4.0.1
+zstandard==0.25.0

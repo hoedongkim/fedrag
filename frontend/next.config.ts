@@ -19,10 +19,11 @@ function isLocalUrl(url: string): boolean {
   }
 }
 
-// The public demo's backend runs on free hosting (a Hugging Face Space) that sleeps when idle and
-// takes a minute or two to wake: the pages then wait for it ("Waking the demo server") instead of
-// showing an error. On by default for any non-local BACKEND_URL; BACKEND_MAY_SLEEP=true or false
-// overrides that. Inlined into the browser bundle at build time.
+// A hosted backend may need a moment before it answers: the public demo's Vercel function after a
+// quiet spell (a cold start of a few seconds), or a Hugging Face Space, the alternative host, that
+// sleeps after two idle days (a minute or two). The pages then wait for it ("Waking the demo
+// server") instead of showing an error. On by default for any non-local BACKEND_URL;
+// BACKEND_MAY_SLEEP=true or false overrides that. Inlined into the browser bundle at build time.
 const BACKEND_MAY_SLEEP = process.env.BACKEND_MAY_SLEEP
   ? process.env.BACKEND_MAY_SLEEP === "true"
   : !isLocalUrl(BACKEND_URL);

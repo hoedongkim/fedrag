@@ -191,7 +191,8 @@ saying "unchanged" agrees with the reference more often than the LLM's compariso
 
 - Ask the Fed shows eight real answers recorded during the evaluation.
 - Statement Comparison shows the stored readings of the 96 consecutive pairs.
-- The server sleeps after two days without visitors and takes a minute or two to wake.
+- The API runs as a Vercel function, which does not sleep: after a quiet spell, the first request
+  waits a few seconds for a cold start.
 
 **Run it yourself:**
 
@@ -212,9 +213,10 @@ questions needs an OpenAI key and the search index (about $0.02 to build). The s
 ```
 ├── backend/             FastAPI app: data collection, search, answers, stance, comparison, evaluation
 ├── frontend/            Next.js web app (the overview page and four tabs)
+├── api/                 The public demo's API as a Vercel function (with the root vercel.json)
 ├── data/eval/           Test questions, recorded answers and every benchmark result
 ├── docs/                Technical report, evaluation and labelling notes, deploy guide
-├── deploy/              Hugging Face Space image and a read-only database role
+├── deploy/              A read-only database role, and a Hugging Face Space image (alternative host)
 ├── .github/workflows/   CI: backend tests with Postgres, frontend checks, API contract
 └── Makefile             make setup / dev / check, plus every pipeline step
 ```

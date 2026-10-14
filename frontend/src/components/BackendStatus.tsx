@@ -51,7 +51,7 @@ export function BackendStatus() {
           .filter(Boolean)
           .join(". ")
       : phase === "waking"
-        ? "Free hosting sleeps when idle; waking it can take a minute or two"
+        ? "The demo server is starting after a quiet spell; this usually takes a few seconds"
         : phase === "offline"
           ? hosted
             ? "The demo server did not answer; try again in a moment"

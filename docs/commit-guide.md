@@ -14,6 +14,9 @@ project is organised, phase by phase, not how each file evolved, and an intermed
 not build on its own: CI runs on the commit you push last. If you prefer one honest commit, skip
 to [the alternative](#alternative-one-commit).
 
+The eight commits are on GitHub now. The packaging of the API as a Vercel function came after
+them: commit and push it as [section 4](#4-after-the-first-push-the-vercel-packaging) shows.
+
 ## 0. Before the first commit
 
 Run every command from the repository root. The blocks below carry `#` comments, which zsh (the
@@ -49,8 +52,12 @@ and that none of them shows up as untracked (`??`):
   (`__pycache__/`, `.pytest_cache/`, `.ruff_cache/`, `backend/fedrag_backend.egg-info/`,
   `frontend/next-env.d.ts`, `frontend/tsconfig.tsbuildinfo`);
 - `data/raw/*`, `data/processed/*` (only their `.gitkeep` files are tracked), `data/chroma/`,
-  `data/index/`, `data/external/`, `data/models/`, `data/stance/`, `data/eval_cache/`;
-- `deploy/build/` (the Hugging Face Space folder that `make space-bundle` assembles);
+  `data/index/*` (except `chunks.jsonl` and `manifest.json`, tracked since the Vercel packaging for
+  the public demo), `data/external/`, `data/models/`, `data/stance/`, `data/eval_cache/`;
+- `deploy/build/` (the Hugging Face Space folder that `make space-bundle` assembles, and the
+  virtualenv and file copy of `make vercel-check`);
+- `.vercel/`, `pyproject.toml` and `uv.lock` in the repository root, if you ever ran `vercel build`
+  there (Vercel would install that `pyproject.toml` instead of `requirements.txt`);
 - `.claude/launch.json`, `.claude/settings.local.json`, `.DS_Store`.
 
 `data/eval/` is tracked on purpose: the questions and results are part of the project's claims.
@@ -200,13 +207,16 @@ Run these after the last commit and before the first push. Each says what you sh
 git ls-files | grep -E '(^|/)\.env' 
 #    expected: backend/.env.example and frontend/.env.example, nothing else
 
-# 2. Ignored data is not tracked: only the .gitkeep placeholders.
+# 2. Ignored data is not tracked: only the .gitkeep placeholders, and the search index's passages
+#    and manifest, which the Vercel demo serves (tracked since the Vercel deployment).
 git ls-files data/raw data/processed data/chroma data/index data/external data/models \
   data/stance data/eval_cache
-#    expected: data/processed/.gitkeep and data/raw/.gitkeep
+#    expected: data/index/chunks.jsonl, data/index/manifest.json, data/processed/.gitkeep and
+#    data/raw/.gitkeep (before the Vercel deployment: only the two .gitkeep files)
 
 # 3. No build output or dependencies.
-git ls-files deploy/build frontend/.next frontend/node_modules backend/.venv | head
+git ls-files deploy/build frontend/.next frontend/node_modules backend/.venv \
+  .vercel pyproject.toml uv.lock | head
 #    expected: nothing
 
 # 4. No key or password in any tracked file (every match is shown cut short, never in full).
@@ -224,7 +234,8 @@ git grep -hoIE 'sk-(proj-)?[A-Za-z0-9_-]{20,}|npg_[A-Za-z0-9]{8,}|postgres(ql)?:
 git ls-files -z | xargs -0 du -k | sort -n | tail -8
 git ls-files -z | xargs -0 du -ck | tail -1
 #    expected: data/eval/rag_benchmark.json (about 2.5 MB) and the screenshots are the largest;
-#    the total is about 11 MB. GitHub warns at 50 MB per file and refuses 100 MB.
+#    the total is about 11 MB. Since the Vercel deployment, data/index/chunks.jsonl (about 7 MB)
+#    leads and the total is about 19 MB. GitHub warns at 50 MB per file and refuses 100 MB.
 
 # 6. Everything CI runs, except the Postgres tests.
 make check
@@ -251,6 +262,32 @@ again), and rotate the secret anyway.
 3. Open the repository's **Actions** tab and check that CI passes (backend with Postgres,
    frontend, API contract).
 4. Then deploy: [`deploy.md`](deploy.md).
+
+## 4. After the first push: the Vercel packaging
+
+Hugging Face now charges for Docker Spaces, so the public demo's API moved to a Vercel function
+after the eight commits above were pushed. That work is one more commit on `main`: the entrypoint,
+its pinned packages and settings, the search index's passages (6.9 MB, which the function serves),
+the local check, and the updated guides and wording. Run from the repository root:
+
+```bash
+make check                       # must pass, now with the API contract drift check
+git status --short --ignored     # "What must stay ignored" above still holds
+git add api requirements.txt .python-version vercel.json .vercelignore \
+  data/index/chunks.jsonl data/index/manifest.json \
+  scripts/check_vercel.sh scripts/build_hf_space.sh \
+  backend/tests/test_vercel.py backend/tests/vercel_entry_probe.py \
+  backend/tests/test_config.py backend/tests/test_demo.py backend/.env.example \
+  .gitignore .github/workflows/ci.yml Makefile README.md data/README.md deploy docs \
+  frontend/.env.example frontend/README.md frontend/next.config.ts frontend/src
+git status --short               # every line staged (A or M in the first column), nothing left ??
+git commit -m "feat(deploy): host the demo API as a Vercel Python function" \
+  -m "Hugging Face Docker Spaces now need PRO, so the API runs as a second Vercel project from this repository: api/index.py (always PUBLIC_DEMO), requirements.txt with the 49 packages the demo imports, Python 3.13, vercel.json (FastAPI preset, region cle1, excludeFiles) and the tracked search-index passages. make vercel-check and backend/tests/test_vercel.py check the install, the entrypoint and every demo call; the Space stays as the documented alternative."
+```
+
+Then run the [pre-push checklist](#2-pre-push-checklist) again (checks 2 and 5 now expect the two
+`data/index` files), push with `git push`, check CI in the **Actions** tab, and deploy:
+[`deploy.md`](deploy.md).
 
 ## Alternative: one commit
 

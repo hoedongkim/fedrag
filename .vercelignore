@@ -1,0 +1,21 @@
+# What `vercel deploy` (the Vercel CLI) must not upload from this checkout. The demo is built from
+# GitHub, where none of these exist: each is git-ignored. The CLI does not read .gitignore, and its
+# own short list (node_modules, .venv, .vercel, .env.local, ...) would still send backend/.env,
+# with your OpenAI key and read-write DATABASE_URL, which the function would then read, and the
+# local vector store and models. Each line repeats a .gitignore rule, so nothing a push holds is
+# left out; backend/tests/test_vercel.py checks that against the files the API needs.
+.env
+.env.*
+!.env.example
+backend/.venv/
+*.egg-info/
+data/chroma/
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/external/
+data/models/
+data/stance/
+data/eval_cache/
+deploy/build/

@@ -161,7 +161,7 @@ def test_an_invalid_examples_file_is_503_naming_the_problem(
 
 def test_the_demo_runs_without_key_index_or_heavy_imports(tmp_path: Path) -> None:
     """Startup and every demo endpoint, in a process of their own: no OPENAI_API_KEY, no Chroma,
-    a search index of chunks.jsonl and its manifest only, as the Space ships it. torch, the
+    a search index of chunks.jsonl and its manifest only, as the deployed demo has. torch, the
     openai package and Chroma are never imported, and no warm-up thread starts."""
     index_dir, chroma_dir = tmp_path / "index", tmp_path / "chroma"
     index_dir.mkdir()

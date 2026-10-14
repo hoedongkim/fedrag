@@ -15,7 +15,8 @@ two statements, and measures its own retrieval and answers on a held-out test se
 > questions, and Statement Comparison serves the analyses already stored for the 96 pairs of
 > consecutive statements without writing new ones. Policy Stance, the statement diff and RAG
 > Performance are complete. To ask your own questions, [run it yourself](#-run-it-yourself). The
-> backend sleeps after two days without visitors and takes a minute or two to wake.
+> API runs as a Vercel function, which does not sleep: after a quiet spell, the first request waits
+> a few seconds for a cold start.
 
 *A solo project by Hoedong Kim. Phases 1-7 are complete; Phase 8 (deployment) is in progress: the
 demo mode and the deploy packaging are done, the public deployment is next ([roadmap](#-roadmap)).*
@@ -63,7 +64,7 @@ bootstraps (10,000 resamples, seed 20261013). How to read them:
 
 **Stack:** Python, FastAPI, LangChain, OpenAI (`gpt-5.4-mini`, `text-embedding-3-small`; `gpt-5.5`
 as judge), Chroma, BM25, a sentence-transformers cross-encoder, FinBERT on PyTorch, Postgres
-(Neon), Next.js 16, React 19, TypeScript, Tailwind CSS, Docker, Hugging Face Spaces and Vercel
+(Neon), Next.js 16, React 19, TypeScript, Tailwind CSS, Docker and Vercel
 ([details](#-tech-stack)).
 
 **Contents:** [Problem](#-problem) · [What it does](#-what-it-does) · [Ask the Fed](#-ask-the-fed) ·
@@ -110,7 +111,7 @@ which the page reads from the API when it loads, not typed into the page:
 ![The overview page on the public demo: the pitch, the Try it and GitHub buttons, the one-line demo note, and four rows with their headline numbers: Ask the Fed 0.94 faithfulness, Policy Stance 0.84 accuracy on human labels, Statement Comparison "More dovish", RAG Performance nDCG@10 0.58 against 0.36](images/home-desktop-light.png)
 
 *The overview page in demo mode, on a production build (`next build` + `next start`) proxying to
-the Space's Docker image run locally with `PUBLIC_DEMO=true`.*
+the API's Docker image (the Hugging Face Space alternative) run locally with `PUBLIC_DEMO=true`.*
 
 ## 💬 Ask the Fed
 
@@ -784,16 +785,18 @@ backend, so the browser never calls FastAPI directly.
 ```mermaid
 flowchart LR
     browser["Browser"]
-    vercel["Vercel<br/>Next.js frontend<br/>rewrites /api/* to BACKEND_URL"]
-    space["Hugging Face Space (Docker, CPU)<br/>FastAPI, PUBLIC_DEMO=true<br/>bundled: data/eval/*.json,<br/>data/index/chunks.jsonl"]
+    vercel["Vercel project: frontend<br/>Next.js<br/>rewrites /api/* to BACKEND_URL"]
+    api["Vercel project: API<br/>FastAPI as one Python function (api/index.py)<br/>PUBLIC_DEMO=true<br/>ships data/eval/*.json,<br/>data/index/chunks.jsonl"]
     neon[("Neon Postgres<br/>schema fedrag,<br/>read-only role")]
-    browser --> vercel -->|"/api/*"| space -->|"SELECT only"| neon
+    browser --> vercel -->|"/api/*"| api -->|"SELECT only"| neon
 ```
 
-The Space image holds the backend code, the tracked results and the chunk file (for the passage
-text in RAG Performance), but no vector store, no model weights, no evaluation cache and no
-secret. It connects to Neon as a role that can only read schema `fedrag`, and with
-`PUBLIC_DEMO=true` it has no OpenAI key and no code path that would use one. See
+Both are Vercel projects built from the same repository. The API's function holds the backend
+code, the tracked results and the chunk file (for the passage text in RAG Performance), and
+installs only the packages the demo imports (a pinned `requirements.txt`: no PyTorch, Chroma or
+OpenAI client), so it is about 146 MB; no vector store, no model weights, no evaluation cache and
+no secret. It connects to Neon as a role that can only read schema `fedrag`, and it always runs
+with `PUBLIC_DEMO=true`, with no OpenAI key and no code path that would use one. See
 [Deploy](#-deploy).
 
 ## 🧭 Design Principles
@@ -955,7 +958,7 @@ everything). The manifest is written last, after Chroma's count matches the chun
 | Wall time | 22 s on an M1 Pro laptop, including the Neon read |
 | Rebuild with nothing changed | 0 chunks embedded, no API key needed, 4 s |
 | Update to chunker version 2 (revision notes) | 3 chunks embedded (279 tokens, under $0.001): 3,077 chunks |
-| On disk (git-ignored) | `data/chroma/` 78 MB, `data/index/` 6.9 MB |
+| On disk | `data/chroma/` 78 MB (git-ignored), `data/index/` 6.9 MB (tracked, for the public demo's passage text) |
 
 **Four retrieval methods** (`app/rag/bm25.py`, `app/rag/retrievers.py`), chosen per request with
 `retrieval`:
@@ -1521,11 +1524,15 @@ cd backend && .venv/bin/python -m app.evaluation --help   # validate | retrieval
         (`GET /api/ask/examples`, from the production setup's TEST answers), Statement Comparison
         serves stored analyses only (`disabled_on_demo` otherwise), startup loads no models, and
         `/api/health` reports `demo_mode`, which the frontend reads to adapt its pages.
-  - [x] Packaging: a Docker image for Hugging Face Spaces (CPU-only PyTorch, non-root user, port
-        7860), `make space-bundle`, a read-only Neon role (`deploy/neon_readonly.sql`), the
-        [deploy guide](deploy.md) and a [commit plan](commit-guide.md).
-  - [ ] Deployment: the Neon role, the Hugging Face Space and the Vercel project, then the live
-        link at the top of the README.
+  - [x] Packaging: the API as a Vercel Python function (`api/index.py`, a pinned
+        `requirements.txt` of what the demo imports, `vercel.json`; `make vercel-check` runs it
+        locally and `backend/tests/test_vercel.py` keeps the requirements from drifting), a
+        read-only Neon role (`deploy/neon_readonly.sql`), the [deploy guide](deploy.md) and a
+        [commit plan](commit-guide.md). A Docker image for Hugging Face Spaces (CPU-only PyTorch,
+        non-root user, port 7860; `make space-bundle`) remains as an alternative host: Docker
+        Spaces now need a Hugging Face PRO subscription.
+  - [ ] Deployment: the Neon role (done), the two Vercel projects (API and frontend), then the
+        live link at the top of the README.
 
 Not planned yet, but the evaluation points at them: retrieval that gathers several documents for
 questions spanning meetings (`multi_doc` is the weakest type), scoring long passages in windows
@@ -1552,7 +1559,7 @@ on what you add:
 
 | You add | Cost | What works |
 |---|---|---|
-| Nothing (a fresh clone) | free | RAG Performance, from the tracked results (the drilldown's passage text needs the search index); the eight recorded answers at `GET /api/ask/examples`, which Ask the Fed shows under `PUBLIC_DEMO=true make dev`, as the public demo does |
+| Nothing (a fresh clone) | free | RAG Performance, from the tracked results, with the drilldown's passage text (`data/index/chunks.jsonl` is tracked); the eight recorded answers at `GET /api/ask/examples`, which Ask the Fed shows under `PUBLIC_DEMO=true make dev`, as the public demo does |
 | A database: `make ingest`, `make db-up` (Docker) or a Neon URL, `make db-load` ([below](#collect-the-data-needed-for-the-search-index-and-load-postgres-optional)) | free | Meetings, and Statement Comparison's diff of any two statements |
 | The stance pipeline: `make stance-fetch`, `make stance-train`, `make stance STANCE_ARGS='--classifiers keyword finbert'` ([below](#classify-the-statements-policy-stance)) | free | Policy Stance with the two classifiers that need no OpenAI key (switch the chart to them: it opens on LLM few-shot). `make stance` also rescores `data/eval/stance_benchmark.json` from your run; `git restore` it to keep the published results |
 | An OpenAI key in `backend/.env`, then `make index` ([below](#build-the-search-index-and-ask-a-question)) | about $0.02 once, then about $0.003 an answer | Everything: Ask the Fed streams new answers; `make stance` adds the LLM classifiers (about $0.92 the first time); `make compare-precompute` stores the analyses of the 96 consecutive pairs (about $0.44) and **Generate analysis** writes one for any pair |
@@ -1565,7 +1572,11 @@ Ask the Fed page explains which one is missing when you ask, and
 `make dev` and ask a question on `/ask`, or pick one of the example questions under the form.
 
 `make setup` creates the virtualenv with `python3`; `make setup PYTHON=python3.12` picks another
-interpreter (delete backend/.venv first if it already exists). `backend/.env.example` lists every
+interpreter (delete backend/.venv first if it already exists). The `.python-version` file in the
+repository root (3.13) is for Vercel, but pyenv reads it too: with pyenv and no 3.13 installed,
+`python3` fails inside the repository. Run `pyenv install 3.13`, or name a version you have for
+setup only, e.g. `PYENV_VERSION=3.12.11 make setup` (`pyenv versions` lists them); the virtualenv
+then keeps that interpreter. `backend/.env.example` lists every
 backend setting (OpenAI key, database URL, models, CORS origins, data paths), and
 `frontend/.env.example` documents `BACKEND_URL`, the backend the frontend proxies to. Restart
 `make dev` after editing backend/.env; auto-reload only watches backend/app.
@@ -1667,7 +1678,8 @@ when none is stored, with one OpenAI call (two if the reply cannot be parsed).
 | `make rag-eval MAX_USD=...` | The RAG benchmark: validate, retrieval for both presets, TEST answers and judge (OpenAI, cached; `MAX_USD` caps each step and is required; `EVAL_ARGS='--ids ...'`), then the report |
 | `make rag-eval-report` | Rebuild `data/eval/rag_benchmark.json` from `data/eval_cache` with the switch rule and the judge validation (no API calls) |
 | `make ask-examples` | Export the eight recorded answers that `GET /api/ask/examples` serves to `data/eval/ask_examples.json`, from `data/eval_cache` (no API calls; only needed after rerunning the evaluation) |
-| `make space-bundle` | Assemble the Hugging Face Space folder of the API in `deploy/build/hf-space/` and check it for secrets ([Deploy](#-deploy)) |
+| `make vercel-check` | Run the public demo's Vercel function locally: a clean virtualenv from `requirements.txt`, the files the next push would hold, every demo call (`ENV_FILE=~/.fedrag-space.env` adds the read-only database; [Deploy](#-deploy)) |
+| `make space-bundle` | Assemble the Hugging Face Space folder of the API (the alternative host) in `deploy/build/hf-space/` and check it for secrets ([Deploy](#-deploy)) |
 | `make stance-fetch` | Download the TDW sentence splits and the FRED federal funds target range |
 | `make stance-train` | Fine-tune FinBERT on each TDW seed's training split (`TRAIN_ARGS=--retrain`) |
 | `make stance-benchmark` | TDW sentence benchmark of the four stance classifiers; LLM calls cached and budget-checked (`STANCE_ARGS=...`) |
@@ -1858,37 +1870,56 @@ OpenAI call), after which `cached_only` returns it. A date without a statement a
 
 ## 🚢 Deploy
 
-The public demo runs on free tiers: the frontend on **Vercel**, the backend as a Docker
-**Hugging Face Space**, and the data in **Neon** through a role that can only read schema
-`fedrag` ([diagram](#-architecture)). It costs $0: the Space holds no OpenAI key, and demo mode
-switches off every path that would use one. The step-by-step guide, with every command and every
-value to fill in, is [**docs/deploy.md**](deploy.md); in short:
+The public demo runs on free tiers as two **Vercel** projects built from the same repository: the
+Next.js frontend, and the FastAPI backend as one Python function. The data stays in **Neon**,
+read through a role that can only read schema `fedrag` ([diagram](#-architecture)). It costs $0:
+the API holds no OpenAI key, and demo mode switches off every path that would use one. The
+step-by-step guide, with every command and every value to fill in, is
+[**docs/deploy.md**](deploy.md); in short:
 
 1. **Neon:** run [`deploy/neon_readonly.sql`](../deploy/neon_readonly.sql) in the SQL editor (with
    your own password) and build the read-only, pooled `DATABASE_URL`.
-2. **Hugging Face:** create a Docker Space on CPU basic; set the secret `DATABASE_URL` and the
-   variables `PUBLIC_DEMO=true` and `CORS_ORIGINS`; then `make space-bundle` and
-   `backend/.venv/bin/hf upload <user>/<space> deploy/build/hf-space . --repo-type space`.
-3. **Vercel:** import the repository with root directory `frontend` and
-   `BACKEND_URL=https://<user>-<space>.hf.space`.
+2. **Vercel, the API:** import the repository as a project with the FastAPI preset and the
+   repository root as its root directory; set `DATABASE_URL`, `PUBLIC_DEMO=true` and (once the
+   frontend has a domain) `CORS_ORIGINS`. `make vercel-check` runs the same function locally
+   first.
+3. **Vercel, the frontend:** import the repository again with root directory `frontend` and
+   `BACKEND_URL=https://<api-domain>`, the API project's production domain.
 4. **Check** the API and every tab, then add the live link at the top of the README.
 
 | Setting | Where | Value on the demo |
 |---|---|---|
-| `PUBLIC_DEMO` | Space variable | `true` (also the image's default) |
-| `DATABASE_URL` | Space secret | the read-only Neon URL |
-| `CORS_ORIGINS` | Space variable | `["https://<vercel-domain>"]` |
-| `RETRIEVER_PRESET` | Space variable | `tuned` (the default) |
+| `DATABASE_URL` | API project, environment variable (sensitive) | the read-only Neon URL |
+| `PUBLIC_DEMO` | API project, environment variable | `true` (`api/index.py` sets it in any case) |
+| `CORS_ORIGINS` | API project, environment variable | `["https://<vercel-domain>"]` |
+| `RETRIEVER_PRESET` | not set | `tuned`, the default |
 | `OPENAI_API_KEY` | nowhere | not set |
-| `BACKEND_URL` | Vercel environment variable | `https://<user>-<space>.hf.space` |
-| `SITE_URL` | Vercel environment variable, optional | not set: link previews use the Vercel domain |
+| `BACKEND_URL` | frontend project, environment variable | `https://<api-domain>` |
+| `SITE_URL` | frontend project, environment variable, optional | not set: link previews use the Vercel domain |
 
-`make space-bundle` (`scripts/build_hf_space.sh`) assembles the Space's files in
-`deploy/build/hf-space/` (git-ignored, about 12 MB): the backend code and its pinned dependencies,
-the Dockerfile and Space README from `deploy/hf-space/`, the tracked results in `data/eval/` and
-the chunk file `data/index/chunks.jsonl` with its manifest; never `data/chroma/`, model weights,
-the evaluation caches or a `.env` file, and it refuses to finish if any file holds a key, a
-database password or a value from `backend/.env`.
+The repository configures the API project itself: `api/index.py` (the entrypoint Vercel's FastAPI
+preset finds; it puts `backend/` on the import path, sets `PUBLIC_DEMO=true` and builds the app
+with `create_app()`), `requirements.txt` (the 49 packages the demo needs, at the versions
+`backend/constraints.txt` pins), `.python-version` (3.13) and `vercel.json` (the preset, the
+function region `cle1` next to Neon's `us-east-2`, a 30 s request limit, and `excludeFiles` for
+the folders the function never reads). The frontend project ignores them: its root directory is
+`frontend/`. A local `vercel build` produced a function of about 146 MB, well under Vercel's
+500 MB limit for Python, and the largest response (`GET /api/evaluation`, 383 KB) is far under its
+4.5 MB limit. `backend/tests/test_vercel.py` runs the entrypoint in a fresh interpreter with every
+package `requirements.txt` does not list hidden, and fails if the file misses a package the demo
+imports, pins one nothing needs, or disagrees with `constraints.txt`. It also fails if git would
+push another Python manifest that Vercel would install instead, such as the `pyproject.toml` a
+local `vercel build` writes (git-ignored for that reason). `.vercelignore` keeps `backend/.env`
+and the local data out of an upload with the Vercel CLI; Git deployments never contain them.
+
+**Alternative host.** `make space-bundle` (`scripts/build_hf_space.sh`) still assembles the API as
+a Docker Space for Hugging Face in `deploy/build/hf-space/` (git-ignored, about 12 MB): the backend
+code and its pinned dependencies, the Dockerfile and Space README from `deploy/hf-space/`, the
+tracked results in `data/eval/` and the chunk file `data/index/chunks.jsonl` with its manifest;
+never `data/chroma/`, model weights, the evaluation caches or a `.env` file, and it refuses to
+finish if any file holds a key, a database password or a value from `backend/.env`. Hugging Face
+now requires a PRO subscription for Docker Spaces, which is why the demo runs on Vercel; the steps
+are in [deploy/README.md](../deploy/README.md#alternative-a-hugging-face-space).
 [docs/commit-guide.md](commit-guide.md) is the plan for the repository's first commits, with
 the checks to run before pushing.
 
@@ -1943,21 +1974,29 @@ the checks to run before pushing.
 │   ├── src/lib/performance/    RAG Performance rows, heatmap, agreement grid, question filters, URL state,
 │   │                           with Vitest tests
 │   └── openapi.json            Backend OpenAPI schema (generated by make gen-api)
-├── data/                       raw/, processed/, chroma/, index/, external/, models/, stance/, eval_cache/
+├── data/                       raw/, processed/, chroma/, external/, models/, stance/, eval_cache/
 │                               (git-ignored); eval/: RAG questions, benchmark, DEV tuning results and
 │                               judge sample, recorded example answers, smoke questions, stance and
-│                               comparison benchmarks (tracked); see data/README.md
+│                               comparison benchmarks, and index/: chunks.jsonl and manifest.json
+│                               (tracked); see data/README.md
+├── api/index.py                The public demo's API as a Vercel function: backend/app's FastAPI app,
+│                               always with PUBLIC_DEMO=true
+├── requirements.txt            What that function installs: the 49 packages the demo needs, pinned
+├── vercel.json                 The API project's settings: FastAPI preset, region, excluded folders
+├── .python-version             3.13, the Python the Vercel function runs
+├── .vercelignore               Keeps backend/.env, the vector store and models out of a CLI upload
 ├── deploy/                     neon_readonly.sql (the demo's read-only Neon role); hf-space/: the
-│                               Dockerfile, Space README and .dockerignore of the Hugging Face Space;
-│                               build/: the assembled Space folder (git-ignored)
-├── scripts/build_hf_space.sh   Assembles and checks the Space folder (make space-bundle)
+│                               Dockerfile, Space README and .dockerignore of the Hugging Face Space
+│                               (the alternative host); build/: build output (git-ignored)
+├── scripts/                    check_vercel.sh runs the Vercel function locally (make vercel-check);
+│                               build_hf_space.sh assembles and checks the Space folder (make space-bundle)
 ├── docs/                       deploy.md (the deployment guide), commit-guide.md (first commits and
 │                               pre-push checks), rag-eval.md (the evaluation set and judge check),
 │                               rag-tuning.md (DEV-only tuning and the switch rule), stance-labeling.md,
 │                               technical-report.md (this file); images/ for the README and this report
 ├── .github/workflows/ci.yml    Backend (with a Postgres service), frontend and API contract jobs
 ├── Makefile                    setup, dev, ingest, db-load, index, ask, smoke, rag-eval, test, check,
-│                               space-bundle, ... (`make help` lists them all)
+│                               vercel-check, space-bundle, ... (`make help` lists them all)
 └── LICENSE
 ```
 
@@ -1974,7 +2013,7 @@ the checks to run before pushing.
 | **Statement comparison** | Python's `difflib` for word-token similarity and word diffs, a Needleman-Wunsch sentence alignment, `gpt-5.4-mini` through LangChain strict structured output, analyses cached in Postgres (JSONB) |
 | **Frontend** | Next.js 16, React 19, TypeScript, Tailwind CSS v4; `fetch` with a small SSE parser for streaming; Recharts for the stance timeline |
 | **Evaluation** | Own LLM judge (`gpt-5.5` through LangChain strict structured output; Ragas does not install next to the pinned `openai` / `langchain-openai`), tie-aware retrieval metrics and percentile bootstrap in NumPy, Cohen's kappa from scikit-learn, tiktoken cost guards, JSONL caches |
-| **Deployment** | Docker (`python:3.13-slim`, CPU-only PyTorch, non-root user), Hugging Face Spaces (Docker SDK, CPU basic), Vercel (Next.js), a read-only Neon role; demo mode via `PUBLIC_DEMO` |
+| **Deployment** | Vercel (Hobby): the Next.js frontend, and the FastAPI app as a Python function (FastAPI preset, uv-installed pinned `requirements.txt`, Python 3.13, Fluid compute); a read-only Neon role; demo mode via `PUBLIC_DEMO`. Alternative host: a Docker image (`python:3.13-slim`, CPU-only PyTorch, non-root user) for Hugging Face Spaces (Docker SDK, needs PRO) |
 | **Tooling** | pytest, Ruff, ESLint, Vitest, openapi-typescript, GitHub Actions |
 
 ## License
@@ -1994,10 +2033,10 @@ the checks to run before pushing.
 - **`cross-encoder/ms-marco-MiniLM-L-6-v2`**, the reranker: Apache 2.0 per its
   [model card](https://huggingface.co/cross-encoder/ms-marco-MiniLM-L-6-v2). Downloaded from
   Hugging Face at run time, never redistributed, and not loaded at all by the public demo.
-- **What the public demo redistributes.** The Hugging Face Space bundle holds this repository's
-  code and tracked results plus `data/index/chunks.jsonl`, passages of the FOMC documents above. It
-  holds no file or label from the Trillion Dollar Words dataset (its sentences come from FOMC
-  documents, so FOMC passages naturally contain some of them), no FinBERT or reranker weight and no
-  OpenAI key.
+- **What the public demo redistributes.** The deployed API (the Vercel function, or the Hugging
+  Face Space bundle) holds this repository's code and tracked results, which include
+  `data/index/chunks.jsonl`, passages of the FOMC documents above. It holds no file or label from
+  the Trillion Dollar Words dataset (its sentences come from FOMC documents, so FOMC passages
+  naturally contain some of them), no FinBERT or reranker weight and no OpenAI key.
 - **Generated text.** The answers, analyses, labels and judge verdicts in `data/eval/` were written
   by OpenAI models (`gpt-5.4-mini`, `gpt-5.5`) or Anthropic Claude subagents, as each section says.

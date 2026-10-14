@@ -1,6 +1,7 @@
--- FedRAG public demo: a Postgres role that can only read schema fedrag, for the Hugging Face
--- Space's DATABASE_URL. The demo (PUBLIC_DEMO=true) only ever runs SELECTs: meetings, stance
--- results, the federal funds target range, statements and stored comparison analyses.
+-- FedRAG public demo: a Postgres role that can only read schema fedrag, for the DATABASE_URL of
+-- the demo's API (the Vercel project, or the Hugging Face Space alternative). The demo
+-- (PUBLIC_DEMO=true) only ever runs SELECTs: meetings, stance results, the federal funds target
+-- range, statements and stored comparison analyses.
 --
 -- Run it once in the Neon SQL editor (Console > your project > SQL Editor), on the database that
 -- holds schema fedrag, as the role that loads FedRAG (the one in your local backend/.env
@@ -10,12 +11,16 @@
 -- 1. Replace <choose-a-strong-password> with a long random password, e.g. the output of
 --    `openssl rand -hex 24` (hex needs no percent-encoding in a URL; Neon rejects weak ones).
 -- 2. Run the whole script, then read the checks at the end.
--- 3. Build the Space's secret from Neon's pooled connection string, with this role and password:
+-- 3. Build the API's DATABASE_URL from Neon's pooled connection string, with this role and
+--    password:
 --    postgresql://fedrag_demo_reader:<password>@<endpoint>-pooler.<region>.aws.neon.tech/neondb?sslmode=require
 
 CREATE ROLE fedrag_demo_reader WITH LOGIN PASSWORD '<choose-a-strong-password>'
     NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOREPLICATION NOBYPASSRLS;
--- The API's pool opens at most 4 connections (backend/app/db/connection.py); this leaves headroom.
+-- Through Neon's pooled endpoint (PgBouncer, transaction mode) this caps the statements the role
+-- runs at once, not the API's clients: each API instance (the Space's container, or each running
+-- instance of the Vercel function) pools at most 4 connections to PgBouncer
+-- (backend/app/db/connection.py), which queues a statement while all 10 are busy.
 ALTER ROLE fedrag_demo_reader CONNECTION LIMIT 10;
 
 -- Every session starts read-only, and no query runs for long. These are session defaults, which

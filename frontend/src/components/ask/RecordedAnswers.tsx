@@ -27,7 +27,7 @@ import { AskAbout } from "./AskAbout";
 
 const LOADING = { status: "loading" } as const;
 
-/** GET /api/ask/examples, fetched once (waiting out a sleeping demo backend). */
+/** GET /api/ask/examples, fetched once (waiting out a starting demo backend). */
 function useRecordedAnswers() {
   const [load, setLoad] = useState<Load<RecordedAnswer[]>>(LOADING);
   const [attempt, setAttempt] = useState(0);

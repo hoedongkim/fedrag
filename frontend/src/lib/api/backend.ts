@@ -4,9 +4,9 @@
  * wake-aware fetch all read it, so health is fetched once per page load (and re-checked when a
  * request fails or the window regains focus), never once per component.
  *
- * A hosted backend that sleeps (see hosting.ts) is polled with backoff while it wakes, for up to
- * WAKE_LIMIT_MS; requests that fail meanwhile wait for it and are sent again. A local backend that
- * does not answer is reported offline at once.
+ * A hosted backend that may be starting (see hosting.ts) is polled with backoff while it wakes, for
+ * up to WAKE_LIMIT_MS; requests that fail meanwhile wait for it and are sent again. A local backend
+ * that does not answer is reported offline at once.
  */
 import { apiFetch, type ApiFetchInit, getHealth, HEALTH_RECHECK_EVENT } from "./client";
 import { backendMaySleep } from "./hosting";
@@ -45,7 +45,7 @@ const MAX_REQUEST_ATTEMPTS = 4;
 
 export interface BackendStoreOptions {
   fetchHealth: (signal: AbortSignal) => Promise<HealthResponse>;
-  /** Whether a backend that does not answer may be asleep rather than down. */
+  /** Whether a backend that does not answer may be starting (or asleep) rather than down. */
   maySleep: () => boolean;
   now?: () => number;
 }
@@ -99,7 +99,7 @@ export function createBackendStore({ fetchHealth, maySleep, now = Date.now }: Ba
     const hosted = maySleep();
     let attempt = 0;
 
-    // Slow to answer at all: on free hosting that is a backend waking up, so say so early.
+    // Slow to answer at all: on hosting, that is a backend starting up, so say so early.
     if (hosted && state.phase !== "waking") {
       slowTimer = setTimeout(() => {
         if (id === cycle && checking && state.phase !== "waking") emit({ phase: "waking", wakingSince: startedAt });
@@ -195,11 +195,12 @@ export function createBackendStore({ fetchHealth, maySleep, now = Date.now }: Ba
 }
 
 /**
- * apiFetch that rides out a sleeping backend: when the request fails the way a backend that is
- * still waking up fails (see isWakeError), it waits for the health check to succeed and sends the
- * request again, up to MAX_REQUEST_ATTEMPTS times. Only on hosting that sleeps, and only for
- * requests that are safe to repeat (reads; never one that spends OpenAI credits). An error thrown
- * because the backend never woke is marked (isWakeExhausted).
+ * apiFetch that rides out a starting backend (a cold start, or a sleeping Space waking): when the
+ * request fails the way a backend that is still starting fails (see isWakeError), it waits for the
+ * health check to succeed and sends the request again, up to MAX_REQUEST_ATTEMPTS times. Only on
+ * hosted backends (backendMaySleep), and only for requests that are safe to repeat (reads; never
+ * one that spends OpenAI credits). An error thrown because the backend never came up is marked
+ * (isWakeExhausted).
  */
 export async function fetchWhenAwake<T>(
   store: Pick<BackendStore, "waitUntilOnline">,
@@ -229,7 +230,7 @@ export const backendStore = createBackendStore({
   maySleep: backendMaySleep,
 });
 
-/** GET (or idempotent POST) through the /api proxy, waiting out a sleeping demo backend. */
+/** GET (or idempotent POST) through the /api proxy, waiting out a starting demo backend. */
 export function apiFetchAwake<T>(path: string, init: ApiFetchInit = {}): Promise<T> {
   return fetchWhenAwake(backendStore, backendMaySleep, () => apiFetch<T>(path, init), init.signal);
 }

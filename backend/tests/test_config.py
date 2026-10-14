@@ -90,7 +90,7 @@ def test_the_public_demo_needs_no_key_and_is_off_by_default() -> None:
 def test_cors_origins_accepts_a_json_list_one_origin_or_a_comma_list(
     monkeypatch: pytest.MonkeyPatch, value: str, origins: list[str]
 ) -> None:
-    """The Space's CORS_ORIGINS variable is typed by hand: a plain URL must not stop startup,
+    """The demo's CORS_ORIGINS variable is typed by hand: a plain URL must not stop startup,
     and a trailing slash (which a browser's Origin never has) must not make it never match."""
     monkeypatch.setenv("CORS_ORIGINS", value)
 

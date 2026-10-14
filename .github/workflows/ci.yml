@@ -55,13 +55,14 @@ jobs:
       - name: Install backend
         run: pip install -e "backend[dev]" -c backend/constraints.txt
 
+      # ../api is the Vercel entrypoint of the public demo (api/index.py).
       - name: Ruff lint
         working-directory: backend
-        run: ruff check .
+        run: ruff check . ../api
 
       - name: Ruff format check
         working-directory: backend
-        run: ruff format --check .
+        run: ruff format --check . ../api
 
       - name: Tests
         working-directory: backend

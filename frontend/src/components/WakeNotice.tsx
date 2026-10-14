@@ -6,9 +6,9 @@ import { Spinner } from "./ask/icons";
 import { useBackend } from "./useBackend";
 
 /**
- * Shown above every page while the hosted demo's backend wakes up: free hosting sleeps when idle,
- * and the first request after that waits for it. The pages keep their loading state and fill in
- * on their own when it answers, so this replaces an error, not the page.
+ * Shown above every page while the hosted demo's backend starts: after a quiet spell the first
+ * request waits for it (a cold start). The pages keep their loading state and fill in on their own
+ * when it answers, so this replaces an error, not the page.
  */
 export function WakeNotice() {
   const { phase, wakingSince } = useBackend();
@@ -20,7 +20,7 @@ export function WakeNotice() {
     <p role="status" className="mb-8 flex items-start gap-2 text-small text-muted motion-safe:animate-fade-in">
       <Spinner className="mt-[0.2rem] size-3.5 shrink-0 text-warn" />
       <span>
-        Waking the demo server, which sleeps when idle. This can take a minute or two; the page fills
+        Waking the demo server after a quiet spell. This usually takes a few seconds; the page fills
         in by itself
         {/* Hidden from screen readers: a live region would read every tick. */}
         {seconds >= 5 && (

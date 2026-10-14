@@ -6,7 +6,7 @@ export const SLOW_AFTER_MS = 2500;
 /** Timeout of the first health check, and of each check while the backend wakes. */
 export const FIRST_CHECK_TIMEOUT_MS = 6000;
 export const WAKE_CHECK_TIMEOUT_MS = 12000;
-/** How long to keep waiting for a sleeping backend before reporting it unreachable. */
+/** How long to keep waiting for a starting backend before reporting it unreachable. */
 export const WAKE_LIMIT_MS = 150_000;
 
 const BASE_DELAY_MS = 2000;
@@ -43,8 +43,9 @@ export function isApiErrorBody(body: unknown): boolean {
  * True when a failed request looks like a backend that is not up yet (asleep, starting, or not
  * reachable) rather than one that answered with an error of its own: no response at all, a
  * timeout, a 5xx without FastAPI's JSON `detail` (a hosting or proxy page, e.g. a sleeping Space's
- * 503 or the proxy's 500/504), or a non-JSON page where JSON was expected. A 503 with a `detail`,
- * such as "Database not configured", is the API speaking, so it is not.
+ * 503, a Vercel function's error page or the proxy's 500/504), or a non-JSON page where JSON was
+ * expected. A 503 with a `detail`, such as "Database not configured", is the API speaking, so it
+ * is not.
  *
  * An abort the caller asked for also looks like this: check the caller's signal first.
  */

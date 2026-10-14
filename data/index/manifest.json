@@ -1,0 +1,11 @@
+{
+  "embedding_model": "text-embedding-3-small",
+  "collection": "fedrag_chunks",
+  "chunker_version": 2,
+  "chunk_count": 3077,
+  "document_count": 191,
+  "corpus_sha256": "fef71459598530bec13fee76671fd2c0a40213c1df5640158252167a136daf6b",
+  "chunks_sha256": "0f81bdce341403f16f93dcde173e9a4c6dc4236b5e2d6fb5718440f3cbc305ca",
+  "source": "db",
+  "built_at": "2026-10-13T03:16:38Z"
+}

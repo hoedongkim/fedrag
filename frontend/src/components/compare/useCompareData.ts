@@ -20,7 +20,7 @@ function reportFailure(error: unknown) {
 
 /**
  * POST /api/compare. A "cached_only" request never calls the LLM, so it may be repeated while a
- * sleeping demo backend wakes; "generate" is sent once.
+ * starting demo backend comes up; "generate" is sent once.
  */
 export function postCompare(request: CompareRequest, signal?: AbortSignal): Promise<CompareResponse> {
   const init = { method: "POST", json: request, signal, cache: "no-store" } as const;

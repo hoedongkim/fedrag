@@ -5,7 +5,7 @@
 #
 # OUT_DIR defaults to deploy/build/hf-space (git-ignored) and is replaced on every run. It is
 # self-contained: `docker build OUT_DIR` builds the image, and its contents are what the Space's
-# repository holds (docs/deploy.md: upload with `hf upload` or a git push). It contains:
+# repository holds (deploy/README.md: upload with `hf upload` or a git push). It contains:
 #
 #   Dockerfile, .dockerignore, README.md   deploy/hf-space/ (the README carries the Space's YAML)
 #   LICENSE
@@ -119,5 +119,5 @@ size=$(du -sh "$OUT" | cut -f1)
 largest=$(find "$OUT" -type f -exec du -k {} + | sort -rn | awk 'NR == 1 {printf "%.1f MB", $1 / 1024}')
 shown="${OUT#"$ROOT"/}"  # relative to the repository root when it is inside it
 echo "Space folder ready: $shown ($files files, $size; largest file $largest)."
-echo "  Build and run it locally: docker build -t fedrag-space \"$shown\" && docker run --rm -p 127.0.0.1:7860:7860 --env-file ~/.fedrag-space.env fedrag-space   (docs/deploy.md 2.3)"
-echo "  Upload it to the Space:   backend/.venv/bin/hf upload <user>/<space> \"$shown\" . --repo-type space   (docs/deploy.md)"
+echo "  Build and run it locally: docker build -t fedrag-space \"$shown\" && docker run --rm -p 127.0.0.1:7860:7860 --env-file ~/.fedrag-space.env fedrag-space   (deploy/README.md)"
+echo "  Upload it to the Space:   backend/.venv/bin/hf upload <user>/<space> \"$shown\" . --repo-type space   (deploy/README.md)"
