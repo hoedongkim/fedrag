@@ -1,0 +1,452 @@
+{
+  "description": "Recorded answers of FedRAG's production configuration, served by GET /api/ask/examples and shown by Ask the Fed on the public demo, which makes no OpenAI calls. Each is the cached answer from the RAG evaluation (make rag-eval) to one of its TEST questions, exported by python -m app.evaluation export-ask-examples with its citations resolved from the search index and the evaluation judge's verdicts from data/eval/rag_benchmark.json.",
+  "retriever_preset": "tuned",
+  "retriever_config_hash": "1323f16c42a5",
+  "retrieval": "hybrid_rerank",
+  "top_k": 5,
+  "model": "gpt-5.4-mini-2026-03-17",
+  "prompt_version": "answer.7be4030b",
+  "benchmark_generated_at": "2026-10-13T20:33:18Z",
+  "examples": [
+    {
+      "answer": "In May 2024, the FOMC decided that beginning in June it would slow the pace of decline of its securities holdings by reducing the monthly redemption cap on Treasury securities from \"$60 billion\" to \"$25 billion\" [1][2]. It also decided to maintain the monthly redemption cap on agency debt and agency mortgage-backed securities at \"$35 billion\" and to reinvest any principal payments above that cap into Treasury securities [1][2]. The minutes’ policy directive likewise says that effective May 2, 2024, the Desk should begin rolling over Treasury principal payments above a \"$25 billion per month\" cap beginning on June 1 [3].",
+      "citations": [
+        {
+          "document": {
+            "doc_id": "minutes-2024-05-01",
+            "doc_type": "minutes",
+            "meeting_date": "2024-05-01",
+            "release_date": "2024-05-22",
+            "page_updated": "2024-05-22",
+            "title": "Minutes of the FOMC Meeting, April 30-May 1, 2024",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20240501.htm"
+          },
+          "chunk_id": "minutes-2024-05-01#0019",
+          "section": "Committee Policy Actions",
+          "snippet": "In their discussions of monetary policy for this meeting, members agreed that economic activity continued to expand at a solid pace. Job gains remained strong, and the unemployment rate remained low. Inflation eased over the past year but remained elevated. Members also concurred that, in recent months, there was a lack of further progress toward the Committee's 2 percent inflation objective and agreed to acknowledge this development in the postmeeting statement.",
+          "passage": "In their discussions of monetary policy for this meeting, members agreed that economic activity continued to expand at a solid pace. Job gains remained strong, and the unemployment rate remained low. Inflation eased over the past year but remained elevated. Members also concurred that, in recent months, there was a lack of further progress toward the Committee's 2 percent inflation objective and agreed to acknowledge this development in the postmeeting statement. Members judged that the risks to achieving the Committee's employment and inflation goals had moved toward better balance over the past year. Members viewed the economic outlook as uncertain and agreed that they remained highly attentive to inflation risks.\n\nIn support of the Committee's goals to achieve maximum employment and inflation at the rate of 2 percent over the longer run, members agreed to maintain the target range for the federal funds rate at 5-1/4 to 5-1/2 percent. Members concurred that, in considering any adjustments to the target range for the federal funds rate, they would carefully assess incoming data, the evolving outlook, and the balance of risks. Members agreed that they did not expect that it would be appropriate to reduce the target range until they have gained greater confidence that inflation is moving sustainably toward 2 percent. In addition, members agreed to continue to reduce the Federal Reserve's holdings of Treasury securities and agency debt and agency MBS. Members decided that, beginning in June, the Committee would slow the pace of decline of its securities holdings by reducing the monthly redemption cap on Treasury securities from $60 billion to $25 billion. In addition, members decided that the Committee would maintain the monthly redemption cap on agency debt and agency MBS at $35 billion and, beginning in June, would reinvest any principal payments in excess of this cap into Treasury securities. All members affirmed their strong commitment to returning inflation to the Committee's 2 percent objective.",
+          "score": 2.855503499507904
+        },
+        {
+          "document": {
+            "doc_id": "statement-2024-05-01",
+            "doc_type": "statement",
+            "meeting_date": "2024-05-01",
+            "release_date": "2024-05-01",
+            "page_updated": "2024-05-01",
+            "title": "FOMC Statement, May 1, 2024",
+            "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20240501a.htm"
+          },
+          "chunk_id": "statement-2024-05-01#0000",
+          "section": null,
+          "snippet": "Recent indicators suggest that economic activity has continued to expand at a solid pace. Job gains have remained strong, and the unemployment rate has remained low. Inflation has eased over the past year but remains elevated. In recent months, there has been a lack of further progress toward the Committee's 2 percent inflation objective.\n\nThe Committee seeks to achieve maximum employment and inflation at the rate of 2 percent over the longer run. The Committee judges that the risks to achieving its employment and inflation goals have moved toward better balance over the past year.",
+          "passage": "Recent indicators suggest that economic activity has continued to expand at a solid pace. Job gains have remained strong, and the unemployment rate has remained low. Inflation has eased over the past year but remains elevated. In recent months, there has been a lack of further progress toward the Committee's 2 percent inflation objective.\n\nThe Committee seeks to achieve maximum employment and inflation at the rate of 2 percent over the longer run. The Committee judges that the risks to achieving its employment and inflation goals have moved toward better balance over the past year. The economic outlook is uncertain, and the Committee remains highly attentive to inflation risks.\n\nIn support of its goals, the Committee decided to maintain the target range for the federal funds rate at 5-1/4 to 5-1/2 percent. In considering any adjustments to the target range for the federal funds rate, the Committee will carefully assess incoming data, the evolving outlook, and the balance of risks. The Committee does not expect it will be appropriate to reduce the target range until it has gained greater confidence that inflation is moving sustainably toward 2 percent. In addition, the Committee will continue reducing its holdings of Treasury securities and agency debt and agency mortgage-backed securities. Beginning in June, the Committee will slow the pace of decline of its securities holdings by reducing the monthly redemption cap on Treasury securities from $60 billion to $25 billion. The Committee will maintain the monthly redemption cap on agency debt and agency mortgage-backed securities at $35 billion and will reinvest any principal payments in excess of this cap into Treasury securities. The Committee is strongly committed to returning inflation to its 2 percent objective.\n\nIn assessing the appropriate stance of monetary policy, the Committee will continue to monitor the implications of incoming information for the economic outlook. The Committee would be prepared to adjust the stance of monetary policy as appropriate if risks emerge that could impede the attainment of the Committee's goals. The Committee's assessments will take into account a wide range of information, including readings on labor market conditions, inflation pressures and inflation expectations, and financial and international developments.\n\nVoting for the monetary policy action were Jerome H. Powell, Chair; John C. Williams, Vice Chair; Thomas I. Barkin; Michael S. Barr; Raphael W. Bostic; Michelle W. Bowman; Lisa D. Cook; Mary C. Daly; Philip N. Jefferson; Adriana D. Kugler; Loretta J. Mester; and Christopher J. Waller.",
+          "score": 2.3753259479999542
+        },
+        {
+          "document": {
+            "doc_id": "minutes-2024-05-01",
+            "doc_type": "minutes",
+            "meeting_date": "2024-05-01",
+            "release_date": "2024-05-22",
+            "page_updated": "2024-05-22",
+            "title": "Minutes of the FOMC Meeting, April 30-May 1, 2024",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20240501.htm"
+          },
+          "chunk_id": "minutes-2024-05-01#0020",
+          "section": "Committee Policy Actions",
+          "snippet": "All members affirmed their strong commitment to returning inflation to the Committee's 2 percent objective.\n\nMembers agreed that, in assessing the appropriate stance of monetary policy, they would continue to monitor the implications of incoming information for the economic outlook. They would be prepared to adjust the stance of monetary policy as appropriate if risks emerged that could impede the attainment of the Committee's goals.",
+          "passage": "All members affirmed their strong commitment to returning inflation to the Committee's 2 percent objective.\n\nMembers agreed that, in assessing the appropriate stance of monetary policy, they would continue to monitor the implications of incoming information for the economic outlook. They would be prepared to adjust the stance of monetary policy as appropriate if risks emerged that could impede the attainment of the Committee's goals. Members also agreed that their assessments would take into account a wide range of information, including readings on labor market conditions, inflation pressures and inflation expectations, and financial and international developments.\n\nAt the conclusion of the discussion, the Committee voted to direct the Federal Reserve Bank of New York, until instructed otherwise, to execute transactions in the SOMA in accordance with the following domestic policy directive, for release at 2:00 p.m.:\n\n\"Effective May 2, 2024, the Federal Open Market Committee directs the Desk to:\n\nUndertake open market operations as necessary to maintain the federal funds rate in a target range of 5-1/4 to 5-1/2 percent.\n\nConduct standing overnight repurchase agreement operations with a minimum bid rate of 5.5 percent and with an aggregate operation limit of $500 billion.\n\nConduct standing overnight reverse repurchase agreement operations at an offering rate of 5.3 percent and with a per-counterparty limit of $160 billion per day.\n\nRoll over at auction the amount of principal payments from the Federal Reserve's holdings of Treasury securities maturing in May that exceeds a cap of $60 billion per month. Beginning on June 1, roll over at auction the amount of principal payments from the Federal Reserve's holdings of Treasury securities maturing in each calendar month that exceeds a cap of $25 billion per month. Redeem Treasury coupon securities up to these monthly caps and Treasury bills to the extent that coupon principal payments are less than the monthly caps.",
+          "score": 2.003458321094513
+        }
+      ],
+      "notes": [],
+      "retrieval": "hybrid_rerank",
+      "as_of": null,
+      "model": "gpt-5.4-mini-2026-03-17",
+      "latency_ms": 2111.71,
+      "id": "sf-14",
+      "label": "Statement fact",
+      "description": "The May 2024 decision to slow balance sheet runoff, from the statement and the policy directive in that meeting's minutes.",
+      "question": "What did the FOMC decide in May 2024 about how fast to keep shrinking its bond holdings?",
+      "question_type": "statement_fact",
+      "retriever_preset": "tuned",
+      "recorded_at": "2026-10-13T18:05:01Z",
+      "judge": {
+        "model": "gpt-5.5",
+        "faithfulness": 1.0,
+        "citation_accuracy": 1.0,
+        "answer_correctness": 1.0,
+        "refusal_correct": null,
+        "false_refusal": false,
+        "n_claims": 6,
+        "n_claims_supported": 6,
+        "n_facts": 3,
+        "n_facts_covered": 3
+      }
+    },
+    {
+      "answer": "Some participants wanted a two-sided description in the postmeeting statement that would reflect the possibility that upward adjustments to the target range for the federal funds rate could be appropriate if inflation remained at above-target levels [1]. The passages do not give an exact number.",
+      "citations": [
+        {
+          "document": {
+            "doc_id": "minutes-2026-03-18",
+            "doc_type": "minutes",
+            "meeting_date": "2026-03-18",
+            "release_date": "2026-04-08",
+            "page_updated": "2026-04-08",
+            "title": "Minutes of the FOMC Meeting, March 17-18, 2026",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260318.htm"
+          },
+          "chunk_id": "minutes-2026-03-18#0014",
+          "section": "Participants' Views on Current Conditions and the Economic Outlook",
+          "snippet": "One participant preferred to lower the target range for the federal funds rate 25 basis points, expressing the concern that the current stance of policy remained restrictive and was contributing to weak labor demand and elevated downside risks to the labor market.\n\nWith regard to the outlook for monetary policy, in light of the heightened degree of economic uncertainty, participants emphasized the importance of being nimble in adjusting the stance of policy in response to incoming data, the evolving outlook, and the balance of risks.",
+          "passage": "One participant preferred to lower the target range for the federal funds rate 25 basis points, expressing the concern that the current stance of policy remained restrictive and was contributing to weak labor demand and elevated downside risks to the labor market.\n\nWith regard to the outlook for monetary policy, in light of the heightened degree of economic uncertainty, participants emphasized the importance of being nimble in adjusting the stance of policy in response to incoming data, the evolving outlook, and the balance of risks. Many participants judged that, in time, it would likely become appropriate to lower the target range for the federal funds rate if inflation were to decline in line with their expectations. A couple of these participants highlighted that, in their projection for the appropriate path of the policy rate, they had pushed their assessment of the most likely timing of rate cuts further into the future in light of recent readings on inflation. Some participants judged that there was a strong case for a two-sided description of the Committee's future interest rate decisions in the postmeeting statement, reflecting the possibility that upward adjustments to the target range for the federal funds rate could be appropriate if inflation were to remain at above-target levels. All participants agreed that monetary policy was not on a preset course and would be determined on a meeting-by-meeting basis.",
+          "score": 2.9167487025260925
+        }
+      ],
+      "notes": [],
+      "retrieval": "hybrid_rerank",
+      "as_of": null,
+      "model": "gpt-5.4-mini-2026-03-17",
+      "latency_ms": 2549.64,
+      "id": "ds-10",
+      "label": "Minutes quantifier",
+      "description": "The minutes say \"some participants\": the answer keeps that wording and says the passages give no count, instead of inventing one.",
+      "question": "In the minutes of the March 2026 meeting, how many participants wanted the statement to signal that rate increases were also possible?",
+      "question_type": "date_specific",
+      "retriever_preset": "tuned",
+      "recorded_at": "2026-10-13T18:04:39Z",
+      "judge": {
+        "model": "gpt-5.5",
+        "faithfulness": 1.0,
+        "citation_accuracy": 1.0,
+        "answer_correctness": 1.0,
+        "refusal_correct": null,
+        "false_refusal": false,
+        "n_claims": 3,
+        "n_claims_supported": 3,
+        "n_facts": 2,
+        "n_facts_covered": 2
+      }
+    },
+    {
+      "answer": "Fed officials expected to begin implementing a balance sheet normalization program in 2017, provided that the economy evolves broadly as anticipated [1]. In the June 13-14, 2017 minutes, participants did not agree on the exact timing: several preferred to announce a start within a couple of months, while some others wanted to wait until later in the year [2]. So the passages show an expectation to start in 2017, but not a consensus on when within 2017 [1][2].",
+      "citations": [
+        {
+          "document": {
+            "doc_id": "minutes-2017-06-14",
+            "doc_type": "minutes",
+            "meeting_date": "2017-06-14",
+            "release_date": "2017-07-05",
+            "page_updated": "2017-07-05",
+            "title": "Minutes of the FOMC Meeting, June 13-14, 2017",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20170614.htm"
+          },
+          "chunk_id": "minutes-2017-06-14#0028",
+          "section": "Committee Policy Action",
+          "snippet": "They noted that the stance of monetary policy remained accommodative, thereby supporting some further strengthening in labor market conditions and a sustained return to 2 percent inflation.\n\nMembers agreed that, in determining the timing and size of future adjustments to the target range for the federal funds rate, the Committee would assess realized and expected economic conditions relative to its objectives of maximum employment and 2 percent inflation.",
+          "passage": "They noted that the stance of monetary policy remained accommodative, thereby supporting some further strengthening in labor market conditions and a sustained return to 2 percent inflation.\n\nMembers agreed that, in determining the timing and size of future adjustments to the target range for the federal funds rate, the Committee would assess realized and expected economic conditions relative to its objectives of maximum employment and 2 percent inflation. This assessment would take into account a wide range of information, including measures of labor market conditions, indicators of inflation pressures and inflation expectations, and readings on financial and international developments. Members also agreed that they would carefully monitor actual and expected developments in inflation in relation to the Committee's symmetric inflation goal. They expected that economic conditions would evolve in a manner that would warrant gradual increases in the federal funds rate, and they agreed that the federal funds rate was likely to remain, for some time, below levels that are expected to prevail in the longer run. However, the actual path of the federal funds rate would depend on the economic outlook as informed by incoming data.\n\nThe Committee also decided to maintain its existing policy of reinvesting principal payments from its holdings of agency debt and agency mortgage-backed securities in agency mortgage-backed securities and of rolling over maturing Treasury securities at auction. The Committee expected to begin implementing a balance sheet normalization program in 2017, provided that the economy evolves broadly as anticipated. This program, which would gradually reduce the Federal Reserve's securities holdings by decreasing reinvestment of principal payments from those securities, was described in an addendum to the Committee's Policy Normalization Principles and Plans to be released after this meeting.\n\nAt the conclusion of the discussion, the Committee voted to authorize and direct the Federal Reserve Bank of New York, until it was instructed otherwise, to execute transactions in the SOMA in accordance with the following domestic policy directive, to be released at 2:00 p.m.:",
+          "score": 0.08559335023164749
+        },
+        {
+          "document": {
+            "doc_id": "minutes-2017-06-14",
+            "doc_type": "minutes",
+            "meeting_date": "2017-06-14",
+            "release_date": "2017-07-05",
+            "page_updated": "2017-07-05",
+            "title": "Minutes of the FOMC Meeting, June 13-14, 2017",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20170614.htm"
+          },
+          "chunk_id": "minutes-2017-06-14#0024",
+          "section": "Participants' Views on Current Conditions and the Economic Outlook",
+          "snippet": "Participants noted that, with the process of normalization of the level of the federal funds rate continuing, it would likely become appropriate this year for the Committee to announce and implement a specific timetable for its program of reducing reinvestment of the Federal Reserve's securities holdings. It was observed that the ensuing reduction in securities holdings would be gradual and would follow an extended period of Committee communications on balance sheet normalization policy, including the information that would be released at the conclusion of this meeting.",
+          "passage": "Participants noted that, with the process of normalization of the level of the federal funds rate continuing, it would likely become appropriate this year for the Committee to announce and implement a specific timetable for its program of reducing reinvestment of the Federal Reserve's securities holdings. It was observed that the ensuing reduction in securities holdings would be gradual and would follow an extended period of Committee communications on balance sheet normalization policy, including the information that would be released at the conclusion of this meeting. Consequently, the effect on financial market conditions of the eventual announcement of the beginning of the Federal Reserve's balance sheet normalization was expected to be limited.\n\nParticipants expressed a range of views about the appropriate timing of a change in reinvestment policy. Several preferred to announce a start to the process within a couple of months; in support of this approach, it was noted that the Committee's communications had helped prepare the public for such a step. However, some others emphasized that deferring the decision until later in the year would permit additional time to assess the outlook for economic activity and inflation. A few of these participants also suggested that a near-term change to reinvestment policy could be misinterpreted as signifying that the Committee had shifted toward a less gradual approach to overall policy normalization.\n\nSeveral participants indicated that the reduction in policy accommodation arising from the commencement of balance sheet normalization was one basis for believing that, if economic conditions evolved broadly as anticipated, the target range for the federal funds rate would follow a less steep path than it otherwise would. However, some other participants suggested that they did not see the balance sheet normalization program as a factor likely to figure heavily in decisions about the target range for the federal funds rate. A few of these participants judged that the degree of additional policy firming that would result from the balance sheet normalization program was modest.",
+          "score": 0.18459749221801758
+        }
+      ],
+      "notes": [],
+      "retrieval": "hybrid_rerank",
+      "as_of": "2017-07-05",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "latency_ms": 2736.9,
+      "id": "pit-04",
+      "label": "Point in time",
+      "description": "Asked as of July 5, 2017, so \"so far\" means what was public that day: the June 2017 minutes, released on that date.",
+      "question": "So far, when do Fed officials expect to start shrinking the balance sheet, and do they agree on the timing?",
+      "question_type": "point_in_time",
+      "retriever_preset": "tuned",
+      "recorded_at": "2026-10-13T18:04:50Z",
+      "judge": {
+        "model": "gpt-5.5",
+        "faithfulness": 1.0,
+        "citation_accuracy": 1.0,
+        "answer_correctness": 0.66667,
+        "refusal_correct": null,
+        "false_refusal": false,
+        "n_claims": 8,
+        "n_claims_supported": 8,
+        "n_facts": 3,
+        "n_facts_covered": 2
+      }
+    },
+    {
+      "answer": "In the March 23 statement, the Committee did not put a dollar limit on the ongoing purchases; it said the Federal Reserve would continue to purchase Treasury securities and agency mortgage-backed securities “in the amounts needed” to support smooth market functioning and effective transmission of monetary policy to broader financial conditions [1]. It also said the Committee would include purchases of agency commercial mortgage-backed securities in its agency mortgage-backed security purchases [1], and that the Open Market Desk would continue to offer large-scale overnight and term repurchase agreement operations [1].\n\nThe later April 28-29 minutes say the Committee had previously announced purchases of at least $500 billion of Treasury securities and at least $200 billion of agency MBS [2].",
+      "citations": [
+        {
+          "document": {
+            "doc_id": "statement-2020-03-23",
+            "doc_type": "statement",
+            "meeting_date": "2020-03-23",
+            "release_date": "2020-03-23",
+            "page_updated": "2020-03-23",
+            "title": "FOMC Statement, March 23, 2020",
+            "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200323a.htm"
+          },
+          "chunk_id": "statement-2020-03-23#0000",
+          "section": null,
+          "snippet": "The Federal Reserve is committed to use its full range of tools to support the U.S. economy in this challenging time and thereby promote its maximum employment and price stability goals.\n\nThe Federal Open Market Committee is taking further actions to support the flow of credit to households and businesses by addressing strains in the markets for Treasury securities and agency mortgage-backed securities.",
+          "passage": "The Federal Reserve is committed to use its full range of tools to support the U.S. economy in this challenging time and thereby promote its maximum employment and price stability goals.\n\nThe Federal Open Market Committee is taking further actions to support the flow of credit to households and businesses by addressing strains in the markets for Treasury securities and agency mortgage-backed securities. The Federal Reserve will continue to purchase Treasury securities and agency mortgage-backed securities in the amounts needed to support smooth market functioning and effective transmission of monetary policy to broader financial conditions. The Committee will include purchases of agency commercial mortgage-backed securities in its agency mortgage-backed security purchases. In addition, the Open Market Desk will continue to offer large-scale overnight and term repurchase agreement operations. The Committee will continue to closely monitor market conditions, and will assess the appropriate pace of its securities purchases at future meetings.\n\nVoting (by notation) for the monetary policy action were Jerome H. Powell, Chair; John C. Williams, Vice Chair; Michelle W. Bowman; Lael Brainard; Richard H. Clarida; Patrick Harker; Robert S. Kaplan; Neel Kashkari; Loretta J. Mester; and Randal K. Quarles.",
+          "score": 0.8116353079676628
+        },
+        {
+          "document": {
+            "doc_id": "minutes-2020-04-29",
+            "doc_type": "minutes",
+            "meeting_date": "2020-04-29",
+            "release_date": "2020-05-20",
+            "page_updated": "2020-05-20",
+            "title": "Minutes of the FOMC Meeting, April 28-29, 2020",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20200429.htm"
+          },
+          "chunk_id": "minutes-2020-04-29#0032",
+          "section": "Notation Votes",
+          "snippet": "Previously, the Committee had announced that it would purchase at least $500 billion of Treasury securities and at least $200 billion of agency MBS.\n\nBy notation vote concluded on March 31, the Committee amended the Authorization for Domestic Open Market Operations to authorize, and adopted a resolution to approve, the establishment of a temporary repo facility for foreign and international monetary authorities (FIMA Repo Facility).",
+          "passage": "Previously, the Committee had announced that it would purchase at least $500 billion of Treasury securities and at least $200 billion of agency MBS.\n\nBy notation vote concluded on March 31, the Committee amended the Authorization for Domestic Open Market Operations to authorize, and adopted a resolution to approve, the establishment of a temporary repo facility for foreign and international monetary authorities (FIMA Repo Facility). The facility will be in place for at least six months and will allow FIMA account holders to temporarily exchange their U.S. Treasury securities held with the Federal Reserve for U.S. dollars, which can then be made available to institutions in their jurisdictions. By providing foreign and international monetary authorities with an alternative temporary source of U.S. dollars other than sales of securities in the open market, the facility should help support the smooth functioning of the U.S. Treasury market. In addition, the FIMA Repo Facility should—along with the U.S. dollar liquidity swap lines the Federal Reserve has established with other central banks—help ease strains in global U.S. dollar funding markets.\n\nBy notation vote completed on April 7, 2020, the Committee unanimously approved the minutes of the Committee meeting held on March 15, 2020.",
+          "score": 0.6736631393432617
+        }
+      ],
+      "notes": [],
+      "retrieval": "hybrid_rerank",
+      "as_of": null,
+      "model": "gpt-5.4-mini-2026-03-17",
+      "latency_ms": 2744.25,
+      "id": "pp-04",
+      "label": "Two meetings",
+      "description": "Combines the March 23, 2020 statement with the minutes of the April 2020 meeting.",
+      "question": "In late March 2020, did the Fed put a dollar limit on its emergency bond buying, and what did it say it would buy?",
+      "question_type": "paraphrase",
+      "retriever_preset": "tuned",
+      "recorded_at": "2026-10-13T18:04:56Z",
+      "judge": {
+        "model": "gpt-5.5",
+        "faithfulness": 1.0,
+        "citation_accuracy": 1.0,
+        "answer_correctness": 1.0,
+        "refusal_correct": null,
+        "false_refusal": false,
+        "n_claims": 10,
+        "n_claims_supported": 10,
+        "n_facts": 2,
+        "n_facts_covered": 2
+      }
+    },
+    {
+      "answer": "At first, the Committee’s plans said principal payments would be reinvested only to the extent they exceeded monthly caps of $30 billion for Treasury securities and $17.5 billion for agency debt and agency mortgage-backed securities, for a combined initial pace of $47.5 billion per month [1]. The same passage says those caps would increase after three months, to $60 billion per month for Treasuries and $35 billion per month for agency debt and agency MBS [1].",
+      "citations": [
+        {
+          "document": {
+            "doc_id": "minutes-2022-05-04",
+            "doc_type": "minutes",
+            "meeting_date": "2022-05-04",
+            "release_date": "2022-05-25",
+            "page_updated": "2022-05-25",
+            "title": "Minutes of the FOMC Meeting, May 3-4, 2022",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20220504.htm"
+          },
+          "chunk_id": "minutes-2022-05-04#0022",
+          "section": "Committee Policy Action",
+          "snippet": "They also concurred that their assessments would take into account a wide range of information, including readings on public health, labor market conditions, inflation pressures and inflation expectations, and financial and international developments.\n\nFollowing the monetary policy discussion, which included a consideration of plans for reducing the size of the balance sheet, all participants indicated support for the proposed plans for reducing the size of the balance sheet.",
+          "passage": "They also concurred that their assessments would take into account a wide range of information, including readings on public health, labor market conditions, inflation pressures and inflation expectations, and financial and international developments.\n\nFollowing the monetary policy discussion, which included a consideration of plans for reducing the size of the balance sheet, all participants indicated support for the proposed plans for reducing the size of the balance sheet. The Committee voted unanimously to adopt the Plans for Reducing the Size of the Federal Reserve's Balance Sheet, as shown below.\n\nPLANS FOR REDUCING THE SIZE OF THE FEDERAL RESERVE'S BALANCE SHEET\n\n(as adopted effective May 4, 2022)\n\nConsistent with the Principles for Reducing the Size of the Federal Reserve's Balance Sheet that were issued in January 2022, all Committee participants agreed to the following plans for significantly reducing the Federal Reserve's securities holdings.\n\nThe Committee intends to reduce the Federal Reserve's securities holdings over time in a predictable manner primarily by adjusting the amounts reinvested of principal payments received from securities held in the System Open Market Account (SOMA). Beginning on June 1, principal payments from securities held in the SOMA will be reinvested to the extent that they exceed monthly caps. For Treasury securities, the cap will initially be set at $30 billion per month and after three months will increase to $60 billion per month. The decline in holdings of Treasury securities under this monthly cap will include Treasury coupon securities and, to the extent that coupon maturities are less than the monthly cap, Treasury bills. For agency debt and agency mortgage-backed securities, the cap will initially be set at $17.5 billion per month and after three months will increase to $35 billion per month.",
+          "score": 0.029778394382447004
+        }
+      ],
+      "notes": [],
+      "retrieval": "hybrid_rerank",
+      "as_of": null,
+      "model": "gpt-5.4-mini-2026-03-17",
+      "latency_ms": 2464.66,
+      "id": "pp-05",
+      "label": "Paraphrase",
+      "description": "Everyday wording (\"kicked off QT\", \"shed\") matched to the monthly caps on balance sheet runoff in the May 2022 minutes.",
+      "question": "When the Fed kicked off QT in 2022, how many dollars a month could it shed at first, and when did that amount go up?",
+      "question_type": "paraphrase",
+      "retriever_preset": "tuned",
+      "recorded_at": "2026-10-13T18:04:56Z",
+      "judge": {
+        "model": "gpt-5.5",
+        "faithfulness": 1.0,
+        "citation_accuracy": 1.0,
+        "answer_correctness": 1.0,
+        "refusal_correct": null,
+        "false_refusal": false,
+        "n_claims": 7,
+        "n_claims_supported": 7,
+        "n_facts": 4,
+        "n_facts_covered": 4
+      }
+    },
+    {
+      "answer": "The provided FOMC passages do not say what the Committee decided at its October 27-28, 2026 meeting. The latest 2026 passage only says that the next meeting would be held on Tuesday-Wednesday, October 27-28, 2026, and it records a different policy action on September 15-16, 2026 [1].",
+      "citations": [
+        {
+          "document": {
+            "doc_id": "minutes-2026-09-16",
+            "doc_type": "minutes",
+            "meeting_date": "2026-09-16",
+            "release_date": "2026-10-07",
+            "page_updated": "2026-10-07",
+            "title": "Minutes of the FOMC Meeting, September 15-16, 2026",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260916.htm"
+          },
+          "chunk_id": "minutes-2026-09-16#0017",
+          "section": "Committee Policy Actions",
+          "snippet": "The Board of Governors of the Federal Reserve System voted unanimously to approve a 1/4 percentage point increase in the primary credit rate to 4.0 percent, effective September 17, 2026.\n\nIt was agreed that the next meeting of the Committee would be held on Tuesday-Wednesday, October 27-28, 2026. The meeting adjourned at 10:15 a.m. on September 16, 2026.",
+          "passage": null,
+          "score": 0.9996751546859741
+        }
+      ],
+      "notes": [],
+      "retrieval": "hybrid_rerank",
+      "as_of": null,
+      "model": "gpt-5.4-mini-2026-03-17",
+      "latency_ms": 1638.48,
+      "id": "ua-06",
+      "label": "Declines",
+      "description": "Asks about the October 2026 meeting, which no indexed document covers (the newest are from September 2026): the answer says so rather than guessing.",
+      "question": "What did the FOMC decide at its October 27-28, 2026 meeting?",
+      "question_type": "unanswerable",
+      "retriever_preset": "tuned",
+      "recorded_at": "2026-10-13T18:05:03Z",
+      "judge": {
+        "model": "gpt-5.5",
+        "faithfulness": 1.0,
+        "citation_accuracy": 1.0,
+        "answer_correctness": null,
+        "refusal_correct": true,
+        "false_refusal": null,
+        "n_claims": 2,
+        "n_claims_supported": 2,
+        "n_facts": 0,
+        "n_facts_covered": 0
+      }
+    },
+    {
+      "answer": "The Committee voted unanimously to approve the establishment of the SRF, and all but one member voted to approve the FIMA Repo Facility; Governor Bowman abstained on the FIMA Repo Facility. [1]\n\nFor the domestic standing repo facility, the Committee authorized operations with U.S. Treasury securities, agency debt securities, and agency mortgage-backed securities; primary dealers and depository institutions as participants; a minimum bid rate of 0.25 percent; an overnight basis (with longer terms allowed for weekend, holiday, and similar trading conventions); and an aggregate operation limit of $500 billion, which can be temporarily increased at the discretion of the Chair. [2]",
+      "citations": [
+        {
+          "document": {
+            "doc_id": "minutes-2021-07-28",
+            "doc_type": "minutes",
+            "meeting_date": "2021-07-28",
+            "release_date": "2021-08-18",
+            "page_updated": "2021-08-18",
+            "title": "Minutes of the FOMC Meeting, July 27-28, 2021",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20210728.htm"
+          },
+          "chunk_id": "minutes-2021-07-28#0003",
+          "section": "Establishment of Standing Repurchase Agreement Facilities",
+          "snippet": "Finally, the manager summarized the proposed terms for the standing repurchase agreement (repo) facility (SRF) and the Foreign and International Monetary Authorities (FIMA) Repo Facility. In questions and comments following the manager's briefing, participants expressed broad support for the establishment of the SRF and FIMA Repo Facility.",
+          "passage": "Finally, the manager summarized the proposed terms for the standing repurchase agreement (repo) facility (SRF) and the Foreign and International Monetary Authorities (FIMA) Repo Facility. In questions and comments following the manager's briefing, participants expressed broad support for the establishment of the SRF and FIMA Repo Facility. The vast majority of participants supported the proposed terms, although a few participants raised questions, including whether the proposed aggregate cap of $500 billion was necessary, whether the collateral eligible in SRF operations should be limited to Treasury securities only, and how the setting of the minimum bid rate in SRF operations would be expected to evolve over time relative to the primary credit rate and the interest on reserve balances rate. In general, participants viewed the SRF and FIMA Repo Facility as important new tools, serving in backstop roles, that would support effective policy implementation and smooth market functioning. Participants anticipated that the Committee would learn more about how these facilities operate over time and noted that it could adjust some parameters of the facilities on the basis of that experience.\n\nThe Committee voted unanimously to approve the establishment of the SRF. All but one member of the Committee voted to approve the FIMA Repo Facility. Governor Bowman abstained from voting on the FIMA Repo Facility and noted that she would have preferred that the liquidity arrangements accessible to foreign official institutions be maintained only during periods of extraordinary financial market stress rather than through a standing facility.",
+          "score": 2.970437228679657
+        },
+        {
+          "document": {
+            "doc_id": "minutes-2021-07-28",
+            "doc_type": "minutes",
+            "meeting_date": "2021-07-28",
+            "release_date": "2021-08-18",
+            "page_updated": "2021-08-18",
+            "title": "Minutes of the FOMC Meeting, July 27-28, 2021",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20210728.htm"
+          },
+          "chunk_id": "minutes-2021-07-28#0004",
+          "section": "Standing Repurchase Agreement Facility Resolution",
+          "snippet": "The Federal Open Market Committee (the \"Committee\") authorizes and directs the Open Market Desk at the Federal Reserve Bank of New York (the \"Selected Bank\"), for the System Open Market Account (\"SOMA\"), to conduct operations in which it offers to purchase securities, subject to an agreement to resell (\"repurchase agreement transactions\").",
+          "passage": "The Federal Open Market Committee (the \"Committee\") authorizes and directs the Open Market Desk at the Federal Reserve Bank of New York (the \"Selected Bank\"), for the System Open Market Account (\"SOMA\"), to conduct operations in which it offers to purchase securities, subject to an agreement to resell (\"repurchase agreement transactions\"). The repurchase agreement transactions hereby authorized and directed shall (i) include only U.S. Treasury securities, agency debt securities, and agency mortgage-backed securities; (ii) be conducted as open market operations with primary dealers and depository institutions as participants; (iii) be conducted with a minimum bid rate of 0.25 percent; (iv) be offered on an overnight basis (except that the Open Market Desk at the Selected Bank may extend the term for longer than an overnight term to accommodate weekend, holiday, and similar trading conventions); and (v) be subject to an aggregate operation limit of $500 billion. The aggregate operation limit can be temporarily increased at the discretion of the Chair. These operations shall be conducted by the Open Market Desk at the Selected Bank until otherwise directed by the Committee.",
+          "score": 2.3378069400787354
+        }
+      ],
+      "notes": [],
+      "retrieval": "hybrid_rerank",
+      "as_of": null,
+      "model": "gpt-5.4-mini-2026-03-17",
+      "latency_ms": 2516.73,
+      "id": "mf-13",
+      "label": "Vote and terms",
+      "description": "How the Committee voted on the July 2021 standing repo facilities, and the domestic facility's terms, from the minutes.",
+      "question": "How did the FOMC vote on the permanent repo backstops it set up in July 2021, and what terms did the domestic facility get?",
+      "question_type": "minutes_fact",
+      "retriever_preset": "tuned",
+      "recorded_at": "2026-10-13T18:04:46Z",
+      "judge": {
+        "model": "gpt-5.5",
+        "faithfulness": 1.0,
+        "citation_accuracy": 1.0,
+        "answer_correctness": 1.0,
+        "refusal_correct": null,
+        "false_refusal": false,
+        "n_claims": 13,
+        "n_claims_supported": 13,
+        "n_facts": 3,
+        "n_facts_covered": 3
+      }
+    },
+    {
+      "answer": "In the November 2022 minutes, the staff viewed the possibility that the economy would enter a recession sometime over the next year as “almost as likely as the baseline.” [1] The staff projected 12-month change total PCE price inflation of 5.3 percent in 2022 and core inflation of 4.6 percent. [1]",
+      "citations": [
+        {
+          "document": {
+            "doc_id": "minutes-2022-11-02",
+            "doc_type": "minutes",
+            "meeting_date": "2022-11-02",
+            "release_date": "2022-11-23",
+            "page_updated": "2022-11-23",
+            "title": "Minutes of the FOMC Meeting, November 1-2, 2022",
+            "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20221102.htm"
+          },
+          "chunk_id": "minutes-2022-11-02#0012",
+          "section": "Staff Economic Outlook",
+          "snippet": "The projection for U.S. economic activity prepared by the staff for the November FOMC meeting was weaker than the September forecast. Broad financial conditions were expected to be considerably more restrictive over the projection period than in September, reflecting both recent market moves and upward revisions to the staff's assumptions regarding the future course of monetary policy based on recent Federal Reserve communications. As a result, output was expected to move below the staff's estimate of potential early in 2024 and to remain below potential in 2025.",
+          "passage": "The projection for U.S. economic activity prepared by the staff for the November FOMC meeting was weaker than the September forecast. Broad financial conditions were expected to be considerably more restrictive over the projection period than in September, reflecting both recent market moves and upward revisions to the staff's assumptions regarding the future course of monetary policy based on recent Federal Reserve communications. As a result, output was expected to move below the staff's estimate of potential early in 2024 and to remain below potential in 2025. Likewise, the unemployment rate was expected to be above the staff's estimate of its natural rate in 2024 and 2025.\n\nOn a 12-month change basis, total PCE price inflation was expected to be 5.3 percent in 2022 and core inflation was expected to be 4.6 percent. The staff raised their projection for core PCE price inflation in coming quarters, reflecting their assessment that the factors that had boosted inflation since the middle of last year—most notably, strong wage growth and the effect of supply constraints on prices—would persist for longer than previously thought. With the effects of supply-demand imbalances in goods markets expected to unwind and labor and product markets expected to become less tight, the staff continued to project that inflation would decline markedly over the next two years; in 2025, both total and core PCE price inflation were expected to be 2 percent.\n\nWith inflation remaining stubbornly high, the staff continued to view the risks to the inflation projection as skewed to the upside. For real activity, sluggish growth in real private domestic spending, a deteriorating global outlook, and tightening financial conditions were all seen as salient downside risks to the projection for real activity; in addition, the possibility that a persistent reduction in inflation could require a greater-than-assumed amount of tightening in financial conditions was seen as another downside risk. The staff, therefore, continued to judge that the risks to the baseline projection for real activity were skewed to the downside and viewed the possibility that the economy would enter a recession sometime over the next year as almost as likely as the baseline.",
+          "score": 2.999060869216919
+        }
+      ],
+      "notes": [],
+      "retrieval": "hybrid_rerank",
+      "as_of": null,
+      "model": "gpt-5.4-mini-2026-03-17",
+      "latency_ms": 1501.81,
+      "id": "ds-05",
+      "label": "Staff outlook",
+      "description": "The staff's recession risk and inflation projections from the November 2022 minutes, with their numbers.",
+      "question": "In the minutes of the November 2022 meeting, how likely did the staff think a recession was, and what inflation did they project for 2022?",
+      "question_type": "date_specific",
+      "retriever_preset": "tuned",
+      "recorded_at": "2026-10-13T18:04:36Z",
+      "judge": {
+        "model": "gpt-5.5",
+        "faithfulness": 1.0,
+        "citation_accuracy": 1.0,
+        "answer_correctness": 1.0,
+        "refusal_correct": null,
+        "false_refusal": false,
+        "n_claims": 3,
+        "n_claims_supported": 3,
+        "n_facts": 3,
+        "n_facts_covered": 3
+      }
+    }
+  ]
+}

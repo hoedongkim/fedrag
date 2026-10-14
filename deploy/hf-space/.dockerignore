@@ -1,0 +1,8 @@
+# The Space folder holds only what the image needs (scripts/build_hf_space.sh); keep anything
+# else, and anything secret, out of the build context anyway.
+**/__pycache__
+**/*.py[cod]
+**/.env
+**/.env.*
+**/.DS_Store
+.git
