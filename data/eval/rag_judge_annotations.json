@@ -1,0 +1,5575 @@
+{
+  "sample_file": "data/eval/rag_judge_sample.json",
+  "seed": 20261013,
+  "labels": {
+    "claims": [
+      "supported",
+      "unsupported",
+      "contradicted"
+    ],
+    "citations": [
+      "supports",
+      "partially_supports",
+      "does_not_support"
+    ],
+    "facts": [
+      "covered",
+      "missing",
+      "contradicted"
+    ],
+    "response_type": [
+      "answers",
+      "partial",
+      "declines"
+    ]
+  },
+  "instructions": "Fill in every null 'human' field with one of the labels listed under 'labels', judging each item from the question, the cited passages and the answer only (not from your own knowledge of the FOMC). claims: is the claim supported by the cited passages taken together (supported), contradicted by one of them, or neither (unsupported)? A different holder (Committee, members, participants, staff), a stronger or weaker quantifier, or a different number or date is not supported. citations: does passage [n] support the quoted text its marker is attached to (supports), some of its claims (partially_supports), or none (does_not_support)? facts: does the answer state the required fact (covered), state something incompatible (contradicted), or neither (missing)? response_type: does the answer answer the question (answers), answer part of it and say what is missing (partial), or say the passages do not answer it (declines)? The judge's verdicts are in a separate key file: do not open it before you finish. Save the filled file as rag_judge_annotations.json next to this one.",
+  "annotator": "three Claude Opus 5.5 sessions, not people: C, isolated (it saw only a copy of the sample), and A and B, two earlier sessions whose independence cannot be verified",
+  "note": "C is the main check: it worked in its own directory from a copy of the sample alone and saved its labels before seeing the key or the other labels. A and B gave the same label on all 383 slots; B finished a minute after A, with A's working files in the same scratch directory, so their independence cannot be verified and A vs B says nothing about reproducibility. C vs A measures it: 376 of 383 labels agree. All three are the same model, so judge vs annotator compares gpt-5.5 with Claude, not with a person.",
+  "annotators": [
+    {
+      "id": "C",
+      "annotator": "Claude (claude-opus-5-5), isolated (copied sample only): a later session whose own directory held only a copy of rag_judge_sample.json; it read that copy and the judge prompt's definitions (judge_prompts.py), labelled every slot and saved its labels (sha256 1e48968a...ed08) before opening the key, A's and B's labels, the benchmark file or the caches; blind to the judge's verdicts; not a person",
+      "isolated": true,
+      "notes": "Labelled all 383 slots (155 claims, 73 citations, 115 facts, 40 response types) from the question, the cited passages and the answer, with the definitions of the judge prompt. Same model as A and B. Its task brief named the judge errors already documented on tuned answers (ua-03, pp-03, sf-05) and pp-01 as a question-design issue, but gave no phase3 verdict. Applied the holder and quantifier rules strictly ('some' for 'several', business contacts or 'various participants' credited to participants or to the decision: unsupported); read mf-03's 'it was noted', inside 'policymakers made a number of observations', as supported; counted the 'Passage' marker of sf-07 (the answer naming passage [1]) as a supporting citation. Made no OpenAI calls.",
+      "items": [
+        {
+          "item_id": "phase3/hybrid_rerank/pit-03",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-02",
+          "claims": [],
+          "citations": [],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ua-05",
+          "claims": [],
+          "citations": [],
+          "facts": [],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-06",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "does_not_support"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-14",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "unsupported"
+            },
+            {
+              "id": 8,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "does_not_support"
+            },
+            {
+              "id": 4,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-08",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-11",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "partial"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-15",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-12",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-14",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-03",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            },
+            {
+              "id": 8,
+              "human": "supported"
+            },
+            {
+              "id": 9,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            },
+            {
+              "id": 4,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-08",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            },
+            {
+              "id": 2,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-11",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-09",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "unsupported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            },
+            {
+              "id": 8,
+              "human": "supported"
+            },
+            {
+              "id": 9,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "partially_supports"
+            },
+            {
+              "id": 3,
+              "human": "partially_supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "unsupported"
+            },
+            {
+              "id": 6,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "partially_supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-18",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            },
+            {
+              "id": 8,
+              "human": "supported"
+            },
+            {
+              "id": 9,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-14",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "unsupported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "partially_supports"
+            },
+            {
+              "id": 3,
+              "human": "partially_supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-07",
+          "claims": [],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-08",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-16",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "unsupported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "partially_supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-12",
+          "claims": [],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pp-09",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ua-04",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-06",
+          "claims": [
+            {
+              "id": 1,
+              "human": "contradicted"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "partially_supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "contradicted"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-11",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "partial"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pp-01",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "partially_supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ua-03",
+          "claims": [],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-04",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-04",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        }
+      ]
+    },
+    {
+      "id": "A",
+      "annotator": "Claude (claude-opus-5-5), independent of the OpenAI judge, blind to the judge's verdicts; labels from the question, cited passages and answer only, following the judge prompt's definitions",
+      "isolated": false,
+      "notes": "Labelled all 383 slots of the 40 sampled answers from the question, the cited passages and the answer, with the definitions of the judge prompt; did not open the key, the caches, the benchmark file or B's file. Applied the holder and quantifier rules strictly ('some' for 'several' or 'it was noted', business contacts credited to participants: unsupported); claims citing no passage are unsupported; 'partial' only where the answer says what is missing.",
+      "items": [
+        {
+          "item_id": "phase3/hybrid_rerank/pit-03",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-02",
+          "claims": [],
+          "citations": [],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ua-05",
+          "claims": [],
+          "citations": [],
+          "facts": [],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-06",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "does_not_support"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-14",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "unsupported"
+            },
+            {
+              "id": 8,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "does_not_support"
+            },
+            {
+              "id": 4,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-08",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-11",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "partial"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-15",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-12",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-14",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-03",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            },
+            {
+              "id": 8,
+              "human": "unsupported"
+            },
+            {
+              "id": 9,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            },
+            {
+              "id": 4,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-08",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            },
+            {
+              "id": 2,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-11",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-09",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "unsupported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            },
+            {
+              "id": 8,
+              "human": "supported"
+            },
+            {
+              "id": 9,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "partially_supports"
+            },
+            {
+              "id": 3,
+              "human": "partially_supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "unsupported"
+            },
+            {
+              "id": 6,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "partially_supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-18",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            },
+            {
+              "id": 8,
+              "human": "supported"
+            },
+            {
+              "id": 9,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-14",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "partially_supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-07",
+          "claims": [],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-08",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-16",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "unsupported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "partially_supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-12",
+          "claims": [],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pp-09",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ua-04",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-06",
+          "claims": [
+            {
+              "id": 1,
+              "human": "contradicted"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "partially_supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "contradicted"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-11",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "partial"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pp-01",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "partially_supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "partial"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ua-03",
+          "claims": [],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-04",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-04",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "annotator": "Claude (claude-opus-5-5), independent of the gpt-5.5 judge, blind to its verdicts",
+      "isolated": false,
+      "notes": "Labelled all 383 slots of the same 40 answers, blind to the judge's verdicts; did not open the key, the caches, the benchmark file or A's file. Applied the holder and quantifier rules strictly; a citation whose every claim fails them, or an off-topic passage, is does_not_support; pp-09 counted as answers (it argues the passages show no stall), not declines.",
+      "items": [
+        {
+          "item_id": "phase3/hybrid_rerank/pit-03",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-02",
+          "claims": [],
+          "citations": [],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ua-05",
+          "claims": [],
+          "citations": [],
+          "facts": [],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-06",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "does_not_support"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-14",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "unsupported"
+            },
+            {
+              "id": 8,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "does_not_support"
+            },
+            {
+              "id": 4,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-08",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-11",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "partial"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-15",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-12",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-14",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-03",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            },
+            {
+              "id": 8,
+              "human": "unsupported"
+            },
+            {
+              "id": 9,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            },
+            {
+              "id": 4,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-08",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            },
+            {
+              "id": 2,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-11",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-09",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "unsupported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            },
+            {
+              "id": 8,
+              "human": "supported"
+            },
+            {
+              "id": 9,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "partially_supports"
+            },
+            {
+              "id": 3,
+              "human": "partially_supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-10",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "unsupported"
+            },
+            {
+              "id": 6,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "partially_supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-18",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            },
+            {
+              "id": 7,
+              "human": "supported"
+            },
+            {
+              "id": 8,
+              "human": "supported"
+            },
+            {
+              "id": 9,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            },
+            {
+              "id": 4,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-14",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "partially_supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-07",
+          "claims": [],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-08",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-16",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "unsupported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "partially_supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pit-12",
+          "claims": [],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pp-09",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ua-04",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/md-06",
+          "claims": [
+            {
+              "id": 1,
+              "human": "contradicted"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "partially_supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            },
+            {
+              "id": 3,
+              "human": "does_not_support"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "contradicted"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-05",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/sf-11",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "partial"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/pp-01",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "partially_supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "partial"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ua-03",
+          "claims": [],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            }
+          ],
+          "facts": [],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/mf-04",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            },
+            {
+              "id": 3,
+              "human": "missing"
+            },
+            {
+              "id": 4,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-04",
+          "claims": [
+            {
+              "id": 1,
+              "human": "unsupported"
+            }
+          ],
+          "citations": [],
+          "facts": [
+            {
+              "id": 1,
+              "human": "missing"
+            },
+            {
+              "id": 2,
+              "human": "missing"
+            }
+          ],
+          "response_type": {
+            "human": "declines"
+          }
+        },
+        {
+          "item_id": "phase3/hybrid_rerank/ds-07",
+          "claims": [
+            {
+              "id": 1,
+              "human": "supported"
+            },
+            {
+              "id": 2,
+              "human": "supported"
+            },
+            {
+              "id": 3,
+              "human": "supported"
+            },
+            {
+              "id": 4,
+              "human": "supported"
+            },
+            {
+              "id": 5,
+              "human": "supported"
+            },
+            {
+              "id": 6,
+              "human": "supported"
+            }
+          ],
+          "citations": [
+            {
+              "id": 1,
+              "human": "supports"
+            },
+            {
+              "id": 2,
+              "human": "supports"
+            }
+          ],
+          "facts": [
+            {
+              "id": 1,
+              "human": "covered"
+            },
+            {
+              "id": 2,
+              "human": "covered"
+            },
+            {
+              "id": 3,
+              "human": "covered"
+            }
+          ],
+          "response_type": {
+            "human": "answers"
+          }
+        }
+      ]
+    }
+  ]
+}

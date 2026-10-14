@@ -1,0 +1,1770 @@
+{
+  "seed": 20261013,
+  "items": [
+    {
+      "item_id": "phase3/hybrid_rerank/pit-03",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/pit-07",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/ds-02",
+      "claims": [],
+      "citations": [],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/ds-05",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "covered"
+        },
+        {
+          "id": 3,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/sf-10",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        },
+        {
+          "id": 3,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "covered"
+        },
+        {
+          "id": 4,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/ua-05",
+      "claims": [],
+      "citations": [],
+      "facts": [],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/sf-06",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "does_not_support"
+        },
+        {
+          "id": 3,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/pit-14",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "partially_supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/mf-07",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        },
+        {
+          "id": 7,
+          "verdict": "supported"
+        },
+        {
+          "id": 8,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        },
+        {
+          "id": 3,
+          "verdict": "does_not_support"
+        },
+        {
+          "id": 4,
+          "verdict": "partially_supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/mf-08",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        },
+        {
+          "id": 7,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "partially_supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "partial"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/pit-11",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        },
+        {
+          "id": 7,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "partially_supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        },
+        {
+          "id": 3,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "covered"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "partial"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/md-07",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/mf-15",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/sf-12",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "covered"
+        },
+        {
+          "id": 4,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/md-10",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "does_not_support"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/sf-14",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        },
+        {
+          "id": 3,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "covered"
+        },
+        {
+          "id": 3,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/mf-03",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        },
+        {
+          "id": 7,
+          "verdict": "supported"
+        },
+        {
+          "id": 8,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 9,
+          "verdict": "unsupported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "partially_supports"
+        },
+        {
+          "id": 3,
+          "verdict": "supports"
+        },
+        {
+          "id": 4,
+          "verdict": "partially_supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "covered"
+        },
+        {
+          "id": 3,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/pit-10",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/md-08",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 2,
+          "verdict": "unsupported"
+        }
+      ],
+      "citations": [],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/mf-11",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/mf-09",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 7,
+          "verdict": "supported"
+        },
+        {
+          "id": 8,
+          "verdict": "supported"
+        },
+        {
+          "id": 9,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "partially_supports"
+        },
+        {
+          "id": 3,
+          "verdict": "partially_supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/ds-10",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/md-05",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 6,
+          "verdict": "unsupported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "partially_supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/mf-18",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        },
+        {
+          "id": 7,
+          "verdict": "supported"
+        },
+        {
+          "id": 8,
+          "verdict": "supported"
+        },
+        {
+          "id": 9,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        },
+        {
+          "id": 3,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "covered"
+        },
+        {
+          "id": 3,
+          "verdict": "covered"
+        },
+        {
+          "id": 4,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/mf-14",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "partially_supports"
+        },
+        {
+          "id": 3,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "covered"
+        },
+        {
+          "id": 3,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/pit-05",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "unsupported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/sf-07",
+      "claims": [],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "does_not_support"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/sf-08",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/mf-16",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "partially_supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "partial"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/pit-12",
+      "claims": [],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        },
+        {
+          "id": 3,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/pp-09",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "partially_supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "partial"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/ua-04",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "partially_supports"
+        }
+      ],
+      "facts": [],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/md-06",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "partially_supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        },
+        {
+          "id": 3,
+          "verdict": "does_not_support"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "covered"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "contradicted"
+        }
+      ],
+      "response_type": "answers"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/sf-05",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "unsupported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "partially_supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/sf-11",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "partial"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/pp-01",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "partially_supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/ua-03",
+      "claims": [],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/mf-04",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        },
+        {
+          "id": 3,
+          "verdict": "missing"
+        },
+        {
+          "id": 4,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/ds-04",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "unsupported"
+        }
+      ],
+      "citations": [],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "missing"
+        },
+        {
+          "id": 2,
+          "verdict": "missing"
+        }
+      ],
+      "response_type": "declines"
+    },
+    {
+      "item_id": "phase3/hybrid_rerank/ds-07",
+      "claims": [
+        {
+          "id": 1,
+          "verdict": "supported"
+        },
+        {
+          "id": 2,
+          "verdict": "supported"
+        },
+        {
+          "id": 3,
+          "verdict": "supported"
+        },
+        {
+          "id": 4,
+          "verdict": "supported"
+        },
+        {
+          "id": 5,
+          "verdict": "supported"
+        },
+        {
+          "id": 6,
+          "verdict": "supported"
+        }
+      ],
+      "citations": [
+        {
+          "id": 1,
+          "verdict": "supports"
+        },
+        {
+          "id": 2,
+          "verdict": "supports"
+        }
+      ],
+      "facts": [
+        {
+          "id": 1,
+          "verdict": "covered"
+        },
+        {
+          "id": 2,
+          "verdict": "covered"
+        },
+        {
+          "id": 3,
+          "verdict": "covered"
+        }
+      ],
+      "response_type": "answers"
+    }
+  ],
+  "judge": {
+    "model": "gpt-5.5",
+    "reasoning_effort": "low",
+    "prompt_version": "rag-judge-v1.f9315670"
+  }
+}
