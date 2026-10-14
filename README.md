@@ -227,19 +227,14 @@ questions needs an OpenAI key and the search index (about $0.02 to build). The s
 ![Chroma](https://img.shields.io/badge/Chroma-FF6446)
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white)
 ![Hugging Face](https://img.shields.io/badge/Hugging%20Face-FFD21E?logo=huggingface&logoColor=black)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
 ![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?logo=tailwindcss&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)
 
 ## License
 
-[MIT](LICENSE) covers the code in this repository. Data and models keep their own terms:
-
-- FOMC documents are U.S. government works.
-- Trillion Dollar Words (CC BY-NC 4.0) and FinBERT (CC BY-NC-SA 4.0) are downloaded only when
-  needed. No file from either is included in this repository or the public demo.
-
-Details are in the [technical report](docs/technical-report.md#license).
+[MIT](LICENSE). Third-party data and models keep their own licenses ([details](docs/technical-report.md#license)).
