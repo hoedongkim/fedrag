@@ -407,9 +407,8 @@ The API project's **Logs** tab shows each request and any error the function rai
   these numbers** block, and **Every question**, whose drilldown (e.g. `/performance?q=sf-05`)
   shows the gold passages' text (from `data/index/chunks.jsonl`, which the function ships).
 
-When everything works, put the live link in the README: replace the placeholder line under the
-screenshot (marked `OWNER`) with the live-demo line it gives, point the screenshot's link at
-`https://<VERCEL_DOMAIN>/ask`, and commit it.
+When everything works, put the live link in the README: the "Open the live demo" line under the
+screenshot, and the screenshot's own link (`https://<VERCEL_DOMAIN>/ask`). Then commit it.
 
 ### Rolling back
 

@@ -9,12 +9,9 @@ with a source for every claim.**
 
 *Solo project. Data: every FOMC statement and set of meeting minutes from 2015 to 2026.*
 
-[![Ask the Fed: an answer with numbered citations and the passages behind them](docs/images/ask-demo-desktop-light.png)](docs/technical-report.md)
+[![Ask the Fed: an answer with numbered citations and the passages behind them](docs/images/ask-demo-desktop-light.png)](https://fedrag-seven.vercel.app/ask)
 
-*Live demo coming soon · [Read the full technical report →](docs/technical-report.md)*
-<!-- OWNER: after docs/deploy.md step 4 passes, replace the line above with
-*[Open the live demo →](https://<VERCEL_DOMAIN>) · [Read the full technical report →](docs/technical-report.md)*
-and point the image link above at https://<VERCEL_DOMAIN>/ask -->
+*[Open the live demo →](https://fedrag-seven.vercel.app) · [Read the full technical report →](docs/technical-report.md)*
 
 ---
 

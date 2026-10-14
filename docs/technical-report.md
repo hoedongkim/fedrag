@@ -10,16 +10,16 @@ alone with a citation for each claim, and can answer *as of* any past date witho
 Around that core it labels each statement hawkish, neutral or dovish, explains what changed between
 two statements, and measures its own retrieval and answers on a held-out test set.
 
-> **Demo mode.** The public demo runs with every OpenAI feature switched off, so it costs nothing to
-> host. Ask the Fed shows eight real answers recorded during the evaluation instead of taking new
+> **Demo mode.** The [public demo](https://fedrag-seven.vercel.app) runs with every OpenAI feature
+> switched off, so it costs nothing to host. Ask the Fed shows eight real answers recorded during the evaluation instead of taking new
 > questions, and Statement Comparison serves the analyses already stored for the 96 pairs of
 > consecutive statements without writing new ones. Policy Stance, the statement diff and RAG
 > Performance are complete. To ask your own questions, [run it yourself](#-run-it-yourself). The
 > API runs as a Vercel function, which does not sleep: after a quiet spell, the first request waits
 > a few seconds for a cold start.
 
-*A solo project by Hoedong Kim. Phases 1-7 are complete; Phase 8 (deployment) is in progress: the
-demo mode and the deploy packaging are done, the public deployment is next ([roadmap](#-roadmap)).*
+*A solo project by Hoedong Kim. All eight phases are complete, and the public demo is live at
+[fedrag-seven.vercel.app](https://fedrag-seven.vercel.app) ([roadmap](#-roadmap)).*
 
 ## 📌 Results at a glance
 
@@ -1518,7 +1518,7 @@ cd backend && .venv/bin/python -m app.evaluation --help   # validate | retrieval
       isolated, two with identical labels);
       `GET /api/evaluation` and `/api/evaluation/questions/{id}`; the `/performance` page; `make
       rag-eval` and `make rag-eval-report`.
-- [ ] **Phase 8: Deployment** (in progress).
+- [x] **Phase 8: Deployment.**
   - [x] A public demo mode (`PUBLIC_DEMO=true`) that needs no OpenAI key and makes no OpenAI call:
         the ask endpoints answer `403`, Ask the Fed shows eight recorded answers
         (`GET /api/ask/examples`, from the production setup's TEST answers), Statement Comparison
@@ -1531,8 +1531,9 @@ cd backend && .venv/bin/python -m app.evaluation --help   # validate | retrieval
         [commit plan](commit-guide.md). A Docker image for Hugging Face Spaces (CPU-only PyTorch,
         non-root user, port 7860; `make space-bundle`) remains as an alternative host: Docker
         Spaces now need a Hugging Face PRO subscription.
-  - [ ] Deployment: the Neon role (done), the two Vercel projects (API and frontend), then the
-        live link at the top of the README.
+  - [x] Deployment on Vercel's Hobby plan: the read-only Neon role, the API project
+        (`fedrag-api.vercel.app`) and the frontend project
+        ([fedrag-seven.vercel.app](https://fedrag-seven.vercel.app)), linked from the README.
 
 Not planned yet, but the evaluation points at them: retrieval that gathers several documents for
 questions spanning meetings (`multi_doc` is the weakest type), scoring long passages in windows
