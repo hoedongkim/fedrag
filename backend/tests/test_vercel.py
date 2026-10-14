@@ -289,6 +289,15 @@ def test_vercel_json_configures_the_entrypoint() -> None:
     assert PYTHON_VERSION in {"3.12", "3.13", "3.14"}  # the versions Vercel's runtime offers
 
 
+def test_frontend_vercel_json_pins_nextjs() -> None:
+    """The frontend project (Root Directory frontend) must build as Next.js even when the import
+    screen saved the FastAPI preset it detected from the root vercel.json."""
+    config = json.loads((REPO_ROOT / "frontend" / "vercel.json").read_text(encoding="utf-8"))
+
+    assert config["framework"] == "nextjs"
+    assert "functions" not in config and "regions" not in config
+
+
 def test_vercelignore_keeps_local_files_out_of_a_cli_upload_and_needed_ones_in(
     tmp_path: Path,
 ) -> None:

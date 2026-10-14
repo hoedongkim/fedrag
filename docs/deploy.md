@@ -172,8 +172,11 @@ the repository root as its root directory, because the function needs both `back
 | `data/index/chunks.jsonl`, `manifest.json` | The search index's passages, tracked in git so the function can show them in the RAG Performance drilldown (no vector store is needed) |
 | `.vercelignore` | Only matters if someone runs `vercel deploy` (the CLI) from a checkout, which uploads files git ignores: it keeps `backend/.env` (your OpenAI key and read-write `DATABASE_URL`, which the function would read), the vector store and the models out. A push to GitHub holds none of them anyway |
 
-The frontend project ignores all of these: Vercel reads `vercel.json` from a project's root
-directory, and the frontend's is `frontend/`.
+The frontend project has its own `frontend/vercel.json`, which pins the Next.js preset. Without
+it, the import screen can save the frontend project with the FastAPI preset it detects from the
+root `vercel.json`, even after the Root Directory is changed to `frontend`, and the build then stops
+at `No FastAPI entrypoint found` (reproduced with `vercel build`, CLI 62.7.0, the version Vercel's
+build machines ran on 2026-10-14). A preset in `vercel.json` overrides the dashboard's.
 
 Measured on this repository with the Vercel CLI's own build (`vercel build`, CLI 64.0.2, which
 runs the same Python builder): Python 3.13 from `.python-version`, the packages from
@@ -272,7 +275,7 @@ Redeploy**.
    - **Project Name**: e.g. `fedrag`; it becomes the domain `<project-name>.vercel.app` if that is
      free;
    - **Root Directory**: **Edit** → `frontend`;
-   - **Framework Preset**: Next.js (detected once the root directory is `frontend`);
+   - **Framework Preset**: Next.js. `frontend/vercel.json` sets it whatever this field shows;
    - Build, output and install settings: leave the defaults (`next build`, `npm install`);
    - **Environment Variables**: `BACKEND_URL` = `https://<API_DOMAIN>` (no trailing slash, no
      `/api`), for Production and Preview. Previews use the API's production domain too: the API
@@ -513,6 +516,7 @@ and takes a minute or two to wake; the frontend waits for it ("Waking the demo s
 
 | Symptom | Likely cause and fix |
 |---|---|
+| The frontend's build stops at `No FastAPI entrypoint found` | The frontend project was saved with the FastAPI preset. `frontend/vercel.json` pins Next.js, so make sure the deployment builds a commit that has it; you can also set **Settings → Build and Deployment → Framework Preset** to Next.js |
 | The API's build stops at `No FastAPI entrypoint found`, or `Found app/main.py but it does not define a top-level "app"` | The Root Directory is not the repository root (with `backend`, Vercel would also install the full `backend/pyproject.toml`), or the Framework Preset is not FastAPI. Both are in the API project's **Settings → Build and Deployment**. If both are right, the builder no longer looks in `api/` (its source and Vercel's guide "Ship a FastAPI app" list the folder; the FastAPI framework page names only the root, `src/` and `app/`): move the entrypoint to `index.py` at the root (its `BACKEND_DIR` is then `parents[0] / "backend"`) and update the paths that name it (`git grep -n api/index.py` lists them; the Makefile and CI also lint `../api`) |
 | The API's build log says `Installing required dependencies from pyproject.toml` | A `pyproject.toml` (or `Pipfile`, `uv.lock`) at the root or in `api/` was pushed, for example the one `vercel build` writes, and Vercel installs it instead of `requirements.txt`. Remove it from git; `make check` fails while one is there |
 | The API's build fails while installing dependencies | `requirements.txt` and PyPI disagree, or a pin was edited by hand. `make check` (`backend/tests/test_vercel.py`) and `make vercel-check` reproduce the install and the imports |
