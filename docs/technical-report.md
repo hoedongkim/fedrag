@@ -439,18 +439,15 @@ v2 and v3 runs; `make compare-precompute` alone is about $0.44 for the 96 pairs.
 
 ## 🏗 Architecture
 
-```mermaid
-flowchart LR
-    fed["federalreserve.gov<br/>statements, minutes"] --> ingest["Ingest + clean<br/>meeting_date, release_date"] --> pg[("Postgres (Neon)<br/>schema fedrag")]
-    fred["FRED<br/>target range"] --> stance["Stance (make stance)<br/>four classifiers"] --> pg
-    ingest --> stance
-    pg --> chunk["Chunk + embed<br/>(make index)"] --> stores[("Chroma vectors<br/>+ BM25 in memory")]
-    stores --> retriever["Retrieval<br/>release_date ≤ as_of first,<br/>hybrid + rerank, tuned"] --> llm["LLM (LangChain LCEL)<br/>cites passages as [n]"] --> api["FastAPI /api/*<br/>JSON or SSE"]
-    pg <--> compare["Compare<br/>sentence diff +<br/>stored LLM reading"] --> api
-    pg --> api
-    retriever & llm --> evaluation["Evaluation (make rag-eval)<br/>85 questions, LLM judge<br/>→ rag_benchmark.json"] --> api
-    api --> web["Next.js<br/>four tabs, proxies /api/*"]
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/architecture-dark.svg">
+  <img src="images/architecture-light.svg" width="760" alt="FedRAG architecture. Offline jobs (ingest and parse, analysis jobs, index build) read the Federal Reserve site, TDW, FRED, Hugging Face and the OpenAI API, and fill Neon Postgres, Git-tracked files and a local Chroma store. The FastAPI backend reads those stores and is reached from the browser through the Next.js /api proxy. Chroma and live OpenAI calls are used only in the full local mode.">
+</picture>
+
+Offline jobs fill the stores, and the public demo only reads them. On Vercel the API runs with
+`PUBLIC_DEMO=true`, ships without Chroma, PyTorch or the OpenAI client, and reads Neon through a
+SELECT-only role; the dashed paths exist only in the full local mode. The index build reads its
+documents from Postgres (not drawn).
 
 The browser only talks to Next.js, which proxies `/api/*` to FastAPI. The Pydantic schemas are the
 contract: CI regenerates the OpenAPI file and the TypeScript types from them and fails on any drift.

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 24 760 592" width="760" height="592" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" role="img" aria-labelledby="t d">
+<title id="t">FedRAG architecture</title>
+<desc id="d">Offline jobs (ingest and parse, analysis jobs, index build) read the Federal Reserve site, TDW, FRED, Hugging Face and the OpenAI API, and fill Neon Postgres, Git-tracked files and a local Chroma store. The FastAPI backend reads those stores and is reached from the browser through the Next.js /api proxy. Chroma and live OpenAI calls are used only in the full local mode.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9198a1"/></marker></defs>
+<rect x="24" y="128" width="652" height="104" rx="3" fill="none" stroke="#3d444d" stroke-width="1"/>
+<text x="40" y="148" font-size="11.5" fill="#9198a1">Offline build</text>
+<rect x="24" y="256" width="652" height="104" rx="3" fill="none" stroke="#3d444d" stroke-width="1"/>
+<text x="40" y="276" font-size="11.5" fill="#9198a1">Stores</text>
+<rect x="24" y="384" width="652" height="184" rx="3" fill="none" stroke="#3d444d" stroke-width="1"/>
+<text x="40" y="404" font-size="11.5" fill="#9198a1">Online serving</text>
+<rect x="40" y="48" width="188" height="56" rx="3" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="134" y="72" text-anchor="middle" font-weight="600" fill="#f0f6fc">Federal Reserve</text><text x="134" y="88" text-anchor="middle" font-size="11.5" fill="#9198a1">Statements, minutes</text>
+<rect x="254" y="48" width="188" height="56" rx="3" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="348" y="72" text-anchor="middle" font-weight="600" fill="#f0f6fc">TDW · FRED · HF</text><text x="348" y="88" text-anchor="middle" font-size="11.5" fill="#9198a1">Labels, rates, models</text>
+<rect x="468" y="48" width="188" height="56" rx="3" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="562" y="72" text-anchor="middle" font-weight="600" fill="#f0f6fc">OpenAI API</text><text x="562" y="88" text-anchor="middle" font-size="11.5" fill="#9198a1">Embed, answer, judge</text>
+<rect x="40" y="160" width="188" height="56" rx="3" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="134" y="184" text-anchor="middle" font-weight="600" fill="#f0f6fc">Ingest and parse</text><text x="134" y="200" text-anchor="middle" font-size="11.5" fill="#9198a1">191 documents</text>
+<rect x="254" y="160" width="188" height="56" rx="3" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="348" y="184" text-anchor="middle" font-weight="600" fill="#f0f6fc">Analysis jobs</text><text x="348" y="200" text-anchor="middle" font-size="11.5" fill="#9198a1">Stance, compare, eval</text>
+<rect x="468" y="160" width="188" height="56" rx="3" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="562" y="184" text-anchor="middle" font-weight="600" fill="#f0f6fc">Index build</text><text x="562" y="200" text-anchor="middle" font-size="11.5" fill="#9198a1">3,077 chunks embedded</text>
+<ellipse cx="134" cy="296" rx="94" ry="8" fill="none" stroke="#9198a1" stroke-width="1.25"/><path d="M40 296V336A94 8 0 0 0 228 336V296" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="134" y="316" text-anchor="middle" font-weight="600" fill="#f0f6fc">Neon Postgres</text><text x="134" y="332" text-anchor="middle" font-size="11.5" fill="#9198a1">5 tables</text>
+<path d="M254 288H426L442 304V344H254Z M426 288V304H442" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="348" y="316" text-anchor="middle" font-weight="600" fill="#f0f6fc">Git-tracked files</text><text x="348" y="332" text-anchor="middle" font-size="11.5" fill="#9198a1">Chunks, eval JSON</text>
+<ellipse cx="562" cy="296" rx="94" ry="8" fill="none" stroke="#9198a1" stroke-width="1.25"/><path d="M468 296V336A94 8 0 0 0 656 336V296" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="562" y="316" text-anchor="middle" font-weight="600" fill="#f0f6fc">Chroma</text><text x="562" y="332" text-anchor="middle" font-size="11.5" fill="#9198a1">Local-only vectors</text>
+<rect x="40" y="416" width="616" height="56" rx="3" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="348" y="440" text-anchor="middle" font-weight="600" fill="#f0f6fc">FastAPI backend</text><text x="348" y="456" text-anchor="middle" font-size="11.5" fill="#9198a1">11 endpoints · the public demo answers questions with 403</text>
+<rect x="40" y="496" width="188" height="56" rx="3" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="134" y="520" text-anchor="middle" font-weight="600" fill="#f0f6fc">Browser</text><text x="134" y="536" text-anchor="middle" font-size="11.5" fill="#9198a1">5 pages</text>
+<rect x="300" y="496" width="188" height="56" rx="3" fill="none" stroke="#9198a1" stroke-width="1.25"/><text x="394" y="520" text-anchor="middle" font-weight="600" fill="#f0f6fc">Next.js</text><text x="394" y="536" text-anchor="middle" font-size="11.5" fill="#9198a1">/api proxy</text>
+<g fill="none" stroke="#9198a1" stroke-width="1.25">
+<path d="M184 104V160" marker-end="url(#arrow)"/>
+<path d="M348 104V160" marker-end="url(#arrow)"/>
+<path d="M512 104V116H392V160" marker-end="url(#arrow)"/>
+<path d="M562 104V160" marker-end="url(#arrow)"/>
+<path d="M100 216V288" marker-end="url(#arrow)"/>
+<path d="M300 216V244H190V290" marker-end="url(#arrow)"/>
+<path d="M380 216V288" marker-end="url(#arrow)"/>
+<path d="M512 216V244H410V288" marker-end="url(#arrow)"/>
+<path d="M590 216V288" marker-end="url(#arrow)"/>
+<path d="M170 344V416" marker-end="url(#arrow)"/>
+<path d="M348 344V416" marker-end="url(#arrow)"/>
+<path d="M228 524H300" marker-end="url(#arrow)"/>
+<path d="M394 496V472" marker-end="url(#arrow)"/>
+<path d="M530 344V416" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+<path d="M656 444H708V76H656" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+</g>
+<line x1="40" y1="592" x2="76" y2="592" stroke="#9198a1" stroke-width="1.25"/>
+<text x="84" y="596" font-size="11.5" fill="#9198a1">Local and public demo</text>
+<line x1="300" y1="592" x2="336" y2="592" stroke="#9198a1" stroke-width="1.25" stroke-dasharray="5 4"/>
+<text x="344" y="596" font-size="11.5" fill="#9198a1">Full local mode only (needs an OpenAI key)</text>
+</svg>

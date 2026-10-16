@@ -284,8 +284,8 @@ Redeploy**.
 4. Optional: **Settings → Build and Deployment → Node.js Version** to `24.x`, the version CI uses.
    Redeploy afterwards.
 
-The frontend needs no `vercel.json`: the root directory is a project setting, and the `/api` proxy
-is the rewrite in `frontend/next.config.ts`.
+Besides the preset in `frontend/vercel.json`, the frontend needs no Vercel configuration: the root
+directory is a project setting, and the `/api` proxy is the rewrite in `frontend/next.config.ts`.
 
 `BACKEND_URL` is the only variable the frontend needs. Two more are optional (both documented in
 `frontend/.env.example`, both read at build time):

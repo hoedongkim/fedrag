@@ -64,8 +64,9 @@ Two more sources:
 **1 — Find the right passages.**
 - Two searches run side by side: one matches exact words (BM25) and one matches meaning (embeddings).
 - Their results are merged, then a second model re-reads the top candidates and reorders them.
-- Before any search, every document released after the "as of" date is removed, so later
-  information cannot leak into the answer.
+- Each search looks only at passages that were public on the "as of" date, so the answer is built
+  only from what the Fed had published by then. Text the Fed added to a page later counts from the
+  day it was added.
 
 **2 — Answer from those passages only.**
 - An LLM (`gpt-5.4-mini`) writes the answer from the top 5 passages and marks each claim with a
